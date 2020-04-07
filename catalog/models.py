@@ -1,5 +1,5 @@
 from django.db import models
-#from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from datetime import date
 from django.urls import reverse # Used to generate URLs be reversing the URL patterns
 import uuid # Required for unique book instances
@@ -22,7 +22,7 @@ class Book(models.Model):
     isbn = models.CharField('ISBN', max_length=13, help_text='13 Character ISBN number')
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
     publisher = models.CharField(max_length=300, null=True)
-    date_added = models.DateField(null=True, blank=True)
+    date_added_to_library = models.DateField(null=True, blank=True)
     review = models.ForeignKey('Review', on_delete=models.SET_NULL, null=True)
     
 
@@ -35,36 +35,46 @@ class Book(models.Model):
         return reverse('book-detail', args=[str(self.id)])  
 
 
-class User(models.Model):
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
     given_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    user_name = models.CharField(max_length=50)
-    password = models.CharField(max_length=100) 
-    email = models.CharField(max_length=100)
     idNumber = models.CharField(max_length=8) #idk yet cus this is String, need to limit the type of characters
 
-    ACCT_TYPE = (
-        ('s', 'Student/Teacher'),
-        ('m', 'Book Manager'),
-        ('a', 'Administrator')
+    QUESTION_SAMPLES = (
+        ('1', 'In what city did you have your first ever birthday party?'),
+        ('2', 'What is the last name of your Science class teacher in high school?'),
+        ('3', 'Which company manufactured your first mobile phone?'),
+        ('4', 'Who was your childhood hero?'),
+        ('5', 'Where was your best family vacation?')
     )
 
-    class Meta:
-        ordering = ['user_name']
+    question = models.CharField(
+        max_length=1,
+        choices=QUESTION_SAMPLES,
+        blank=True,
+        default='m',
+        help_text='Security Question',
+    )
+
+    answer =  models.CharField(max_length=100)
+
+    """class Meta:
+        ordering = ['user_name']"""
 
     def __str__(self):
-        return self.user_name
+        return self.user.username
     
-    def get_absolute_url(self):
-        return reverse('user-details', args=[str(self.id)])  
+    #def get_absolute_url(self):
+     #   return reverse('user-details', args=[str(self.id)])  """
 
 
 class BookInstance(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     due_back = models.DateField(null=True, blank=True)
-    borrower = models.ForeignKey('User', on_delete=models.SET_NULL, null = True, blank=True)
+    borrower = models.ForeignKey('UserProfile', on_delete=models.SET_NULL, null = True, blank=True)
     date_added = models.DateField(null=True, blank=True)
 
     LOAN_STATUS = (
@@ -88,7 +98,7 @@ class BookInstance(models.Model):
         """String for representing the Model object."""
         return f'{self.id} ({self.book.title})'
 
-    
+
     def get_absolute_url(self):
         return reverse('book instance-detail', args=[str(self.id)]) 
 
@@ -128,7 +138,7 @@ class Language(models.Model):
 
 class Review(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
-    user =  models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
+    user =  models.ForeignKey('UserProfile', on_delete=models.SET_NULL, null=True)
     review =  models.CharField(max_length=500)
     rating =  models.IntegerField(validators=[MaxValueValidator(100), MinValueValidator(1)])
 

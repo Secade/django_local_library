@@ -1,4 +1,5 @@
 from django.contrib import admin
+from .models import UserProfile
 
 # Register your models here.
 from .models import Author, Genre, Book, BookInstance, Language
@@ -8,8 +9,16 @@ from .models import Author, Genre, Book, BookInstance, Language
 admin.site.register(Genre)
 # admin.site.register(BookInstance)
 admin.site.register(Language)
+admin.site.register(UserProfile)
+
+
+"""
+class UserAdmin (admin.ModelAdmin):
+    list_display = ('username')"""
 
 class BookInline(admin.TabularInline):
+    list_display = ('title','language','summary','isbn','genre','publisher','date_added_to_library')
+    fields = [('title','summary'),'language','isbn','genre','publisher','date_added_to_library']
     model = Book
 
 # Define the admin class
@@ -29,12 +38,12 @@ class BookAdmin(admin.ModelAdmin):
     inlines = [BookInstanceInline]
 
 class BookInstanceAdmin(admin.ModelAdmin):
-    list_display = ('book', 'status', 'borrower', 'due_back', 'id')
+    list_display = ('book', 'status', 'borrower', 'due_back')
     list_filter = ('status', 'due_back')
 
     fieldsets = (
-        (None, {
-            'fields': ('book', 'imprint', 'id')
+        ('Book', {
+            'fields': ('book','id')
         }),
         ('Availability', {
             'fields': ('status', 'due_back', 'borrower')
