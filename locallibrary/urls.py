@@ -24,7 +24,7 @@ from django.urls import include
 from django.urls import path
 
 urlpatterns += [
-    path('catalog/', include('catalog.urls')),
+    path('catalog/', include('catalog.urls'), name="catalog"),
 ]
 
 from django.views.generic import RedirectView
@@ -41,4 +41,10 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 #Add Django site authentication urls (for login, logout, password management)
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
+]
+
+# Registration (7/4/20)
+from catalog.views import signup_view
+urlpatterns += [
+    path('signup/', signup_view, name="signup"),
 ]
