@@ -30,6 +30,8 @@ class SignUpForm(UserCreationForm):
     last_name = forms.CharField(max_length=20, help_text='Last Name')
     email = forms.EmailField(max_length=100, help_text='Email')
     idno = forms.CharField(max_length=8, help_text='Id Number')
+    question = forms.CharField(max_length=0, help_text='Question')
+    answer = forms.CharField(max_length=30, help_text='Answer')
     
     class Meta():
         model = User

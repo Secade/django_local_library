@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserProfile
+from .models import Profile
 
 # Register your models here.
 from .models import Author, Genre, Book, BookInstance, Language
@@ -9,7 +9,7 @@ from .models import Author, Genre, Book, BookInstance, Language
 admin.site.register(Genre)
 # admin.site.register(BookInstance)
 admin.site.register(Language)
-admin.site.register(UserProfile)
+admin.site.register(Profile)
 
 
 """

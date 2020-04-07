@@ -35,46 +35,11 @@ class Book(models.Model):
         return reverse('book-detail', args=[str(self.id)])  
 
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
-    given_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    idNumber = models.CharField(max_length=8) #idk yet cus this is String, need to limit the type of characters
-
-    QUESTION_SAMPLES = (
-        ('1', 'In what city did you have your first ever birthday party?'),
-        ('2', 'What is the last name of your Science class teacher in high school?'),
-        ('3', 'Which company manufactured your first mobile phone?'),
-        ('4', 'Who was your childhood hero?'),
-        ('5', 'Where was your best family vacation?')
-    )
-
-    question = models.CharField(
-        max_length=1,
-        choices=QUESTION_SAMPLES,
-        blank=True,
-        default='m',
-        help_text='Security Question',
-    )
-
-    answer =  models.CharField(max_length=100)
-
-    """class Meta:
-        ordering = ['user_name']"""
-
-    def __str__(self):
-        return self.user.username
-    
-    #def get_absolute_url(self):
-     #   return reverse('user-details', args=[str(self.id)])  """
-
-
 class BookInstance(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     due_back = models.DateField(null=True, blank=True)
-    borrower = models.ForeignKey('UserProfile', on_delete=models.SET_NULL, null = True, blank=True)
+    borrower = models.ForeignKey('Profile', on_delete=models.SET_NULL, null = True, blank=True)
     date_added = models.DateField(null=True, blank=True)
 
     LOAN_STATUS = (
@@ -138,7 +103,7 @@ class Language(models.Model):
 
 class Review(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
-    user =  models.ForeignKey('UserProfile', on_delete=models.SET_NULL, null=True)
+    user =  models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True)
     review =  models.CharField(max_length=500)
     rating =  models.IntegerField(validators=[MaxValueValidator(100), MinValueValidator(1)])
 
@@ -150,10 +115,7 @@ class Review(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
         return reverse('review-details', args=[str(self.id)])  
-
     
-    
-
 
 # User Stuff (7/4/20)
 
@@ -167,7 +129,6 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=30, blank=True)
     email = models.EmailField(max_length=100, blank=True)
     idno = models.CharField(max_length=8)
-    bio = models.TextField()
 
     QUESTION_SAMPLES = (
         ('1', 'In what city did you have your first ever birthday party?'),
@@ -176,6 +137,16 @@ class Profile(models.Model):
         ('4', 'Who was your childhood hero?'),
         ('5', 'Where was your best family vacation?')
     )
+
+    question = models.CharField(
+        max_length=1,
+        choices=QUESTION_SAMPLES,
+        blank=True,
+        default='m',
+        help_text='Security Question',
+    )
+
+    answer =  models.CharField(max_length=30)
 
     def __str__(self):
         return self.user.username
