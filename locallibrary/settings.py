@@ -25,7 +25,7 @@ SECRET_KEY = 'rv$487#6xek^!gt3(e_9@uihdc6da=2z3&2a6m6k15n!60um&r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'session_security',
     'catalog',
     'myapp',
 ]
@@ -44,11 +45,18 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'session_security.middleware.SessionSecurityMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+]
+
+MIDDLEWARE_CLASSES = [
+    'locallibrary.middleware.AutoLogout', 
 ]
 
 ROOT_URLCONF = 'locallibrary.urls'
@@ -123,5 +131,17 @@ STATIC_URL = '/static/'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# SESSION_EXPIRE_SECONDS = 1 * 60
+# SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+# SESSION_SECURITY_REDIRECT_TO_LOGOUT = True
+SESSION_SECURITY_INSECURE = True
+
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+AUTO_LOGOUT_DELAY = 1

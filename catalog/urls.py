@@ -17,6 +17,7 @@ urlpatterns += [
 
 urlpatterns += [
     path('book/<uuid:pk>/renew/', views.renew_book_librarian, name='renew-book-librarian'),
+
 ]
 
 urlpatterns += [
@@ -30,3 +31,13 @@ urlpatterns += [
     path('book/<int:pk>/update/', views.BookUpdate.as_view(), name='book_update'),
     path('book/<int:pk>/delete/', views.BookDelete.as_view(), name='book_delete'),
 ]
+
+urlpatterns += [
+    path('profile/', views.UserProfile.as_view(), name='user_profile'),
+]
+
+urlpatterns += [
+    path('modifybooks/', views.BooksModify.as_view(), name='book_modify'),
+    path('register/', views.register, name="register"),
+]
+

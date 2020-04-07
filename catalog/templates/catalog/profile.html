@@ -1,0 +1,52 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1 id="profileTitle"><div id="profileTitleName">{{ user.get_username }}'s</div> Profile Page</h1>
+
+    <!-- Place Holders -->
+
+    <ul id="profileInfoList">
+        <li>
+            <h5>First Name: Jarrett</h5>
+            <h5>Last Name: Singian</h5>
+        </li>
+        <li>
+            <h5>Email: jarrett.singian@yahoo.com</h5>
+            <h5>ID: 11712345</h5>
+        </li>
+        <li>
+            <br>
+            <br>
+        </li>
+        <li>
+            <br>
+        </li>
+    </ul>
+    
+    <h1>Borrowed Books</h1>
+
+    {% if bookinstance_list %}
+    <ul>
+        {% for bookinst in bookinstance_list %}
+        <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
+            <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
+        </li>
+        {% endfor %}
+    </ul>
+
+    {% else %}
+        <p>There are no books borrowed.</p>
+    {% endif %}
+
+    <h1>Reviews</h1>
+
+    <a href="{% url 'password_reset' %}" id="profileButtons">Change Password</a>
+
+    <a href="{% url 'logout' %}?next={{request.path}}" id="profileButtons">Logout</a>
+
+    
+{% endblock %}
+
+{% block title %}
+    <title>Nowledge | Profile</title>
+{% endblock %}

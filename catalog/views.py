@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from catalog.models import Book, Author, BookInstance, Genre
+from catalog.models import Book, Author, BookInstance, Genre, Users
 
 def index(request):
     """View function for home page of site"""
@@ -158,3 +158,41 @@ class BookUpdate(UpdateView):
 class BookDelete(DeleteView):
     model = Book
     success_url = reverse_lazy('books')
+
+class UserProfile(LoginRequiredMixin, generic.ListView):
+    model = Users, BookInstance
+    template_name='catalog/profile.html'
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(status__exact='o').order_by('due_back')
+
+class BooksModify(PermissionRequiredMixin,generic.ListView):
+    model=Book
+    template_name='catalog/book_modify.html'
+    paginate_by=10
+    permission_required = 'catalog.can_mark_returned'
+
+from django.shortcuts import render
+
+def error_404(request, exception):
+        data = {}
+        return render(request,'catalog/404.html', data)
+
+
+
+from django.shortcuts import render, redirect
+from .forms import RegisterForm
+
+
+# Create your views here.
+def register(response):
+    if response.method == "POST":
+	    form = RegisterForm(response.POST)
+	    if form.is_valid():
+	        form.save()
+
+	    return redirect("/")
+    else:
+	    form = RegisterForm()
+
+    return render(response, "catalog/register.html", {"form":form})

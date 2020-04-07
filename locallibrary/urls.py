@@ -42,3 +42,9 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
 ]
+
+handler404 = 'catalog.views.error_404'
+
+urlpatterns += [
+    path('session_security/', include('session_security.urls')),
+]

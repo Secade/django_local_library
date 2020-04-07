@@ -97,3 +97,27 @@ class Language(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return self.language
+
+class Users(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
+    given_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    user_name = models.CharField(max_length=50)
+    password = models.CharField(max_length=100) 
+    email = models.CharField(max_length=100)
+    idNumber = models.CharField(max_length=8) #idk yet cus this is String, need to limit the type of characters
+
+    ACCT_TYPE = (
+        ('s', 'Student/Teacher'),
+        ('m', 'Book Manager'),
+        ('a', 'Administrator')
+    )
+
+    class Meta:
+        ordering = ['user_name']
+
+    def __str__(self):
+        return self.user_name
+    
+    def get_absolute_url(self):
+        return reverse('user-details', args=[str(self.id)])  

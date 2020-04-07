@@ -1,0 +1,33 @@
+#errorBody{
+    background-color: #c4c4c4;
+}
+
+#error{
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Ubuntu';
+    color: #363636;
+    padding-top: 40vh;
+    font-size: 36px;
+}
+
+#errorLower{
+    text-align: center;
+    font-weight: normal;
+    font-family: 'Ubuntu';
+    color: #363636;
+    font-size: 20px;
+}
+
+#errorBack{
+    text-align: center;
+    display: block;
+    justify-content: center;
+    text-decoration: none;
+    border: solid;
+    border-color: #363636;
+    color: #363636;
+    max-width: 200px;
+    margin: auto;
+    margin-top: 5vh;
+}
