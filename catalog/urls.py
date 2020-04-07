@@ -38,6 +38,6 @@ urlpatterns += [
 
 urlpatterns += [
     path('modifybooks/', views.BooksModify.as_view(), name='book_modify'),
-    path('register/', views.register, name="register"),
+    # path('register/', views.register, name="register"),
 ]
 

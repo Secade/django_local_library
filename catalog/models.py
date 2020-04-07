@@ -120,4 +120,41 @@ class Users(models.Model):
         return self.user_name
     
     def get_absolute_url(self):
-        return reverse('user-details', args=[str(self.id)])  
+        return reverse('user-details', args=[str(self.id)]) 
+
+# User Stuff (7/4/20)
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=30, blank=True)
+    last_name = models.CharField(max_length=30, blank=True)
+    email = models.EmailField(max_length=100, blank=True)
+    idno = models.CharField(max_length=8)
+    bio = models.TextField()
+
+    QUESTION_SAMPLES = (
+        ('1', 'In what city did you have your first ever birthday party?'),
+        ('2', 'What is the last name of your Science class teacher in high school?'),
+        ('3', 'Which company manufactured your first mobile phone?'),
+        ('4', 'Who was your childhood hero?'),
+        ('5', 'Where was your best family vacation?')
+    )
+
+    def __str__(self):
+        return self.user.username
+    
+    
+
+@receiver(post_save, sender=User)
+def update_profile_signal(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    
+    for user in User.objects.all():
+        Profile.objects.get_or_create(user=user)
+
+    instance.profile.save() 
