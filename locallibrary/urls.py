@@ -24,7 +24,7 @@ from django.urls import include
 from django.urls import path
 
 urlpatterns += [
-    path('catalog/', include('catalog.urls')),
+    path('catalog/', include('catalog.urls'), name="catalog"),
 ]
 
 from django.views.generic import RedirectView
@@ -47,4 +47,10 @@ handler404 = 'catalog.views.error_404'
 
 urlpatterns += [
     path('session_security/', include('session_security.urls')),
+]
+
+# Registration (7/4/20)
+from catalog.views import signup_view
+urlpatterns += [
+    path('signup/', signup_view, name="signup"),
 ]
