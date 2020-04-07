@@ -174,9 +174,12 @@ def signup_view(request):
         user.profile.last_name = form.cleaned_data.get('last_name')
         user.profile.idno = form.cleaned_data.get('idno')
         user.profile.email = form.cleaned_data.get('email')
+        user.profile.question = form.cleaned_data.get('question')
+        user.profile.answer = form.cleaned_data.get('answer')
         user.save()
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password1')
+    
         user = authenticate(username=username, password=password)
         login(request, user)
         return redirect('/catalog')

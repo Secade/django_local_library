@@ -146,7 +146,7 @@ class Profile(models.Model):
         help_text='Security Question',
     )
 
-    answer =  models.CharField(max_length=30)
+    answer =  models.CharField(max_length=30, blank=True)
 
     def __str__(self):
         return self.user.username
