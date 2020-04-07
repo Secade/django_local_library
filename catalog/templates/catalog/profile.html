@@ -22,23 +22,70 @@
             <br>
         </li>
     </ul>
-    
-    <h1>Borrowed Books</h1>
 
-    {% if bookinstance_list %}
-    <ul>
-        {% for bookinst in bookinstance_list %}
-        <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
-            <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
+    <ul id="profileBooksList">
+        <li>
+            <h1>Borrowed Books</h1>
+            <div id="profileBorrowed">
+                
+
+                {% if bookinstance_list %}
+                <ul>
+                    {% for bookinst in bookinstance_list %}
+                    <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
+                        <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
+                    </li>
+                    {% endfor %}
+                </ul>
+            
+                {% else %}
+                    <p>There are no books borrowed.</p>
+                {% endif %}
+            </div>
+            
         </li>
-        {% endfor %}
+        <li>
+            <h1>Returned Books</h1>
+            <div id="profileReturned">
+                
+
+                {% if bookinstance_list %}
+                <ul>
+                    {% for bookinst in bookinstance_list %}
+                    <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
+                        <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
+                    </li>
+                    {% endfor %}
+                </ul>
+            
+                {% else %}
+                    <p>There are no books borrowed.</p>
+                {% endif %}
+            </div>
+            
+        </li>
     </ul>
-
-    {% else %}
-        <p>There are no books borrowed.</p>
-    {% endif %}
-
-    <h1>Reviews</h1>
+    
+    
+    <div id="profileReviews">
+        <h1>Reviews</h1>
+        <div id="profileScroll">
+            {% if bookinstance_list %}
+            <ul>
+                {% for bookinst in bookinstance_list %}
+                <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
+                    <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
+                </li>
+                {% endfor %}
+            </ul>
+        
+            {% else %}
+                <p>No reviews posted.</p>
+            {% endif %}
+        </div>
+        
+    </div>
+    
 
     <a href="{% url 'password_reset' %}" id="profileButtons">Change Password</a>
 
