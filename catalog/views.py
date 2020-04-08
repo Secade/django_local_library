@@ -217,3 +217,7 @@ class UserProfile(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return BookInstance.objects.filter(status__exact='a').order_by('due_back')
+
+def lockout_view(request):
+
+    return render(request, 'lockout.html') 

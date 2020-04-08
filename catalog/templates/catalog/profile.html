@@ -89,7 +89,7 @@
 
     <a onmouseover="changeProfilePassButton()" onmouseout="resetProfilePassButton()" href="{% url 'password_reset' %}" id="profileButtonsPass">Change Password</a>
 
-    <a onmouseover="changeProfileLogoutButton()" onmouseout="resetProfileLogoutButton()" href="{% url 'logout' %}?next={{request.path}}" id="profileButtonsLogout">Logout</a>
+    <a onmouseover="changeProfileLogoutButton()" onmouseout="resetProfileLogoutButton()" href="{% url 'logout' %}" id="profileButtonsLogout">Logout</a>
 
     
 {% endblock %}

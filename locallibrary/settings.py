@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'session_security',
+    'axes',
     'catalog',
     'myapp',
 ]
@@ -52,11 +53,19 @@ MIDDLEWARE = [
     'session_security.middleware.SessionSecurityMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
+    'axes.middleware.AxesMiddleware',
 ]
 
 MIDDLEWARE_CLASSES = [
     'locallibrary.middleware.AutoLogout', 
+]
+
+AUTHENTICATION_BACKENDS = [
+    # AxesBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
+    'axes.backends.AxesBackend',
+
+    # Django ModelBackend is the default authentication backend.
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 ROOT_URLCONF = 'locallibrary.urls'
@@ -77,7 +86,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'locallibrary.wsgi.application'
+# WSGI_APPLICATION = 'locallibrary.wsgi.application'
 
 
 # Database
@@ -145,3 +154,13 @@ SESSION_SECURITY_INSECURE = True
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 AUTO_LOGOUT_DELAY = 1
+
+from datetime import timedelta
+
+AXES_ENABLED = True
+AXES_RESET_ON_SUCCESS=True
+AXES_COOLOFF_TIME = timedelta(minutes=5)
+AXES_ENABLE_ADMIN = True
+AXES_FAILURE_LIMIT = 5
+AXES_ONLY_USER_FAILURES = True
+AXES_LOCKOUT_URL = 'lockout'

@@ -51,7 +51,8 @@ urlpatterns += [
 ]
 
 # Registration (7/4/20)
-from catalog.views import signup_view
+from catalog.views import signup_view, lockout_view
 urlpatterns += [
     path('signup/', signup_view, name="signup"),
+    path('accounts/login/lockout/', lockout_view, name="lockout"),
 ]
