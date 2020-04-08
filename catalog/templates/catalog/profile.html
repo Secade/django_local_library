@@ -7,12 +7,12 @@
 
     <ul id="profileInfoList">
         <li>
-            <h5>First Name: Jarrett</h5>
-            <h5>Last Name: Singian</h5>
+            <h5>First Name: {{ user.profile.first_name }}</h5>
+            <h5>Last Name: {{ user.profile.last_name }}</h5>
         </li>
         <li>
-            <h5>Email: jarrett.singian@yahoo.com</h5>
-            <h5>ID: 11712345</h5>
+            <h5>Email: {{ user.profile.email }}</h5>
+            <h5>ID: {{ user.profile.idno }}</h5>
         </li>
         <li>
             <br>
@@ -39,7 +39,7 @@
                 </ul>
             
                 {% else %}
-                    <p>There are no books borrowed.</p>
+                    <p>You haven't borrowed any books.</p>
                 {% endif %}
             </div>
             
@@ -59,7 +59,7 @@
                 </ul>
             
                 {% else %}
-                    <p>There are no books borrowed.</p>
+                    <p>You haven't returned any books.</p>
                 {% endif %}
             </div>
             
@@ -80,16 +80,16 @@
             </ul>
         
             {% else %}
-                <p>No reviews posted.</p>
+                <p>You have no book reviews posted.</p>
             {% endif %}
         </div>
         
     </div>
     
 
-    <a href="{% url 'password_reset' %}" id="profileButtons">Change Password</a>
+    <a onmouseover="changeProfilePassButton()" onmouseout="resetProfilePassButton()" href="{% url 'password_reset' %}" id="profileButtonsPass">Change Password</a>
 
-    <a href="{% url 'logout' %}?next={{request.path}}" id="profileButtons">Logout</a>
+    <a onmouseover="changeProfileLogoutButton()" onmouseout="resetProfileLogoutButton()" href="{% url 'logout' %}?next={{request.path}}" id="profileButtonsLogout">Logout</a>
 
     
 {% endblock %}

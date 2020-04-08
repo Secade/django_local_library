@@ -176,22 +176,14 @@
 
 }
 
-#id_username{
+#id_username, #id_password, #id_password1, #id_password2, #id_email, #id_idno, #id_first_name, #id_last_name, #id_question, #id_answer{
     width: 15vw;
     margin-bottom: 2vh;
     height: 35px;
-    border-style: none;
-    background-color: #407EAA;
+    border-style: solid;
     padding-left: 10px;
-}
-
-#id_password{
-    width: 15vw;
-    margin-bottom: 2vh;
-    height: 35px;
-    border-style: none;
-    background-color: #407EAA;
-    padding-left: 10px;
+    background-color: rgb(214, 214, 214);
+    border-color: #C4C4C4;
 }
 
 #labels{
@@ -234,7 +226,7 @@
     height: fit-content;
 }
 
-#profileButtons{
+#profileButtonsPass, #profileButtonsLogout{
     background-color: #407EAA;
     padding: 15px 15px 15px 15px;
     height: 40px;
@@ -268,4 +260,37 @@
 #profileBorrowed, #profileReturned, #profileScroll{
     overflow: auto;
     height: 25vh;
+}
+
+#centerSignUp{
+    display: block;
+    margin: auto;
+    text-align: left;
+    max-width: 40vw;
+    margin-top: 10vh;
+}
+
+.errorlist{
+    color: red;
+}
+
+#signUpTitle{
+    color: #407EAA;
+    font-family: "Ubuntu";
+    font-size: 40px;
+}
+
+#signUpLabels{
+    font-size: 18px;
+}
+
+#signUpBack{
+    background-color: #407EAA;
+    padding: 11px 20px 11px 20px;
+    height: 40px;
+    width: 5vw;
+    color: whitesmoke;
+    text-decoration: none;
+    margin: 20px 15px 20px 15px;
+    font-family: "Ubuntu";
 }

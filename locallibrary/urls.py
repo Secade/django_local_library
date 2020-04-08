@@ -44,6 +44,7 @@ urlpatterns += [
 ]
 
 handler404 = 'catalog.views.error_404'
+handler403 = 'catalog.views.error_403'
 
 urlpatterns += [
     path('session_security/', include('session_security.urls')),
