@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import Group    
 
 # Create your views here.
-from catalog.models import Book, Author, BookInstance, Genre
+from catalog.models import Book, Author, BookInstance, Genre, Language
 
 def index(request):
     """View function for home page of site"""
@@ -184,7 +184,6 @@ class BookDelete(DeleteView):
     model = Book
     success_url = reverse_lazy('books')
 
-
 class BookInstanceCreate (CreateView):
     model = BookInstance
     fields = ['book', 'due_back','due_back','borrower','date_added']
@@ -194,10 +193,37 @@ class BookInstanceUpdate(UpdateView):
     model = BookInstance
     fields = ['book', 'due_back','due_back','borrower','date_added']
     
-
 class BookInstanceDelete(DeleteView):
     model = BookInstance
     success_url = reverse_lazy('books')
+
+class LanguageCreate (CreateView):
+    model = Language
+    fields = '__all__'
+    success_url = reverse_lazy('languages')
+
+class LanguageUpdate(UpdateView):
+    model = Language
+    fields = '__all__'
+    success_url = reverse_lazy('languages')
+    
+class LanguageDelete(DeleteView):
+    model = Language
+    success_url = reverse_lazy('languages')
+
+class GenreCreate (CreateView):
+    model = Genre
+    fields = '__all__'
+    success_url = reverse_lazy('genres')
+
+class GenreUpdate(UpdateView):
+    model = Genre
+    fields = '__all__'
+    success_url = reverse_lazy('genres')
+    
+class GenreDelete(DeleteView):
+    model = Genre
+    success_url = reverse_lazy('genres')
 
 class BooksModify(PermissionRequiredMixin,generic.ListView):
     model=Book

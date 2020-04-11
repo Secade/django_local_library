@@ -38,6 +38,18 @@ urlpatterns+=[
     path('bookinstance/<int:pk>/delete/', views.BookInstanceDelete.as_view(), name ='book_instance_delete'),
 ]
 
+urlpatterns+=[
+    path('language/create/', views.LanguageCreate.as_view(), name ='language_create'),
+    path('language/<int:pk>/update/', views.LanguageUpdate.as_view(), name ='language_update'),
+    path('language/<int:pk>/delete/', views.LanguageDelete.as_view(), name ='language_delete'),
+]
+
+urlpatterns+=[
+    path('genre/create/', views.GenreCreate.as_view(), name ='genre_create'),
+    path('genre/<int:pk>/update/', views.GenreUpdate.as_view(), name ='genre_update'),
+    path('genre/<int:pk>/delete/', views.GenreDelete.as_view(), name ='genre_delete'),
+]
+
 urlpatterns += [
     path('profile/', views.UserProfile.as_view(), name='user_profile'),
 ]
