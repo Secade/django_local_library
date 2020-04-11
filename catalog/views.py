@@ -159,6 +159,7 @@ class BookDelete(DeleteView):
     model = Book
     success_url = reverse_lazy('books')
 
+<<<<<<< HEAD
 
 
 class BooksModify(PermissionRequiredMixin,generic.ListView):
@@ -179,6 +180,8 @@ def error_404(request, exception):
 # from .forms import RegisterForm
 
 
+=======
+>>>>>>> parent of 12f0938... BookInstance genericviews (A/E/D)
 #Registration stuff (7/4/20)
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
