@@ -42,6 +42,12 @@ urlpatterns += [
     path('onloan/', views.AllLoanedBooksListView.as_view(), name="all-borrowed"),
 ]
 
+urlpatterns+=[
+    path('bookinstance/create/', views.BookInstanceCreate.as_view(), name ='book_instance_create'),
+    path('bookinstance/<int:pk>/update/', views.BookInstanceUpdate.as_view(), name ='book_instance_update'),
+    path('bookinstance/<int:pk>/delete/', views.BookInstanceDelete.as_view(), name ='book_instance_delete'),
+]
+
 urlpatterns += [
     path('book/<uuid:pk>/renew/', views.renew_book_librarian, name='renew-book-librarian'),
 ]

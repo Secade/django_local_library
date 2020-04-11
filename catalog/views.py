@@ -171,11 +171,34 @@ class BookCreate(CreateView):
 
 class BookUpdate(UpdateView):
     model = Book
-    fields = '__all__'
+    fields = [ 'title', 
+    'author',
+    'language',
+    'summary',
+    'isbn',
+    'genre',
+    'publisher',
+    'date_added_to_library']
 
 class BookDelete(DeleteView):
     model = Book
     success_url = reverse_lazy('books')
+
+
+class BookInstanceCreate (CreateView):
+    model = BookInstance
+    fields = ['book', 'due_back','due_back','borrower','date_added']
+    success_url = reverse_lazy('bookinstances')
+
+class BookInstanceUpdate(UpdateView):
+    model = BookInstance
+    fields = ['book', 'due_back','due_back','borrower','date_added']
+    
+
+class BookInstanceDelete(DeleteView):
+    model = BookInstance
+    success_url = reverse_lazy('bookinstances')
+
 
 #Registration stuff (7/4/20)
 from django.contrib.auth import login, authenticate
