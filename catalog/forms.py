@@ -20,7 +20,7 @@ class RenewBookForm(forms.Form):
         #Remember to always return the cleaned data
         return data
 
-from catalog.models import Profile
+from catalog.models import Profile, Author,Language, Genre, Book
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
@@ -44,3 +44,5 @@ class SignUpForm(UserCreationForm):
     class Meta():   
         model = User
         fields = ('username','first_name','last_name','idno','email','password1','password2','question','answer')
+
+    

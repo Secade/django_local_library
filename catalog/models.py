@@ -7,14 +7,12 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 class Genre(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
     name = models.CharField(max_length=200,help_text='Enter a book genre (e.g. Science Fiction)')
 
     def __str__(self):
         return self.name
         
 class Book(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
     title = models.CharField(max_length=200)
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
@@ -23,7 +21,6 @@ class Book(models.Model):
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
     publisher = models.CharField(max_length=300, null=True)
     date_added_to_library = models.DateField(null=True, blank=True)
-    review = models.ForeignKey('Review', on_delete=models.SET_NULL, null=True)
     
 
     def __str__(self):
@@ -39,7 +36,7 @@ class BookInstance(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     due_back = models.DateField(null=True, blank=True)
-    borrower = models.ForeignKey('Profile', on_delete=models.SET_NULL, null = True, blank=True)
+    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     date_added = models.DateField(null=True, blank=True)
 
     LOAN_STATUS = (
@@ -75,7 +72,6 @@ class BookInstance(models.Model):
 
 class Author(models.Model):
     """Model representing an author."""
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
     given_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     date_of_birth = models.DateField(null=True, blank=True)
@@ -103,6 +99,7 @@ class Language(models.Model):
 
 class Review(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
+    book =  models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     user =  models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True)
     review =  models.CharField(max_length=500)
     rating =  models.IntegerField(validators=[MaxValueValidator(100), MinValueValidator(1)])
@@ -124,7 +121,7 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
     email = models.EmailField(max_length=100, blank=True)

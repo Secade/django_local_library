@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.models import Group    
 
 # Create your views here.
-from catalog.models import Book, Author, BookInstance, Genre
+from catalog.models import Book, Author, BookInstance, Genre, Profile
 
 def index(request):
     """View function for home page of site"""
@@ -45,6 +47,15 @@ class BookListView(generic.ListView):
 
 class BookDetailView(generic.DetailView):
     model = Book
+
+    def borrowBook (self, request, obj):
+        print("Hello World") 
+        matching_names_except_this = self.get_queryset(request).filter(name=obj.title).exclude(pk=obj.id)
+        matching_names_except_this.delete()
+        obj.status = 'r'
+        obj.save()
+        #self.message_user(request, "This villain is now unique")
+        return HttpResponseRedirect(".")
 
 class AuthorListView(generic.ListView):
     model = Author
@@ -148,7 +159,14 @@ from catalog.models import Book
 
 class BookCreate(CreateView):
     model = Book
-    fields = '__all__'
+    fields = [ 'title', 
+    'author',
+    'language',
+    'summary',
+    'isbn',
+    'genre',
+    'publisher',
+    'date_added_to_library']
     success_url = reverse_lazy('books')
 
 class BookUpdate(UpdateView):
@@ -166,23 +184,27 @@ from .forms import SignUpForm
 from django.shortcuts import redirect
 
 def signup_view(request):
-    form = SignUpForm(request.POST)
-    if form.is_valid():
-        user = form.save()
-        user.refresh_from_db()
-        user.profile.first_name = form.cleaned_data.get('first_name')
-        user.profile.last_name = form.cleaned_data.get('last_name')
-        user.profile.idno = form.cleaned_data.get('idno')
-        user.profile.email = form.cleaned_data.get('email')
-        user.profile.question = form.cleaned_data.get('question')
-        user.profile.answer = form.cleaned_data.get('answer')
-        user.save()
-        username = form.cleaned_data.get('username')
-        password = form.cleaned_data.get('password1')
-    
-        user = authenticate(username=username, password=password)
-        login(request, user)
-        return redirect('/catalog')
-    else:
-        form = SignUpForm()
-    return render(request, 'signup.html', {'form':form})    
+    #if request.method =='POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()
+            user.profile.first_name = form.cleaned_data.get('first_name')
+            user.profile.last_name = form.cleaned_data.get('last_name')
+            user.profile.idno = form.cleaned_data.get('idno')
+            user.profile.email = form.cleaned_data.get('email')
+            user.profile.question = form.cleaned_data.get('question')
+            user.profile.answer = form.cleaned_data.get('answer')
+            user.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            group = Group.objects.get(name='Teacher/Student')
+            user.groups.add(group)
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, f'Account created for {username}!')
+            return redirect('/catalog')
+        else:
+            form = SignUpForm()
+            messages.error(request,"Can't SignUp")
+        return render(request, 'signup.html', {'form':form})    
