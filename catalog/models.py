@@ -23,12 +23,8 @@ class Book(models.Model):
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
     publisher = models.CharField(max_length=300, null=True)
     date_added_to_library = models.DateField(null=True, blank=True)
-<<<<<<< HEAD
-    
-=======
     review = models.ForeignKey('Review', on_delete=models.SET_NULL, null=True)
 
->>>>>>> parent of 3a06c9a... Stable Version April 11 2020
 
     def __str__(self):
         """String for representing the Model object."""

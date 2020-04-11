@@ -56,9 +56,6 @@ urlpatterns += [
     path('book/create/', views.BookCreate.as_view(), name='book_create'),
     path('book/<int:pk>/update/', views.BookUpdate.as_view(), name='book_update'),
     path('book/<int:pk>/delete/', views.BookDelete.as_view(), name='book_delete'),
-<<<<<<< HEAD
-]
-=======
 ]
 
 urlpatterns += [
@@ -70,4 +67,3 @@ urlpatterns += [
     path('signup/', views.signup_view, name="signup"),
 ]
 
->>>>>>> parent of 3a06c9a... Stable Version April 11 2020

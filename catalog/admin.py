@@ -50,11 +50,7 @@ class BookInstanceInline(admin.TabularInline):
 
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author')
-<<<<<<< HEAD
-    inlines = [BookInstanceInline, ReviewInLine]
-=======
     inlines = [BookInstanceInline]
->>>>>>> parent of 3a06c9a... Stable Version April 11 2020
 
 class BookInstanceAdmin(admin.ModelAdmin):
     list_display = ('book', 'status', 'borrower', 'due_back')
