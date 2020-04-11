@@ -1,77 +1,7 @@
 {% extends "base_generic.html" %}
-{% load static %}
 
 {% block content %}
-
-{% if user.is_authenticated %}
-<h1 id="welcome">Welcome Back <p id="userTitle">{{ user.get_username }}</p>!</h1>
-{% else %}
-<h1 id="welcome">Welcome <p id="userTitle">Guest</p>!</h1>
-{% endif %}
-<hr>
-
-<ul id="cont">
-    <li id="row">
-        <div id="rowHeader">
-            <img src="{% static 'media/info.png' %}" id="icon">
-            <p id="rowTitle">Info</p>
-        </div>
-        <p id="desc">Welcome to the Nowledge Library Website. Here you will be able to browse the wide selection of books that is available in the physical library. You 
-            can browse though the books and reserve it before going to the library itself. This project was made possible by the Xavier's School for Gifted Youngsters.
-        </p>
-    </li>
-    <li id="row">
-        <div id="rowHeader">
-            <img src="{% static 'media/bookRow.png' %}" id="icon">
-            <p id="rowTitle">Books</p>
-        </div>
-        <ul id="bookButtons">
-            <li>
-                <a href="{% url 'books' %}" id="booksRE">
-                    <img src="{% static 'media/browse.png' %}" id="iconB">
-                    Browse Books
-                </a>
-            </li>
-            <li>
-                <a href="" id="booksRE">
-                    <img src="{% static 'media/borrow.png' %}" id="iconB">
-                    Borrow a Book
-                </a>
-            </li>
-            <li>
-                <a href="" id="booksRE">
-                    <img src="{% static 'media/return.png' %}" id="iconB">
-                    Return a Book
-                </a>
-            </li>
-        </ul>
-    </li>
-    <li id="row">
-        <div id="rowHeader">
-            <img src="{% static 'media/graphic.png' %}" id="icon">
-            <p id="rowTitle">Stats</p>
-        </div>
-        <ul id="stats">
-            <li>
-                <p id="numbers">{{ num_books }}</p>
-                Books
-            </li>
-            <li>
-                <p id="numbers">{{ num_instances }}</p>
-                Copies
-            </li>
-            <li>
-                <p id="numbers">{{ num_genres }}</p>
-                Genres
-            </li>
-            <li>
-                <p id="numbers">{{ num_authors }}</p>
-                Authors
-            </li>
-        </ul>
-    </li>
-</ul>
-<!-- <h1>Local Library Home</h1>
+<h1>Local Library Home</h1>
 <p>Welcome to LocalLibrary, a website developed by <em>Mozilla Developer Network</em>!</p>
 <h2>Dynamic Content</h2>
 <p>The library has the following record counts:</p>
@@ -82,11 +12,11 @@
     <li><strong>Authors:</strong>{{ num_authors }}</li>
     <li><strong>Genres:</strong>{{ num_genres }}</li>
     <li><strong>Specific Books:</strong>{{ num_books_specific }}</li>
-</ul> -->
+</ul>
 
-<!-- <p>You have visited this page {{ num_visits }}{% if num_visits == 1 %} time{% else %} times{% endif %}.</p> -->
+<p>You have visited this page {{ num_visits }}{% if num_visits == 1 %} time{% else %} times{% endif %}.</p>
 {% endblock %}
 
 {% block title %}
-    <title>Nowledge | Home</title>
+    <title>Local Library</title>
 {% endblock %}

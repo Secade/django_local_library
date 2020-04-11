@@ -3,20 +3,13 @@
 
 <head>
     {% block title %}{% endblock %}
-    
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-- Add additional CSS in static file-->
     {% load static %}
-    <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="shortcut icon" type="image/png" href="{% static 'media/book.png' %}"/>
-    <script src="{% static 'js/function.js' %}"></script>
-    
-    {% include 'session_security/all.html' %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
 <body>
@@ -24,32 +17,24 @@
         <div class="row">
             <div class="col-sm-2">
                 {% block sidebar %}
-                <br>
-                <img src="{% static 'media/bookIcon.png' %}" id="icon">
-                <p id="title">NOWLEDGE LIBRARY</p>
-                <hr>
-                <br>
                 <ul class="sidebar-nav">
-                   
-                    <li id="tabsHome"><a onmouseover="changeColorsHome()" onmouseout="resetColorsHome()" href="{% url 'index' %}" id="sideBarButtonHome">Home</a></li>
-                    <li id="tabsBooks"><a onmouseover="changeColorsBooks()" onmouseout="resetColorsBooks()" href="{% url 'books' %}" id="sideBarButtonBooks">Browse Books</a></li>
-                    <!-- <li id="tabs"><a href="{% url 'authors' %}" id="sideBarButton">All Authors</a></li> -->
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'books' %}">All Books</a></li>
+                    <li><a href="{% url 'authors' %}">All Authors</a></li>
                     <br>
                     {% if user.is_authenticated %}
-                    <li id="tabsAcc"><a onmouseover="changeColorsAcc()" onmouseout="resetColorsAcc()" href="{% url 'user_profile' %}" id="sideBarButtonAcc">My Account</a></li>
-                        <!-- <li>User: {{ user.get_username }}</li>
+                        <li>User: {{ user.get_username }}</li>
                         <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
-                        <li><a href="{% url 'logout' %}?next={{request.path}}">Logout</a></li> -->
+                        <li><a href="{% url 'logout' %}?next={{request.path}}">Logout</a></li>
                     {% else %}
-                        <li id="tabsLogin"><a onmouseover="changeColorsLogin()" onmouseout="resetColorsLogin()" href="{% url 'login' %}" id="sideBarButtonLogin">Login</a></li>
+                        <li><a href="{% url 'login' %}?next={{request.path}}">Login</a></li>
                     {% endif %}
                     <br>
                     <hr>
                     <br>
                     {% if perms.catalog.can_mark_returned %}
-                        <li id="titleStaff">Staff:</li>
-                        <li id="tabsBorrowed"><a onmouseover="changeColorsBorrowed()" onmouseout="resetColorsBorrowed()" href="{% url 'all-borrowed' %}" id="sideBarButtonBorrowed">All Borrowed</a></li>
-                        <li id="tabsModify"><a onmouseover="changeColorsModify()" onmouseout="resetColorsModify()" href="{% url 'book_modify' %}" id="sideBarButtonModify">Modify Books</a></li>
+                        <li>Staff</li>
+                        <li><a href="{% url 'all-borrowed' %}">All Borrowed</a></li>
                     {% endif %}
                 </ul>
                 {% endblock %}
@@ -80,9 +65,6 @@
 
         </div>
     </div>
-
-    
-
 </body>
 
 </html>

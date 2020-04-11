@@ -20,7 +20,7 @@
         {% if copy.status != 'a' %}
             <p><strong>Due to be returned:</strong> {{ copy.due_back }}</p>
         {% endif %}
-        <p><strong>Imprint:</strong>{{ copy.book.publisher }}</p>
+        <p><strong>Imprint:</strong>{{ copy.publisher }}</p>
         <input type="button" value="Borrow" name="_borrow">
         <p classs="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
         {% endfor %}
@@ -32,5 +32,5 @@
         <p><strong>Rating: </strong>{{review_set.rating}}</p>
         <p><strong>Review: </strong>{{review_set.review}}</p>
         {% endfor %}
-    </div>
+    </div>-->
     {% endblock %}

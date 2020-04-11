@@ -80,7 +80,7 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
     paginate_by=10
 
     def get_queryset(self):
-        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='a').order_by('due_back')
+        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
@@ -92,7 +92,7 @@ class AllLoanedBooksListView(PermissionRequiredMixin,generic.ListView):
     permission_required = 'catalog.can_mark_returned'
 
     def get_queryset(self):
-        return BookInstance.objects.filter(status__exact='a').order_by('due_back')
+        return BookInstance.objects.filter(status__exact='o').order_by('due_back')
 
 import datetime
 
@@ -188,7 +188,7 @@ class BookDelete(DeleteView):
 class BookInstanceCreate (CreateView):
     model = BookInstance
     fields = ['book', 'due_back','due_back','borrower','date_added']
-    success_url = reverse_lazy('books')
+    success_url = reverse_lazy('bookinstances')
 
 class BookInstanceUpdate(UpdateView):
     model = BookInstance
@@ -197,33 +197,18 @@ class BookInstanceUpdate(UpdateView):
 
 class BookInstanceDelete(DeleteView):
     model = BookInstance
-    success_url = reverse_lazy('books')
+    success_url = reverse_lazy('bookinstances')
 
-class BooksModify(PermissionRequiredMixin,generic.ListView):
-    model=Book
-    template_name='catalog/book_modify.html'
-    paginate_by=10
-    permission_required = 'catalog.can_mark_returned'
-
-from django.shortcuts import render
-
-def error_404(request, exception):
-        data = {}
-        return render(request,'catalog/404.html', data)
-
-def error_403(request, exception):
-        data = {}
-        return render(request,'catalog/403.html', data)
 
 #Registration stuff (7/4/20)
-from django.shortcuts import render, redirect 
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm
+from django.shortcuts import redirect
 
 def signup_view(request):
-    form = SignUpForm(request.POST)
-    if request.method == "POST":
+    #if request.method =='POST':
+        form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
             user.refresh_from_db()
@@ -241,80 +226,8 @@ def signup_view(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             messages.success(request, f'Account created for {username}!')
-            return redirect('/catalog/')
+            return redirect('/catalog')
         else:
-            print (form.errors)
+            form = SignUpForm()
             messages.error(request,"Can't SignUp")
-    else:
-        form = SignUpForm()
-    return render(request, 'signup.html', {'form':form})    
-
-class UserProfile(LoginRequiredMixin, generic.ListView):
-    model = BookInstance
-    template_name='catalog/profile.html'
-
-    def get_queryset(self):
-        return BookInstance.objects.filter(status__exact='a').order_by('due_back')
-
-def lockout_view(request):
-
-    return render(request, 'lockout.html') 
-
-#Password Reset (11/04/2020)
-
-from .forms import QuestionForm, EmailForm
-from catalog.models import Profile
-from django.contrib.auth.models import User
-
-def passwordReset_view(request):
-    form = QuestionForm(request.POST)
-    uEmail = request.session['user_email']
-    request.user = uEmail
-    user = request.user
-    print(user)
-    if form.is_valid():
-        answer = form.cleaned_data['answer']
-        print(user.profile.answer)
-        if answer == user.profile.answer:
-            return redirect('/passwordchange/')
-        else:   
-            print(form.errors)
-    else:
-        form = QuestionForm()
-    return render(request, 'password_question.html', {'form':form})
-
-from catalog.models import Profile
-from django.contrib.auth import forms
-from django.contrib.auth import get_user_model
-
-def emailRequest_view(request):
-    user = get_user_model()
-    form = EmailForm(request.POST)
-    if form.is_valid():
-        u = user.objects.get(email=form.cleaned_data['email'])
-        request.session['user_email'] = u
-        return redirect('/passwordreset/')
-    else:
-        form = EmailForm()
-    return render(request, 'password_reset_form.html', {'form':form})
-
-from .forms import PasswordForm
-
-
-def changePassword_view(request):
-    if 'user_email' in request.session:
-        uEmail = request.session['user_email']
-        request.user = uEmail
-        user = request.user
-    
-    form = PasswordForm(request.user, request.POST)
-    if form.is_valid():
-        password1 = form.cleaned_data.get('new_password2')
-        print(password1)
-        form.save()
-        if 'user_email' in request.session:
-            del request.session['user_email']
-        return redirect('/accounts/login')
-    else:
-        form = PasswordForm(request.user, request.POST)
-    return render(request, 'password_reset.html', {'form':form})
+        return render(request, 'signup.html', {'form':form})    

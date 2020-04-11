@@ -50,7 +50,6 @@ urlpatterns+=[
 
 urlpatterns += [
     path('book/<uuid:pk>/renew/', views.renew_book_librarian, name='renew-book-librarian'),
-
 ]
 
 urlpatterns += [
@@ -63,22 +62,4 @@ urlpatterns += [
     path('book/create/', views.BookCreate.as_view(), name='book_create'),
     path('book/<int:pk>/update/', views.BookUpdate.as_view(), name='book_update'),
     path('book/<int:pk>/delete/', views.BookDelete.as_view(), name='book_delete'),
-]
-
-urlpatterns+=[
-    path('bookinstance/create/', views.BookInstanceCreate.as_view(), name ='book_instance_create'),
-    path('bookinstance/<int:pk>/update/', views.BookInstanceUpdate.as_view(), name ='book_instance_update'),
-    path('bookinstance/<int:pk>/delete/', views.BookInstanceDelete.as_view(), name ='book_instance_delete'),
-]
-
-urlpatterns += [
-    path('profile/', views.UserProfile.as_view(), name='user_profile'),
-]
-
-urlpatterns += [
-    path('modifybooks/', views.BooksModify.as_view(), name='book_modify'),
-    path('signup/', views.signup_view, name="signup"),
-    path('lockout/', views.lockout_view, name="lockout"),
-    path('passwordreset/', views.passwordReset_view, name="reset"),
-    path('emailreset/', views.emailRequest_view, name="email-reset"),
 ]
