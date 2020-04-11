@@ -21,7 +21,6 @@ class Book(models.Model):
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
     publisher = models.CharField(max_length=300, null=True)
     date_added_to_library = models.DateField(null=True, blank=True)
-    
 
     def __str__(self):
         """String for representing the Model object."""
@@ -43,7 +42,7 @@ class BookInstance(models.Model):
         ('a','Available'),
         ('r','Reserved'),
     )
-
+	
     status = models.CharField(
         max_length=1,
         choices=LOAN_STATUS,

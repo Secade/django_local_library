@@ -25,7 +25,7 @@ SECRET_KEY = 'rv$487#6xek^!gt3(e_9@uihdc6da=2z3&2a6m6k15n!60um&r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'session_security',
+    'axes',
     'catalog',
     'myapp',
 ]
@@ -44,11 +46,26 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'session_security.middleware.SessionSecurityMiddleware',
+    'axes.middleware.AxesMiddleware',
+]
+
+MIDDLEWARE_CLASSES = [
+    'locallibrary.middleware.AutoLogout', 
+]
+
+AUTHENTICATION_BACKENDS = [
+    # AxesBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
+    'axes.backends.AxesBackend',
+
+    # Django ModelBackend is the default authentication backend.
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 ROOT_URLCONF = 'locallibrary.urls'
@@ -69,7 +86,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'locallibrary.wsgi.application'
+# WSGI_APPLICATION = 'locallibrary.wsgi.application'
 
 
 # Database
@@ -123,5 +140,25 @@ STATIC_URL = '/static/'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+SESSION_SECURITY_WARN_AFTER = 45
+SESSION_SECURITY_EXPIRE_AFTER = 60
+SESSION_SECURITY_REDIRECT_TO_LOGOUT = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE= True
+
+from datetime import timedelta
+
+AXES_ENABLED = True
+AXES_RESET_ON_SUCCESS=True
+AXES_COOLOFF_TIME = timedelta(minutes=5)
+AXES_ENABLE_ADMIN = True
+AXES_FAILURE_LIMIT = 5
+AXES_ONLY_USER_FAILURES = True
+AXES_LOCKOUT_URL = 'lockout'
+
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'

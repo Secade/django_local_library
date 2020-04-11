@@ -1,5 +1,319 @@
+@font-face {
+    font-family: "Ubuntu";
+    src: url("../../static/fonts/Ubuntu-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Ubuntu-N";
+    src: url("../../static/fonts/Ubuntu-Regular.ttf") format("truetype");
+}
+
 .sidebar-nav {
     margin-top: 20px;
     padding: 0;
     list-style-type: none;
+    align-content: center;
+}
+
+.col-sm-2{
+    background-color: #C4C4C4;
+    height: 100vh;
+    width: 5vw;
+    padding-right: 1px;
+    padding-left: 1px;
+}
+
+#title{
+    text-align: center;
+    font-size: 2vw;
+    font-weight: bold;
+    font-family: 'Ubuntu';
+    margin-bottom: 5vh;
+}
+
+#tabsHome, #tabsBooks, #tabsAcc, #tabsLogin, #tabsBorrowed, #tabsModify{
+    padding-left: 20%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    font-size: 24px;
+    border-style: solid;
+    border-width: 0px 0px 0px 0px;
+}
+
+#sideBarButtonHome, #sideBarButtonBooks, #sideBarButtonAcc, #sideBarButtonLogin, #sideBarButtonBorrowed, #sideBarButtonModify{
+    color: #363636;
+    width: 200px;
+    text-decoration: none;
+}
+
+#titleStaff{
+    font-weight: bold;
+    font-family: "Ubuntu";
+    font-size: 24px;
+    padding-left: 20%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#center{
+    display: block;
+    margin: auto;
+    text-align: center;
+    margin-top: 25vh;
+    max-width: 25vw;
+}
+
+#icon{
+    display: block;
+    margin: auto;
+}
+
+#welcome{
+    text-align: center;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
+#userTitle{
+    display: inline;
+    color: #407EAA;
+}
+
+#row{
+    height: 23vh;
+    width: auto;
+    background-color: #407eaa;
+    list-style-type: none;
+    margin:  3vh 2vw 0vh 2vw;
+    display: flex;
+}
+
+#cont{
+    padding-left: 0px;
+}
+
+#rowHeader{
+    width: 10%;
+    padding-top: 4%;
+    background-color: #c4c4c4;
+    height: 100%;
+}
+
+#rowTitle{
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: "Ubuntu";
+    color: #363636;
+}
+
+#desc{
+    padding: 15px 15px 15px 15px;
+    color: whitesmoke;
+    font-size: 20px;
+    width: 90%;
+    text-align: justify;
+    height: fit-content;
+    padding-top: 4%;
+}
+
+#stats{
+    padding: 15px 15px 15px 15px;
+    color: whitesmoke;
+    -webkit-column-count: 4;
+    -moz-column-count: 4;
+    column-count: 4;
+    list-style-type: none;
+    width: 90%;
+    text-align: center;
+    height: fit-content;
+    padding-top: 4%;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+#numbers{
+    font-size: 36px;
+    
+}
+
+#bookButtons{
+    padding: 15px 15px 15px 15px;
+    color: whitesmoke;
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+    list-style-type: none;
+    width: 90%;
+    text-align: center;
+    height: fit-content;
+    padding-top: 4%;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+#booksRE{
+    text-decoration: none;
+    color: whitesmoke;
+}
+
+#iconB{
+    padding-bottom: 1vh;
+    display: block;
+    margin: auto;
+}
+
+#loginTitle{
+    font-size: 40px;
+    font-weight: bold;
+    font-family: "Ubuntu";
+    color: #407EAA;
+}
+
+#loginDesc{
+    font-size: 18px;
+    font-weight: normal;
+
+}
+
+#id_username, #id_password, #id_password1, #id_password2, #id_new_password1, #id_new_password2, #id_email, #id_idno, #id_first_name, #id_last_name, #id_question, #id_answer{
+    width: 15vw;
+    margin-bottom: 2vh;
+    height: 35px;
+    border-style: solid;
+    padding-left: 10px;
+    background-color: rgb(214, 214, 214);
+    border-color: #C4C4C4;
+}
+
+#labels{
+    text-align: left;
+    padding-left: 5.5vw;
+    padding-bottom: 0.5vh;
+    font-size: 18px;
+}
+
+#loginSubmit{
+    margin-top: 2vh;
+    width: 8vw;
+    height: 40px;
+    background-color: #407EAA;
+    border-style: none;
+    font-family: "Ubuntu";
+    color: whitesmoke;
+    border-radius: 5px;
+
+}
+
+#profileTitle{
+    font-weight: bold;
+    font-family: "Ubuntu-N";
+    margin-top: 2vh;
+    margin-left: 1vw;
+}
+
+#profileTitleName{
+    color: #407EAA;
+    display: inline;
+}
+
+#profileInfoList{
+    list-style-type: none;
+    padding: 15px 15px 15px 15px;
+    -webkit-column-count: 4;
+    -moz-column-count: 4;
+    column-count: 4;
+    width: 90%;
+    text-align: left;
+    height: fit-content;
+}
+
+#profileButtonsPass, #profileButtonsLogout{
+    background-color: #407EAA;
+    padding: 15px 15px 15px 15px;
+    height: 40px;
+    width: 5vw;
+    color: whitesmoke;
+    text-decoration: none;
+    margin: 20px 15px 20px 15px;
+    font-family: "Ubuntu";
+    border-radius: 5px;
+}
+
+#profileBooksList{
+    list-style-type: none;
+    padding: 15px 15px 15px 15px;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+    width: 90%;
+    text-align: left;
+    height: fit-content;
+}
+
+#profileReviews{
+    padding: 15px 15px 15px 15px;
+    text-align: left;
+    width: 90%;
+    margin-bottom: 5vh;
+
+
+}
+
+#profileBorrowed, #profileReturned, #profileScroll{
+    overflow: auto;
+    height: 25vh;
+}
+
+#centerSignUp{
+    display: block;
+    margin: auto;
+    text-align: left;
+    max-width: 40vw;
+    margin-top: 10vh;
+}
+
+.errorlist{
+    color: red;
+}
+
+#signUpTitle{
+    color: #407EAA;
+    font-family: "Ubuntu";
+    font-size: 40px;
+}
+
+#signUpLabels{
+    font-size: 18px;
+}
+
+#signUpBack{
+    background-color: #407EAA;
+    padding: 11px 20px 11px 20px;
+    height: 40px;
+    width: 5vw;
+    color: whitesmoke;
+    text-decoration: none;
+    margin: 20px 15px 20px 15px;
+    font-family: "Ubuntu";
+    border-radius: 5px;
+
+}
+
+#centerReset{
+    display: block;
+    margin: auto;
+    text-align: left;
+    max-width: fit-content;
+    margin-top: 30vh;
+}
+
+#resetSubmit{
+    width: 6vw;
+    height: 40px;
+    background-color: #407EAA;
+    border-style: none;
+    font-family: "Ubuntu";
+    color: whitesmoke;
+    border-radius: 5px;
 }

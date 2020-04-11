@@ -34,15 +34,41 @@ class SignUpForm(UserCreationForm):
         ('5', 'Where was your best family vacation?')
     )
 
-    first_name = forms.CharField(max_length=20, help_text='First Name')
-    last_name = forms.CharField(max_length=20, help_text='Last Name')
-    email = forms.EmailField(max_length=100, help_text='Email')
-    idno = forms.CharField(max_length=8, help_text='Id Number')
+    first_name = forms.CharField(max_length=20)
+    last_name = forms.CharField(max_length=20)
+    email = forms.EmailField(max_length=100)
+    idno = forms.CharField(max_length=8)
     question = forms.CharField(widget=forms.Select(choices = QUESTION_SAMPLES))
-    answer = forms.CharField(max_length=30, help_text='Answer')
+    answer = forms.CharField(max_length=30)
     
     class Meta():   
         model = User
         fields = ('username','first_name','last_name','idno','email','password1','password2','question','answer')
+
+
+class QuestionForm(forms.Form):
+    answer = forms.CharField(max_length=100, help_text="Enter answer to question.", widget=forms.TextInput(attrs={'autocomplete':'off'}))
+    def clean_answer(self):
+        answer1 = self.cleaned_data['answer']
+
+        return answer1
+
+    class Meta():
+        fields = ('answer')
+
+
+class EmailForm(forms.Form):
+    email = forms.EmailField(max_length=100, help_text="Enter Email Address", widget=forms.TextInput(attrs={'autocomplete':'off'}))
+
+    class Meta():
+        fields = ('email')
+
+from django.contrib.auth.forms import SetPasswordForm
+class PasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(label=_("New Password"), widget=forms.PasswordInput)
+    new_password2 = forms.CharField(label=_("New Password Confirmation"), widget=forms.PasswordInput)
+
+    class Meta():
+        fields = ('new_password1', 'new_password2')
 
     
