@@ -23,14 +23,13 @@
             </div>
 
             {# Assumes you setup the password_reset view in your URLconf #}
-            <p id="loginDesc">Did you <a href="{% url 'password_reset' %}">forget your password</a>?</p>
+            <p id="loginDesc">Did you <a href="{% url 'email-request' %}">forget your password</a>?</p>
 
             {% if form.errors %}
             <p id="loginDesc">Your username and password didn't match. Please try again.</p>
         {% endif %}
 
             <input onmouseover="changeLoginButton()" onmouseout="resetLoginButton()" type = "submit" value="Continue" id="loginSubmit"/>
-            <input type="hidden" name="next" value="{{ next }}" />
         </form>
     
         

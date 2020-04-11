@@ -14,7 +14,7 @@
     <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'media/book.png' %}"/>
-    <script src="{% static 'js/sidebar_function.js' %}"></script>
+    <script src="{% static 'js/function.js' %}"></script>
     
     {% include 'session_security/all.html' %}
 </head>
@@ -32,7 +32,7 @@
                 <ul class="sidebar-nav">
                    
                     <li id="tabsHome"><a onmouseover="changeColorsHome()" onmouseout="resetColorsHome()" href="{% url 'index' %}" id="sideBarButtonHome">Home</a></li>
-                    <li id="tabsBooks"><a onmouseover="changeColorsBooks()" onmouseout="resetColorsBooks()" href="{% url 'books' %}" id="sideBarButtonBooks">All Books</a></li>
+                    <li id="tabsBooks"><a onmouseover="changeColorsBooks()" onmouseout="resetColorsBooks()" href="{% url 'books' %}" id="sideBarButtonBooks">Browse Books</a></li>
                     <!-- <li id="tabs"><a href="{% url 'authors' %}" id="sideBarButton">All Authors</a></li> -->
                     <br>
                     {% if user.is_authenticated %}
@@ -41,7 +41,7 @@
                         <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
                         <li><a href="{% url 'logout' %}?next={{request.path}}">Logout</a></li> -->
                     {% else %}
-                        <li id="tabsLogin"><a onmouseover="changeColorsLogin()" onmouseout="resetColorsLogin()" href="{% url 'login' %}?next={{request.path}}" id="sideBarButtonLogin">Login</a></li>
+                        <li id="tabsLogin"><a onmouseover="changeColorsLogin()" onmouseout="resetColorsLogin()" href="{% url 'login' %}" id="sideBarButtonLogin">Login</a></li>
                     {% endif %}
                     <br>
                     <hr>

@@ -39,7 +39,7 @@
                 </ul>
             
                 {% else %}
-                    <p>There are no books borrowed.</p>
+                    <p>You haven't borrowed any books.</p>
                 {% endif %}
             </div>
             
@@ -59,7 +59,7 @@
                 </ul>
             
                 {% else %}
-                    <p>There are no books borrowed.</p>
+                    <p>You haven't returned any books.</p>
                 {% endif %}
             </div>
             
@@ -80,16 +80,16 @@
             </ul>
         
             {% else %}
-                <p>No reviews posted.</p>
+                <p>You have no book reviews posted.</p>
             {% endif %}
         </div>
         
     </div>
     
 
-    <a href="{% url 'password_reset' %}" id="profileButtons">Change Password</a>
+    <a onmouseover="changeProfilePassButton()" onmouseout="resetProfilePassButton()" href="{% url 'change-password' %}" id="profileButtonsPass">Change Password</a>
 
-    <a href="{% url 'logout' %}?next={{request.path}}" id="profileButtons">Logout</a>
+    <a onmouseover="changeProfileLogoutButton()" onmouseout="resetProfileLogoutButton()" href="{% url 'logout' %}" id="profileButtonsLogout">Logout</a>
 
     
 {% endblock %}

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'session_security',
+    'axes',
     'catalog',
     'myapp',
 ]
@@ -49,14 +50,22 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'session_security.middleware.SessionSecurityMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
+    'session_security.middleware.SessionSecurityMiddleware',
+    'axes.middleware.AxesMiddleware',
 ]
 
 MIDDLEWARE_CLASSES = [
     'locallibrary.middleware.AutoLogout', 
+]
+
+AUTHENTICATION_BACKENDS = [
+    # AxesBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
+    'axes.backends.AxesBackend',
+
+    # Django ModelBackend is the default authentication backend.
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 ROOT_URLCONF = 'locallibrary.urls'
@@ -77,7 +86,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'locallibrary.wsgi.application'
+# WSGI_APPLICATION = 'locallibrary.wsgi.application'
 
 
 # Database
@@ -137,11 +146,19 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# SESSION_EXPIRE_SECONDS = 1 * 60
-# SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
-# SESSION_SECURITY_REDIRECT_TO_LOGOUT = True
-SESSION_SECURITY_INSECURE = True
+SESSION_SECURITY_WARN_AFTER = 45
+SESSION_SECURITY_EXPIRE_AFTER = 60
+SESSION_SECURITY_REDIRECT_TO_LOGOUT = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE= True
+
+from datetime import timedelta
+
+AXES_ENABLED = True
+AXES_RESET_ON_SUCCESS=True
+AXES_COOLOFF_TIME = timedelta(minutes=5)
+AXES_ENABLE_ADMIN = True
+AXES_FAILURE_LIMIT = 5
+AXES_ONLY_USER_FAILURES = True
+AXES_LOCKOUT_URL = 'lockout'
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
-
-AUTO_LOGOUT_DELAY = 1
