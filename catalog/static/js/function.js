@@ -155,3 +155,14 @@ function resetProfilePassButton(){
     $("#profileButtonsPass").css("background-color","#407eaa")
     $("#profileButtonsPass").css("color","#f5f5f5")
 }
+
+function changeResetSubmitButton(){
+    $("#resetSubmit").css("background-color","#C4C4C4")
+    $("#resetSubmit").css("color","#363636")
+    $("#resetSubmit").css("cursor","pointer")
+}
+
+function resetResetSubmitButton(){
+    $("#resetSubmit").css("background-color","#407eaa")
+    $("#resetSubmit").css("color","#f5f5f5")
+}

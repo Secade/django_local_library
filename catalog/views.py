@@ -221,3 +221,62 @@ class UserProfile(LoginRequiredMixin, generic.ListView):
 def lockout_view(request):
 
     return render(request, 'lockout.html') 
+
+#Password Reset (11/04/2020)
+
+from .forms import QuestionForm, EmailForm
+from catalog.models import Profile
+from django.contrib.auth.models import User
+
+def passwordReset_view(request):
+    form = QuestionForm(request.POST)
+    uEmail = request.session['user_email']
+    request.user = uEmail
+    user = request.user
+    print(user)
+    if form.is_valid():
+        answer = form.cleaned_data['answer']
+        print(user.profile.answer)
+        if answer == user.profile.answer:
+            return redirect('/passwordchange/')
+        else:   
+            print(form.errors)
+    else:
+        form = QuestionForm()
+    return render(request, 'password_question.html', {'form':form})
+
+from catalog.models import Profile
+from django.contrib.auth import forms
+from django.contrib.auth import get_user_model
+
+def emailRequest_view(request):
+    user = get_user_model()
+    form = EmailForm(request.POST)
+    if form.is_valid():
+        u = user.objects.get(email=form.cleaned_data['email'])
+        request.session['user_email'] = u
+        return redirect('/passwordreset/')
+    else:
+        form = EmailForm()
+    return render(request, 'password_reset_form.html', {'form':form})
+
+from .forms import PasswordForm
+
+
+def changePassword_view(request):
+    if 'user_email' in request.session:
+        uEmail = request.session['user_email']
+        request.user = uEmail
+        user = request.user
+    
+    form = PasswordForm(request.user, request.POST)
+    if form.is_valid():
+        password1 = form.cleaned_data.get('new_password2')
+        print(password1)
+        form.save()
+        if 'user_email' in request.session:
+            del request.session['user_email']
+        return redirect('/accounts/login')
+    else:
+        form = PasswordForm(request.user, request.POST)
+    return render(request, 'password_reset.html', {'form':form})

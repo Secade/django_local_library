@@ -52,7 +52,13 @@ urlpatterns += [
 
 # Registration (7/4/20)
 from catalog.views import signup_view, lockout_view
+from catalog.views import passwordReset_view
+from catalog.views import emailRequest_view
+from catalog.views import changePassword_view
 urlpatterns += [
     path('signup/', signup_view, name="signup"),
     path('accounts/login/lockout/', lockout_view, name="lockout"),
+    path('emailreset/', emailRequest_view, name="email-request"),
+    path('passwordreset/', passwordReset_view, name='reset'),
+    path('passwordchange/', changePassword_view, name='change-password'),
 ]

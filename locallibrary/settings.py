@@ -151,10 +151,6 @@ SESSION_SECURITY_EXPIRE_AFTER = 60
 SESSION_SECURITY_REDIRECT_TO_LOGOUT = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE= True
 
-SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
-
-AUTO_LOGOUT_DELAY = 1
-
 from datetime import timedelta
 
 AXES_ENABLED = True
@@ -164,3 +160,5 @@ AXES_ENABLE_ADMIN = True
 AXES_FAILURE_LIMIT = 5
 AXES_ONLY_USER_FAILURES = True
 AXES_LOCKOUT_URL = 'lockout'
+
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'

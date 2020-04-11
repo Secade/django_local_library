@@ -176,7 +176,7 @@
 
 }
 
-#id_username, #id_password, #id_password1, #id_password2, #id_email, #id_idno, #id_first_name, #id_last_name, #id_question, #id_answer{
+#id_username, #id_password, #id_password1, #id_password2, #id_new_password1, #id_new_password2, #id_email, #id_idno, #id_first_name, #id_last_name, #id_question, #id_answer{
     width: 15vw;
     margin-bottom: 2vh;
     height: 35px;
@@ -201,6 +201,8 @@
     border-style: none;
     font-family: "Ubuntu";
     color: whitesmoke;
+    border-radius: 5px;
+
 }
 
 #profileTitle{
@@ -235,6 +237,7 @@
     text-decoration: none;
     margin: 20px 15px 20px 15px;
     font-family: "Ubuntu";
+    border-radius: 5px;
 }
 
 #profileBooksList{
@@ -293,4 +296,24 @@
     text-decoration: none;
     margin: 20px 15px 20px 15px;
     font-family: "Ubuntu";
+    border-radius: 5px;
+
+}
+
+#centerReset{
+    display: block;
+    margin: auto;
+    text-align: left;
+    max-width: fit-content;
+    margin-top: 30vh;
+}
+
+#resetSubmit{
+    width: 6vw;
+    height: 40px;
+    background-color: #407EAA;
+    border-style: none;
+    font-family: "Ubuntu";
+    color: whitesmoke;
+    border-radius: 5px;
 }
