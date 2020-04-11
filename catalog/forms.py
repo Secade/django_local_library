@@ -44,3 +44,30 @@ class SignUpForm(UserCreationForm):
     class Meta():   
         model = User
         fields = ('username','first_name','last_name','idno','email','password1','password2','question','answer')
+
+class QuestionForm(forms.Form):
+    answer = forms.CharField(max_length=100, help_text="Enter answer to question.")
+    def clean_answer(self):
+        answer1 = self.cleaned_data['answer']
+
+        return answer1
+
+    class Meta():
+        fields = ('answer')
+
+
+class EmailForm(forms.Form):
+    email = forms.EmailField(max_length=100, help_text="Enter Email Address")
+
+    class Meta():
+        fields = ('email')
+
+from django.contrib.auth.forms import SetPasswordForm
+class PasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(label=_("New Password"), widget=forms.PasswordInput)
+    new_password2 = forms.CharField(label=_("New Password Confirmation"), widget=forms.PasswordInput)
+
+    class Meta():
+        fields = ('new_password1', 'new_password2')
+
+    
