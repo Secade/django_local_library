@@ -6,15 +6,39 @@
         <p>Your username and password didn't match. Please try again.</p>
     {% endif %}
 
+<<<<<<< HEAD
     {% if next %}
         {% if user.is_authenticated %}
             <p>Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
         {% else %}
             <p>Please login to see this page.</p>
+=======
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        
+        <div id="center">
+            <p id="loginTitle">Login</p>
+            <hr>
+            <div id="loginDesc">Welcome Back!</div>
+            <p id="loginDesc">Don't have an account? <a href="{% url 'signup' %}">Register Here</a>!</p>
+            <div id="topBlock">
+                <div id="labels">Username:</div>
+        
+                <div>{{ form.username }}</div>
+        
+                <div id="labels">Password:</div>
+        
+                <div>{{ form.password }}</div>
+            </div>
+
+            {# Assumes you setup the password_reset view in your URLconf #}
+            <p id="loginDesc">Did you <a href="{% url 'password_reset' %}">forget your password</a>?</p>
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020
 
         {% endif %}
     {% endif %}
 
+<<<<<<< HEAD
     <form method="POST" action="{% url 'login' %}">
         {% csrf_token %}
         <table>
@@ -33,5 +57,27 @@
 
     {# Assumes you setup the password_reset view in your URLconf #}
     <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+=======
+            <input onmouseover="changeLoginButton()" onmouseout="resetLoginButton()" type = "submit" value="Continue" id="loginSubmit"/>
+            <input type="hidden" name="next" value="{{ next }}" />
+        </form>
+    
+        
+    
+        <!-- {% if next %}
+            {% if user.is_authenticated %}
+                <p>Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
+            {% else %}
+                <p>Please login to see this page.</p>
+    
+            {% endif %}
+        {% endif %} -->
+    
+        
+
+        </div>
+        
+{% endblock %}
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020
 
 {% endblock %}

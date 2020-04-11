@@ -20,6 +20,7 @@
         {% if copy.status != 'a' %}
             <p><strong>Due to be returned:</strong> {{ copy.due_back }}</p>
         {% endif %}
+<<<<<<< HEAD
         <p><strong>Imprint:</strong>{{ copy.publisher }}</p>
         <input type="button" value="Borrow" name="_borrow">
         <p classs="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
@@ -33,4 +34,10 @@
         <p><strong>Review: </strong>{{review_set.review}}</p>
         {% endfor %}
     </div>-->
+=======
+        <p><strong>Imprint:</strong>{{ copy.imprint }}</p>
+        <p classs="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
+        {% endfor %}
+    </div>
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020
     {% endblock %}

@@ -43,6 +43,10 @@ class SignUpForm(UserCreationForm):
     
     class Meta():   
         model = User
+<<<<<<< HEAD
         fields = ('username','first_name','last_name','idno','email','password1','password2','question','answer')
 
     
+=======
+        fields = ('username','first_name','last_name','idno','email','password1','password2','question','answer')
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020

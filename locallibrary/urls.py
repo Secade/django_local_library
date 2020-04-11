@@ -43,6 +43,15 @@ urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
 ]
 
+<<<<<<< HEAD
+=======
+handler404 = 'catalog.views.error_404'
+
+urlpatterns += [
+    path('session_security/', include('session_security.urls')),
+]
+
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020
 # Registration (7/4/20)
 from catalog.views import signup_view
 urlpatterns += [

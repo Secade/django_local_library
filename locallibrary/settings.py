@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
+=======
+    'session_security',
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020
     'catalog',
     'myapp',
 ]
@@ -47,8 +51,17 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'session_security.middleware.SessionSecurityMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+<<<<<<< HEAD
+=======
+    
+]
+
+MIDDLEWARE_CLASSES = [
+    'locallibrary.middleware.AutoLogout', 
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020
 ]
 
 ROOT_URLCONF = 'locallibrary.urls'
@@ -123,5 +136,22 @@ STATIC_URL = '/static/'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
+<<<<<<< HEAD
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+=======
+LOGOUT_REDIRECT_URL = '/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# SESSION_EXPIRE_SECONDS = 1 * 60
+# SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+# SESSION_SECURITY_REDIRECT_TO_LOGOUT = True
+SESSION_SECURITY_INSECURE = True
+
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+AUTO_LOGOUT_DELAY = 1
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020

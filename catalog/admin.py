@@ -2,7 +2,15 @@ from django.contrib import admin
 from .models import Profile
 
 # Register your models here.
-from .models import Author, Genre, Book, BookInstance, Language, Review
+from .models import Author, Genre, Book, BookInstance, Language
+
+# admin.site.register(Book)
+# admin.site.register(Author)
+admin.site.register(Genre)
+# admin.site.register(BookInstance)
+admin.site.register(Language)
+admin.site.register(Profile)
+
 
 # admin.site.register(Book)
 # admin.site.register(Author)
@@ -42,7 +50,11 @@ class BookInstanceInline(admin.TabularInline):
 
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author')
+<<<<<<< HEAD
     inlines = [BookInstanceInline, ReviewInLine]
+=======
+    inlines = [BookInstanceInline]
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020
 
 class BookInstanceAdmin(admin.ModelAdmin):
     list_display = ('book', 'status', 'borrower', 'due_back')

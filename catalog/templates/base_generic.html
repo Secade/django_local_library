@@ -9,7 +9,16 @@
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-- Add additional CSS in static file-->
     {% load static %}
+<<<<<<< HEAD
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+=======
+    <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'media/book.png' %}"/>
+    <script src="{% static 'js/sidebar_function.js' %}"></script>
+    
+    {% include 'session_security/all.html' %}
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020
 </head>
 
 <body>
@@ -18,16 +27,27 @@
             <div class="col-sm-2">
                 {% block sidebar %}
                 <ul class="sidebar-nav">
+<<<<<<< HEAD
                     <li><a href="{% url 'index' %}">Home</a></li>
                     <li><a href="{% url 'books' %}">All Books</a></li>
                     <li><a href="{% url 'authors' %}">All Authors</a></li>
+=======
+                   
+                    <li id="tabsHome"><a onmouseover="changeColorsHome()" onmouseout="resetColorsHome()" href="{% url 'index' %}" id="sideBarButtonHome">Home</a></li>
+                    <li id="tabsBooks"><a onmouseover="changeColorsBooks()" onmouseout="resetColorsBooks()" href="{% url 'books' %}" id="sideBarButtonBooks">All Books</a></li>
+                    <!-- <li id="tabs"><a href="{% url 'authors' %}" id="sideBarButton">All Authors</a></li> -->
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020
                     <br>
                     {% if user.is_authenticated %}
                         <li>User: {{ user.get_username }}</li>
                         <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
                         <li><a href="{% url 'logout' %}?next={{request.path}}">Logout</a></li>
                     {% else %}
+<<<<<<< HEAD
                         <li><a href="{% url 'login' %}?next={{request.path}}">Login</a></li>
+=======
+                        <li id="tabsLogin"><a onmouseover="changeColorsLogin()" onmouseout="resetColorsLogin()" href="{% url 'login' %}?next={{request.path}}" id="sideBarButtonLogin">Login</a></li>
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020
                     {% endif %}
                     <br>
                     <hr>

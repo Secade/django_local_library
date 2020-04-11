@@ -19,6 +19,7 @@
     <button type="submit">Sign Up</button>
 </form>
 
+<<<<<<< HEAD
 {% if messages %}
 <ul class="messages">
 {% for message in messages %}
@@ -27,3 +28,34 @@
 </ul>
 {% endif %}
 {% endblock %}
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+</head>
+<body>
+    <h2>Sign up Form</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <p>
+                {{ field.label_tag }}<br>
+                {{ field }}
+                {% if field.help_text %}
+                    <small style="color: grey">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                {% endfor %}
+            </p>
+        {% endfor %}
+        <button type="submit">Sign Up</button>
+    </form>
+</body>
+</html>
+
+{% endblock %}
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020

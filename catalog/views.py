@@ -1,6 +1,4 @@
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.contrib.auth.models import Group    
+from django.shortcuts import render
 
 # Create your views here.
 from catalog.models import Book, Author, BookInstance, Genre, Profile
@@ -48,15 +46,6 @@ class BookListView(generic.ListView):
 class BookDetailView(generic.DetailView):
     model = Book
 
-    def borrowBook (self, request, obj):
-        print("Hello World") 
-        matching_names_except_this = self.get_queryset(request).filter(name=obj.title).exclude(pk=obj.id)
-        matching_names_except_this.delete()
-        obj.status = 'r'
-        obj.save()
-        #self.message_user(request, "This villain is now unique")
-        return HttpResponseRedirect(".")
-
 class AuthorListView(generic.ListView):
     model = Author
     paginate_by = 10
@@ -80,7 +69,11 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
     paginate_by=10
 
     def get_queryset(self):
+<<<<<<< HEAD
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+=======
+        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='a').order_by('Available')
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
@@ -92,7 +85,11 @@ class AllLoanedBooksListView(PermissionRequiredMixin,generic.ListView):
     permission_required = 'catalog.can_mark_returned'
 
     def get_queryset(self):
+<<<<<<< HEAD
         return BookInstance.objects.filter(status__exact='o').order_by('due_back')
+=======
+        return BookInstance.objects.filter(status__exact='a').order_by('Available')
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020
 
 import datetime
 
@@ -159,14 +156,7 @@ from catalog.models import Book
 
 class BookCreate(CreateView):
     model = Book
-    fields = [ 'title', 
-    'author',
-    'language',
-    'summary',
-    'isbn',
-    'genre',
-    'publisher',
-    'date_added_to_library']
+    fields = '__all__'
     success_url = reverse_lazy('books')
 
 class BookUpdate(UpdateView):
@@ -177,6 +167,29 @@ class BookDelete(DeleteView):
     model = Book
     success_url = reverse_lazy('books')
 
+<<<<<<< HEAD
+=======
+
+
+class BooksModify(PermissionRequiredMixin,generic.ListView):
+    model=Book
+    template_name='catalog/book_modify.html'
+    paginate_by=10
+    permission_required = 'catalog.can_mark_returned'
+
+from django.shortcuts import render
+
+def error_404(request, exception):
+        data = {}
+        return render(request,'catalog/404.html', data)
+
+
+
+
+# from .forms import RegisterForm
+
+
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020
 #Registration stuff (7/4/20)
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
@@ -184,6 +197,7 @@ from .forms import SignUpForm
 from django.shortcuts import redirect
 
 def signup_view(request):
+<<<<<<< HEAD
     #if request.method =='POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -208,3 +222,29 @@ def signup_view(request):
             form = SignUpForm()
             messages.error(request,"Can't SignUp")
         return render(request, 'signup.html', {'form':form})    
+=======
+    form = SignUpForm(request.POST)
+    if form.is_valid():
+        user = form.save()
+        user.refresh_from_db()
+        user.profile.first_name = form.cleaned_data.get('first_name')
+        user.profile.last_name = form.cleaned_data.get('last_name')
+        user.profile.idno = form.cleaned_data.get('idno')
+        user.profile.email = form.cleaned_data.get('email')
+        user.save()
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password1')
+        user = authenticate(username=username, password=password)
+        login(request, user)
+        return redirect('/catalog/')
+    else:
+        form = SignUpForm()
+    return render(request, 'signup.html', {'form':form})    
+
+class UserProfile(LoginRequiredMixin, generic.ListView):
+    model = BookInstance
+    template_name='catalog/profile.html'
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(status__exact='o').order_by('due_back')
+>>>>>>> parent of 3a06c9a... Stable Version April 11 2020
