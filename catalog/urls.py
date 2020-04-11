@@ -40,5 +40,5 @@ urlpatterns += [
     path('modifybooks/', views.BooksModify.as_view(), name='book_modify'),
     path('signup/', views.signup_view, name="signup"),
     path('lockout/', views.lockout_view, name="lockout"),
+    
 ]
-

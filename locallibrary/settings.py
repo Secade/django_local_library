@@ -50,9 +50,9 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'session_security.middleware.SessionSecurityMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'session_security.middleware.SessionSecurityMiddleware',
     'axes.middleware.AxesMiddleware',
 ]
 
@@ -146,10 +146,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-SESSION_EXPIRE_SECONDS = 1 * 60
-SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+SESSION_SECURITY_WARN_AFTER = 45
+SESSION_SECURITY_EXPIRE_AFTER = 60
 SESSION_SECURITY_REDIRECT_TO_LOGOUT = True
-SESSION_SECURITY_INSECURE = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE= True
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
