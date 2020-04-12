@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>Delete Language</h1>
+<div id="center">
+    <h1>Delete Language</h1>
+    <br>
+    <p>Are you sure you want to delete the Language: <br><br> <strong> {{ language.language }}</strong></p>
+    <br>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input onmouseover="changeLoginButton()" onmouseout="resetLoginButton()" type="submit" value="Yes - Delete" id="loginSubmit">
+        <a onmouseover="changeSignUpBackButton()" onmouseout="resetSignUpBackButton()" href="{% url 'language_modify' %}" id="signUpBack">Cancel</a>
+    </form>
+</div>
+{% endblock %}
+
+{% block title %}
+    <title>Nowledge | Delete Language</title>
+{% endblock %}

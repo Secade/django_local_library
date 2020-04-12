@@ -1,16 +1,31 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>Modify Books - List</h1>
+  <h1 id="modifyTitle">Modify Books</h1>
+  <a onmouseover="changeModifyAddButton()" onmouseout="resetModifyAddButton()" id="modifyAddButton" href="{% url 'book_create' %}">Add Book</a>
   {% if book_list %}
-  <ul>
+  <table id="modifyTable">
+    <tr>
+      <th>Book Title</td>
+      <th>Author</td>
+    </tr>
     {% for book in book_list %}
-      <li>
-        <a href="{% url 'book-detail' book.pk %}">{{ book.title }}</a> ({{book.author}})
-      </li>
+    <tr>
+      <td id="modifyCol1"><a href="{% url 'book-detail' book.pk %}">{{ book.title }}</a></td>    
+      <td id="modifyCol2">{{book.author}}</td>
+      <td><a id="modifyUpdate" href="{% url 'book_update' book.pk %}">Update</a></td>
+      <td><a id="modifyDelete" href="{% url 'book_delete' book.pk %}">Delete</a></td>
+    </tr>
     {% endfor %}
-  </ul>
+  </table>
+    
   {% else %}
+  <br>
+  <br>
     <p>There are no books in the library.</p>
   {% endif %}       
+{% endblock %}
+
+{% block title %}
+    <title>Nowledge | Modify Book</title>
 {% endblock %}

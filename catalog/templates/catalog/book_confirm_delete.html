@@ -1,14 +1,19 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+<div id="center">
+    <h1>Delete Book</h1>
+    <br>
+    <p>Are you sure you want to delete the Book: <br><br> <strong> {{ book.title }}</strong></p>
+    <br>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input onmouseover="changeLoginButton()" onmouseout="resetLoginButton()" type="submit" value="Yes - Delete" id="loginSubmit">
+        <a onmouseover="changeSignUpBackButton()" onmouseout="resetSignUpBackButton()" href="{% url 'book_modify' %}" id="signUpBack">Cancel</a>
+    </form>
+</div>
+{% endblock %}
 
-<h1>Delete Book</h1>
-
-<p>Are you sure you want to delete the Book: {{ book.title }}?</p>
-
-<form action="" method="POST">
-    {% csrf_token %}
-    <input type="submit" value="Yes, delete.">
-</form>
-
+{% block title %}
+    <title>Nowledge | Delete Book</title>
 {% endblock %}

@@ -2,18 +2,18 @@
 
 {% block content %}
 <div id="center">
-    <h1>Delete Author</h1>
+    <h1>Delete Genre</h1>
     <br>
-    <p>Are you sure you want to delete the Author: <br><br> <strong> {{ author.given_name }} {{ author.last_name }}</strong></p>
+    <p>Are you sure you want to delete the Genre: <br><br> <strong> {{ genre.name }}</strong></p>
     <br>
     <form action="" method="POST">
         {% csrf_token %}
         <input onmouseover="changeLoginButton()" onmouseout="resetLoginButton()" type="submit" value="Yes - Delete" id="loginSubmit">
-        <a onmouseover="changeSignUpBackButton()" onmouseout="resetSignUpBackButton()" href="{% url 'author_modify' %}" id="signUpBack">Cancel</a>
+        <a onmouseover="changeSignUpBackButton()" onmouseout="resetSignUpBackButton()" href="{% url 'genre_modify' %}" id="signUpBack">Cancel</a>
     </form>
 </div>
 {% endblock %}
 
 {% block title %}
-    <title>Nowledge | Delete Author</title>
+    <title>Nowledge | Delete Genre</title>
 {% endblock %}

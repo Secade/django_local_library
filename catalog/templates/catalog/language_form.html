@@ -1,0 +1,31 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div id="center">
+    <h1 id="signUpTitle">Modify Language</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <br>
+                    <div>
+                        <div id="signUpLabels">{{ form.language.label_tag }}</div>
+                        {{ form.language }}
+                        {{ form.language.errors }}
+                    </div>
+                    <br>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <input onmouseover="changeLoginButton()" onmouseout="resetLoginButton()" type="submit" value="Submit" id="loginSubmit">
+        <a onmouseover="changeSignUpBackButton()" onmouseout="resetSignUpBackButton()" href="{% url 'language_modify' %}" id="signUpBack">Cancel</a>
+    </form>
+</div>
+    
+{% endblock %}
+
+{% block title %}
+    <title>Nowledge | Modify Language</title>
+{% endblock %}

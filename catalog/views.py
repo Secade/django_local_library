@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.models import Group    
 
 # Create your views here.
-from catalog.models import Book, Author, BookInstance, Genre
+from catalog.models import Book, Author, BookInstance, Genre, Language, Profile
 
 def index(request):
     """View function for home page of site"""
@@ -45,6 +47,15 @@ class BookListView(generic.ListView):
 
 class BookDetailView(generic.DetailView):
     model = Book
+
+    def borrowBook (self, request, obj):
+        print("Hello World") 
+        matching_names_except_this = self.get_queryset(request).filter(name=obj.title).exclude(pk=obj.id)
+        matching_names_except_this.delete()
+        obj.status = 'r'
+        obj.save()
+        #self.message_user(request, "This villain is now unique")
+        return HttpResponseRedirect(".")
 
 class AuthorListView(generic.ListView):
     model = Author
@@ -130,40 +141,132 @@ from django.urls import reverse
 
 from catalog.models import Author
 
-class AuthorCreate(CreateView):
+class AuthorCreate(PermissionRequiredMixin,CreateView):
     model = Author
     fields = '__all__'
     initial = {'date_of_death': '05/01/2018'}
-    success_url = reverse_lazy('authors')
+    success_url = reverse_lazy('author_modify')
+    permission_required = 'catalog.can_mark_returned'
 
-class AuthorUpdate(UpdateView):
+class AuthorUpdate(PermissionRequiredMixin,UpdateView):
     model = Author
-    fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+    fields = ['given_name', 'last_name', 'date_of_birth', 'date_of_death']
+    permission_required = 'catalog.can_mark_returned'
 
-class AuthorDelete(DeleteView):
+class AuthorDelete(PermissionRequiredMixin,DeleteView):
     model = Author
-    success_url = reverse_lazy('authors')
+    success_url = reverse_lazy('author_modify')
+    permission_required = 'catalog.can_mark_returned'
 
 from catalog.models import Book
 
-class BookCreate(CreateView):
+class BookCreate(PermissionRequiredMixin,CreateView):
     model = Book
-    fields = '__all__'
+    fields = [ 'title', 
+    'author',
+    'language',
+    'summary',
+    'isbn',
+    'genre',
+    'publisher',
+    'date_added_to_library']
     success_url = reverse_lazy('books')
+    permission_required = 'catalog.can_mark_returned'
 
-class BookUpdate(UpdateView):
+class BookUpdate(PermissionRequiredMixin,UpdateView):
     model = Book
-    fields = '__all__'
+    fields = [ 'title', 
+    'author',
+    'language',
+    'summary',
+    'isbn',
+    'genre',
+    'publisher',
+    'date_added_to_library']
+    permission_required = 'catalog.can_mark_returned'
 
-class BookDelete(DeleteView):
+class BookDelete(PermissionRequiredMixin,DeleteView):
     model = Book
     success_url = reverse_lazy('books')
+    permission_required = 'catalog.can_mark_returned'
 
+class BookInstanceCreate (PermissionRequiredMixin,CreateView):
+    model = BookInstance
+    fields = ['book', 'due_back','due_back','borrower','date_added']
+    success_url = reverse_lazy('books')
+    permission_required = 'catalog.can_mark_returned'
 
+class BookInstanceUpdate(PermissionRequiredMixin,UpdateView):
+    model = BookInstance
+    fields = ['book', 'due_back','due_back','borrower','date_added']
+    permission_required = 'catalog.can_mark_returned'
+    
+class BookInstanceDelete(PermissionRequiredMixin,DeleteView):
+    model = BookInstance
+    success_url = reverse_lazy('books')
+    permission_required = 'catalog.can_mark_returned'
+
+class LanguageCreate (PermissionRequiredMixin,CreateView):
+    model = Language
+    fields = '__all__'
+    success_url = reverse_lazy('languages')
+    permission_required = 'catalog.can_mark_returned'
+
+class LanguageUpdate(PermissionRequiredMixin,UpdateView):
+    model = Language
+    fields = '__all__'
+    success_url = reverse_lazy('languages')
+    permission_required = 'catalog.can_mark_returned'
+    
+class LanguageDelete(PermissionRequiredMixin,DeleteView):
+    model = Language
+    success_url = reverse_lazy('books')
+    permission_required = 'catalog.can_mark_returned'
+
+class GenreCreate (PermissionRequiredMixin,CreateView):
+    model = Genre
+    fields = '__all__'
+    success_url = reverse_lazy('genres')
+    permission_required = 'catalog.can_mark_returned'
+
+class GenreUpdate(PermissionRequiredMixin,UpdateView):
+    model = Genre
+    fields = '__all__'
+    success_url = reverse_lazy('genres')
+    permission_required = 'catalog.can_mark_returned'
+    
+class GenreDelete(PermissionRequiredMixin,DeleteView):
+    model = Genre
+    success_url = reverse_lazy('genres')
+    permission_required = 'catalog.can_mark_returned'
 
 class BooksModify(PermissionRequiredMixin,generic.ListView):
     model=Book
     template_name='catalog/book_modify.html'
+    paginate_by=10
+    permission_required = 'catalog.can_mark_returned'
+
+class BookInstanceModify(PermissionRequiredMixin,generic.ListView):
+    model=BookInstance
+    template_name='catalog/bookinstance_modify.html'
+    paginate_by=10
+    permission_required = 'catalog.can_mark_returned'
+
+class AuthorsModify(PermissionRequiredMixin,generic.ListView):
+    model=Author
+    template_name='catalog/author_modify.html'
+    paginate_by=10
+    permission_required = 'catalog.can_mark_returned'
+
+class GenreModify(PermissionRequiredMixin,generic.ListView):
+    model=Genre
+    template_name='catalog/genre_modify.html'
+    paginate_by=10
+    permission_required = 'catalog.can_mark_returned'
+
+class LanguageModify(PermissionRequiredMixin,generic.ListView):
+    model=Language
+    template_name='catalog/language_modify.html'
     paginate_by=10
     permission_required = 'catalog.can_mark_returned'
 
@@ -177,16 +280,14 @@ def error_403(request, exception):
         data = {}
         return render(request,'catalog/403.html', data)
 
-
-# from .forms import RegisterForm
-
-
 #Registration stuff (7/4/20)
 from django.shortcuts import render, redirect 
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
+from axes.decorators import axes_dispatch
 from .forms import SignUpForm
 
+@axes_dispatch
 def signup_view(request):
     form = SignUpForm(request.POST)
     if request.method == "POST":
@@ -202,21 +303,25 @@ def signup_view(request):
             user.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
+            group = Group.objects.get(name='Teacher/Student')
+            user.groups.add(group)
+            user = authenticate(username=username, password=password, request=request)
             login(request, user)
+            messages.success(request, f'Account created for {username}!')
             return redirect('/catalog/')
         else:
             print (form.errors)
+            messages.error(request,"Can't SignUp")
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form':form})    
 
 class UserProfile(LoginRequiredMixin, generic.ListView):
-    model = BookInstance
+    model = BookInstance, Profile
     template_name='catalog/profile.html'
 
     def get_queryset(self):
-        return BookInstance.objects.filter(status__exact='a').order_by('due_back')
+        return BookInstance.objects.filter(status__exact='r').order_by('due_back')
 
 def lockout_view(request):
 

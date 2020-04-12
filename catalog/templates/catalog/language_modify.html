@@ -1,0 +1,29 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1 id="modifyTitle">Modify Languages</h1>
+  <a onmouseover="changeModifyAddButton()" onmouseout="resetModifyAddButton()" id="modifyAddButton" href="{% url 'language_create' %}">Add Language</a>
+  {% if language_list %}
+  <table id="modifyTable">
+    <tr>
+      <th>Language</td>
+    </tr>
+    {% for language in language_list %}
+    <tr>
+      <td id="modifyCol1">{{ language.language }}</td>    
+      <td><a id="modifyUpdate" href="{% url 'language_update' language.pk %}">Update</a></td>
+      <td><a id="modifyDelete" href="{% url 'language_delete' language.pk %}">Delete</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+    
+  {% else %}
+  <br>
+  <br>
+    <p>There are no languages in the library.</p>
+  {% endif %}       
+{% endblock %}
+
+{% block title %}
+    <title>Nowledge | Modify Language</title>
+{% endblock %}
