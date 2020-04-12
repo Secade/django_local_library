@@ -71,4 +71,7 @@ class PasswordForm(SetPasswordForm):
     class Meta():
         fields = ('new_password1', 'new_password2')
 
+class borrowForm (forms.Form):
+    comm_borrow = forms.CharField()
+
     

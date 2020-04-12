@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth.models import Group    
+from django.contrib.auth.models import Group
+from .forms import borrowForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
-from catalog.models import Book, Author, BookInstance, Genre, Language
+from catalog.models import Book, Author, BookInstance, Genre, Language,Review
 
 def index(request):
     """View function for home page of site"""
@@ -47,15 +49,25 @@ class BookListView(generic.ListView):
 
 class BookDetailView(generic.DetailView):
     model = Book
+    def borrowBook (self,request, pk):
+        book_instance = get_object_or_404(BookInstance, pk=pk)
+        if request.method=='POST':
+            form = borrowForm(request.POST)
+            if form.is_valid():
+                book_instance.status = 'r'
+                book_instance.save()
+                return HttpResponseRedirect(reverse('"my-borrowed') )
+            else:
+                form = borrowForm()
+        context = {
+            'form': form,
+            'book_instance': book_instance,
+        }
+        return render(request, 'catalog/book_detail.html', context)
+        
 
-    def borrowBook (self, request, obj):
-        print("Hello World") 
-        matching_names_except_this = self.get_queryset(request).filter(name=obj.title).exclude(pk=obj.id)
-        matching_names_except_this.delete()
-        obj.status = 'r'
-        obj.save()
-        #self.message_user(request, "This villain is now unique")
-        return HttpResponseRedirect(".")
+
+    
 
 class AuthorListView(generic.ListView):
     model = Author
@@ -71,7 +83,7 @@ def book_detail_view(request, primary_key):
     book = get_object_or_404(Book, pk=primary_key)
     return render(request, 'catalog/book_detail.html', context={'book': book})
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
     """Generic class-based view listing books on loan to current user."""
@@ -288,7 +300,7 @@ def lockout_view(request):
 
 #Password Reset (11/04/2020)
 
-from .forms import QuestionForm, EmailForm
+from .forms import QuestionForm, EmailForm,borrowForm
 from catalog.models import Profile
 from django.contrib.auth.models import User
 
