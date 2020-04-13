@@ -46,6 +46,22 @@ class BookListView(generic.ListView):
 class BookDetailView(generic.DetailView):
     model = Book
 
+<<<<<<< Updated upstream
+=======
+    def borrowBook (self, request, obj):
+        print("Hello World") 
+        matching_names_except_this = self.get_queryset(request).filter(name=obj.title).exclude(pk=obj.id)
+        matching_names_except_this.delete()
+        obj.status = 'r'
+        obj.save()
+        #self.message_user(request, "This villain is now unique")
+        return HttpResponseRedirect(".")
+
+    # def get(self, request, *args, **kwargs):
+    #     self.borrowBook
+    #     return super(BookDetailView)
+
+>>>>>>> Stashed changes
 class AuthorListView(generic.ListView):
     model = Author
     paginate_by = 10
@@ -187,6 +203,7 @@ from .forms import SignUpForm
 
 def signup_view(request):
     form = SignUpForm(request.POST)
+<<<<<<< Updated upstream
     if form.is_valid():
         user = form.save()
         user.refresh_from_db()
@@ -202,6 +219,30 @@ def signup_view(request):
         user = authenticate(username=username, password=password)
         login(request, user)
         return redirect('/catalog/')
+=======
+    if request.method == "POST":
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()
+            user.profile.first_name = form.cleaned_data.get('first_name')
+            user.profile.last_name = form.cleaned_data.get('last_name')
+            user.profile.idno = form.cleaned_data.get('idno')
+            user.profile.email = form.cleaned_data.get('email')
+            user.profile.question = form.cleaned_data.get('question')
+            user.profile.answer = form.cleaned_data.get('answer')
+            user.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            # group = Group.objects.get(name='Teacher/Student')
+            # user.groups.add(group)
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, f'Account created for {username}!')
+            return redirect('/catalog/')
+        else:
+            print (form.errors)
+            messages.error(request,"Can't SignUp")
+>>>>>>> Stashed changes
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form':form})    
@@ -269,3 +310,21 @@ def changePassword_view(request):
     else:
         form = PasswordForm(request.user, request.POST)
     return render(request, 'password_reset.html', {'form':form})
+
+# Borrowing Instance yeet 12/04/2020
+
+def borrowBook_view(request, pk):
+    currDate = datetime.datetime.now()
+    user = request.user
+    book_instance = get_object_or_404(BookInstance,pk=pk)
+
+    if book_instance.status == 'a':
+        
+        book_instance.status = 'r'
+        book_instance.borrower = user
+        book_instance.due_back = currDate + datetime.timedelta(weeks=1)
+        book_instance.save()
+        return redirect('/catalog/')
+    else:
+        return redirect('/catalog/profile/')
+    return render(request, 'book_detail.html')

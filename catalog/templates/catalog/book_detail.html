@@ -20,8 +20,13 @@
         {% if copy.status != 'a' %}
             <p><strong>Due to be returned:</strong> {{ copy.due_back }}</p>
         {% endif %}
-        <p><strong>Imprint:</strong>{{ copy.imprint }}</p>
-        <p classs="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
+        <p><strong>Imprint:</strong>{{ copy.book.publisher }}</p>
+        <!-- <input type="button" value="Borrow" name="_borrow"> -->
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" formaction="{% url 'borrowBook' copy.pk %}">Borrow Book</button>
+        </form>
+        <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
         {% endfor %}
     </div>
     {% endblock %}

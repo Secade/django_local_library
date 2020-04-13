@@ -43,3 +43,8 @@ urlpatterns += [
     path('emailreset/', views.emailRequest_view, name="email-reset"),
 ]
 
+# Borrow Book (12/04/2020)
+
+urlpatterns += [
+    path( 'borrowed/<uuid:pk>/', views.borrowBook_view, name='borrowBook'),
+]

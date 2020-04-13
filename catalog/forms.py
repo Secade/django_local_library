@@ -39,7 +39,15 @@ class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=100, help_text='Email')
     idno = forms.CharField(max_length=8, help_text='Id Number')
     question = forms.CharField(widget=forms.Select(choices = QUESTION_SAMPLES))
-    answer = forms.CharField(max_length=30, help_text='Answer')
+    answer = forms.CharField(max_length=30)
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        try:
+            match = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return email
+        raise forms.ValidationError('Email is already in use.')
     
     class Meta():   
         model = User
