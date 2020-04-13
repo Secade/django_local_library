@@ -19,8 +19,9 @@ class Book(models.Model):
     summary = models.TextField(max_length=1000, help_text='Enter a brief description of the book')
     isbn = models.CharField('ISBN', max_length=13, help_text='13 Character ISBN number')
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
-    publisher = models.CharField(max_length=300, null=True)
+    publisher = models.CharField(max_length=50, null=True)
     date_added_to_library = models.DateField(null=True, blank=True)
+    year = models.IntegerField(max_length=4, null=True)
 
     def __str__(self):
         """String for representing the Model object."""
