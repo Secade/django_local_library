@@ -1,10 +1,8 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+{% if not perms.catalog.can_mark_returned %}
     <h1 id="profileTitle"><div id="profileTitleName">{{ user.get_username }}'s</div> Profile Page</h1>
-
-    <!-- Place Holders -->
-
     <ul id="profileInfoList">
         <li>
             <h5>First Name: {{ user.profile.first_name }}</h5>
@@ -28,13 +26,14 @@
             <h1>Borrowed Books</h1>
             <div id="profileBorrowed">
                 
-
                 {% if bookinstance_list %}
                 <ul>
                     {% for bookinst in bookinstance_list %}
-                    <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
-                        <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
-                    </li>
+                        {% if user.get_username == bookinst.borrower.username %}
+                        <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
+                            <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
+                        </li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             
@@ -52,9 +51,11 @@
                 {% if bookinstance_list %}
                 <ul>
                     {% for bookinst in bookinstance_list %}
-                    <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
-                        <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
-                    </li>
+                    {% if user.get_username == bookinst.borrower.username %}
+                        <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
+                            <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
+                        </li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             
@@ -66,15 +67,17 @@
         </li>
     </ul>
     
-    
     <div id="profileReviews">
         <h1>Reviews</h1>
         <div id="profileScroll">
-            {% if bookinstance_list %}
+            {{review.review}}
+            {% if reviews_list %}
             <ul>
-                {% for bookinst in bookinstance_list %}
-                <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
-                    <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
+                {% for review in reviews_list %}
+                <li>
+                    <p><strong>Book: </strong>{{review.book.title}}</p>
+                    <p><strong>Rating: </strong>{{review.rating}}</p>
+                    <p><strong>Review: </strong>{{review.review}}</p>
                 </li>
                 {% endfor %}
             </ul>
@@ -91,7 +94,11 @@
 
     <a onmouseover="changeProfileLogoutButton()" onmouseout="resetProfileLogoutButton()" href="{% url 'logout' %}" id="profileButtonsLogout">Logout</a>
 
-    
+    {% else %}
+  <p id="error">Forbidden Access</p>
+  <p id="errorLower">You do not have the permission to access this page.</p>
+  <a id="errorBack" href="{% url 'index' %}">Go Back Home</a>
+{% endif %}
 {% endblock %}
 
 {% block title %}

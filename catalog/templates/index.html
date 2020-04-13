@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-
+{% if not perms.catalog.can_mark_returned %}
 {% if user.is_authenticated %}
 <h1 id="welcome">Welcome Back <p id="userTitle">{{ user.get_username }}</p>!</h1>
 {% else %}
@@ -25,19 +25,15 @@
             <img src="{% static 'media/bookRow.png' %}" id="icon">
             <p id="rowTitle">Books</p>
         </div>
-        <ul id="bookButtons">
+        {% if user.is_authenticated %}
+        <ul id="bookButtonsUser">
             <li>
                 <a href="{% url 'books' %}" id="booksRE">
                     <img src="{% static 'media/browse.png' %}" id="iconB">
                     Browse Books
                 </a>
             </li>
-            <li>
-                <a href="" id="booksRE">
-                    <img src="{% static 'media/borrow.png' %}" id="iconB">
-                    Borrow a Book
-                </a>
-            </li>
+            
             <li>
                 <a href="" id="booksRE">
                     <img src="{% static 'media/return.png' %}" id="iconB">
@@ -45,6 +41,16 @@
                 </a>
             </li>
         </ul>
+        {% else %}
+        <ul id="bookButtonsGuest">
+            <li>
+                <a href="{% url 'books' %}" id="booksRE">
+                    <img src="{% static 'media/browse.png' %}" id="iconB">
+                    Browse Books
+                </a>
+            </li>
+        </ul>
+        {% endif %}
     </li>
     <li id="row">
         <div id="rowHeader">
@@ -71,20 +77,9 @@
         </ul>
     </li>
 </ul>
-<!-- <h1>Local Library Home</h1>
-<p>Welcome to LocalLibrary, a website developed by <em>Mozilla Developer Network</em>!</p>
-<h2>Dynamic Content</h2>
-<p>The library has the following record counts:</p>
-<ul>
-    <li><strong>Books:</strong>{{ num_books }}</li>
-    <li><strong>Copies:</strong>{{ num_instances }}</li>
-    <li><strong>Copies Available:</strong>{{ num_instances_available }}</li>
-    <li><strong>Authors:</strong>{{ num_authors }}</li>
-    <li><strong>Genres:</strong>{{ num_genres }}</li>
-    <li><strong>Specific Books:</strong>{{ num_books_specific }}</li>
-</ul> -->
-
-<!-- <p>You have visited this page {{ num_visits }}{% if num_visits == 1 %} time{% else %} times{% endif %}.</p> -->
+{% else %}
+<h1 id="welcomeStaff">Welcome Staff <p id="userTitle">{{ user.get_username }}</p>!</h1>
+{% endif %}
 {% endblock %}
 
 {% block title %}

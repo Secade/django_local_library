@@ -2,27 +2,47 @@
 
 {% block content %}
 <h1 id="modifyTitle">Library Books</h1>
-{% if bookinstance_list %}
-<table id="modifyTable">
-  <tr>
-    <th>Book Title</th>
-    <th>Due Date</th>
-    <th>Borrower Name</th>
-  </tr>
-  {% for bookinstance in bookinstance_list %}
-  <tr>
-    <td class="{% if bookinst.is_overdue %}text-danger{% endif %}" id="modifyCol1"><a href="{% url 'book-detail' bookinstance.book.pk %}">{{ bookistance.book.title }}</a></td>
-    <td class="{% if bookinst.is_overdue %}text-danger{% endif %}" id="modifyCol2">{{ bookinstance.book.due_back}}</td>
-    <td class="{% if bookinst.is_overdue %}text-danger{% endif %}" id="modifyCol2">{{ bookinstance.book.borrower }}</td>
-  </tr>
-  {% endfor %}
-</table>
+<ul id="profileBooksList">
+  <li>
+      <h1>Borrowed Books</h1>
+      <div id="profileBorrowed">
+          
+          {% if bookinstance_list %}
+          <ul>
+              {% for bookinst in bookinstance_list %}
+                  <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
+                      <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
+                  </li>
+              {% endfor %}
+          </ul>
+      
+          {% else %}
+              <p>No books borrowed.</p>
+          {% endif %}
+      </div>
+      
+  </li>
+  <li>
+      <h1>Returned Books</h1>
+      <div id="profileReturned">
+          
 
-{% else %}
-    <br>
-    <br>
-    <p>There are no borrowed books.</p>
-{% endif %}
+          {% if bookinstance_list %}
+          <ul>
+              {% for bookinst in bookinstance_list %}
+              <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
+                  <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
+              </li>
+              {% endfor %}
+          </ul>
+      
+          {% else %}
+              <p>No books returned.</p>
+          {% endif %}
+      </div>
+      
+  </li>
+</ul>
 {% endblock %}
 
 {% block title %}
