@@ -102,7 +102,7 @@ class Review(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
     book =  models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     user =  models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    review =  models.CharField(max_length=300)
+    review =  models.TextField()
     rating =  models.IntegerField(validators=[MaxValueValidator(100), MinValueValidator(1)])
 
 

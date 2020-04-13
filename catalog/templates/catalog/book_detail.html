@@ -66,6 +66,7 @@
         <button type="submit" formaction="{% url 'reviewBook' book.pk %}" id="loginSubmit">Add Comment</button>
 
     </form>
+    <a class="btn btn-primary" href="{% url 'comment_review'%}">Comment Temp Test</a>
 
     {% for review_set in book.review_set.all %}
     <hr>

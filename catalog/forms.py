@@ -83,10 +83,14 @@ class borrowForm (forms.Form):
     comm_borrow = forms.CharField()
 
 class commentForm (forms.ModelForm):
+    
+    print("ReviewForm")
     rating = forms.IntegerField(label =_("Rating"))
     review = forms.CharField(max_length=300, label=_("Review"), widget=forms.TextInput(attrs={'autocomplete':'off'}))
+   # book = forms.CharField()
+
     class Meta():
         model = Review
-        fields = ('review','rating')
+        fields = ('rating', 'review')
 
     
