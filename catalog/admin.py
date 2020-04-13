@@ -61,9 +61,9 @@ class BookInstanceAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return False
     def has_delete_permission(self, request, obj=None):
-        return False
+        return True
     def has_change_permission(self, request, obj=None):
-        return False
+        return True
 
 admin.site.register(Book, BookAdmin)
 admin.site.register(BookInstance, BookInstanceAdmin)
@@ -98,11 +98,11 @@ class ProfileAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
     def has_change_permission(self, request, obj=None):
-        return False
+        return True
 
 admin.site.register(Profile, ProfileAdmin)
 
 class ReviewInLine(admin.TabularInline):
     model = Review
 
-    admin.site.register(Review)
+admin.site.register(Review)

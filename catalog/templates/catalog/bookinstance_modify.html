@@ -1,0 +1,29 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1 id="modifyTitle">Modify Book Instances</h1>
+  <a onmouseover="changeModifyAddButton()" onmouseout="resetModifyAddButton()" id="modifyAddButton" href="{% url 'book_instance_create' %}">Add Book Instance</a>
+  {% if bookinstance_list %}
+  <table id="modifyTable">
+    <tr>
+      <th>Book Title</td>
+    </tr>
+    {% for bookinstance in bookinstance_list %}
+    <tr>
+      <td id="modifyCol1"><a href="{% url 'book-detail' bookinstance.book.pk %}">{{ bookinstance.book.title }}</a></td>    
+      <td><a id="modifyUpdate" href="{% url 'book_instance_update' bookinstance.pk %}">Update</a></td>
+      <td><a id="modifyDelete" href="{% url 'book_instance_delete' bookinstance.pk %}">Delete</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+    
+  {% else %}
+  <br>
+  <br>
+    <p>There are no book instances in the library.</p>
+  {% endif %}       
+{% endblock %}
+
+{% block title %}
+    <title>Nowledge | Modify Book Instance</title>
+{% endblock %}

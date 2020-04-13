@@ -1,10 +1,28 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h1>Author: {{ author.last_name }}, {{ author.first_name }}</h1>
-<p>{{ author.date_of_birth }} - {{ author.date_of_death }}</p>
+<br>
+<h1 id="signUpTitle">{{ author.last_name }}, {{ author.given_name }}</h1>
+<hr>
 
-<div style="margin-left:20px;margin-top:20px">
+<ul id="profileInfoList">
+    <li>
+        <h5><strong>Born:</strong> {{ author.date_of_birth }}</h5>
+        <h5><strong>Died:</strong> {{ author.date_of_death }}</h5>
+    </li>
+    <li>
+        <br>
+    </li>
+    <li>
+        <br>
+        <br>
+    </li>
+    <li>
+        <br>
+    </li>
+</ul>
+
+<div id="detailCopies">
     <h4>Books</h4>
 
     {% for copy in author.book_set.all %}

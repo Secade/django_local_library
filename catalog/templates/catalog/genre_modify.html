@@ -1,0 +1,29 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1 id="modifyTitle">Modify Genres</h1>
+  <a onmouseover="changeModifyAddButton()" onmouseout="resetModifyAddButton()" id="modifyAddButton" href="{% url 'genre_create' %}">Add Genre</a>
+  {% if genre_list %}
+  <table id="modifyTable">
+    <tr>
+      <th>Genre</td>
+    </tr>
+    {% for genre in genre_list %}
+    <tr>
+      <td id="modifyCol1">{{ genre.name }}</td>    
+      <td><a id="modifyUpdate" href="{% url 'genre_update' genre.pk %}">Update</a></td>
+      <td><a id="modifyDelete" href="{% url 'genre_delete' genre.pk %}">Delete</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+    
+  {% else %}
+  <br>
+  <br>
+    <p>There are no genres in the library.</p>
+  {% endif %}       
+{% endblock %}
+
+{% block title %}
+    <title>Nowledge | Modify Genre</title>
+{% endblock %}

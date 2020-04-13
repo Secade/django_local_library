@@ -1,11 +1,65 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+<div id="centerSignUp">
+    <h1 id="signUpTitle">Modify Book</h1>
     <form action="" method="POST">
         {% csrf_token %}
-        <table>
-        {{ form.as_table }}
-        </table>
-        <input type="submit" value="Submit">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div>
+                        <div id="signUpLabels">{{ form.title.label_tag }}</div>
+                        {{ form.title }}
+                        {{ form.title.errors }}
+                    </div>
+                    <div>
+                        <div id="signUpLabels">{{ form.author.label_tag }}</div>
+                        {{ form.author }}
+                        {{ form.author.errors }}
+                    </div>
+                    <div>
+                        <div id="signUpLabels">{{ form.genre.label_tag }}</div>
+                        {{ form.genre }}
+                        {{ form.genre.errors }}
+                    </div>
+                    <div>
+                        <div id="signUpLabels">{{ form.summary.label_tag }}</div>
+                        {{ form.summary }}
+                        {{ form.summary.errors }}
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div>
+                        <div id="signUpLabels">{{ form.language.label_tag }}</div>
+                        {{ form.language }}
+                        {{ form.language.errors }}
+                    </div>
+                    <div>
+                        <div id="signUpLabels">{{ form.publisher.label_tag }}</div>
+                        {{ form.publisher }}
+                        {{ form.publisher.errors }}
+                    </div>
+                    <div>
+                        <div id="signUpLabels">{{ form.isbn.label_tag }}</div>
+                        {{ form.isbn }}
+                        {{ form.isbn.errors }}
+                    </div>
+                    <div>
+                        <div id="signUpLabels">{{ form.date_added_to_library.label_tag }}</div>
+                        {{ form.date_added_to_library }}
+                        {{ form.date_added_to_library.errors }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input onmouseover="changeLoginButton()" onmouseout="resetLoginButton()" type="submit" value="Submit" id="loginSubmit">
+        <a onmouseover="changeSignUpBackButton()" onmouseout="resetSignUpBackButton()" href="{% url 'book_modify' %}" id="signUpBack">Cancel</a>
     </form>
+</div>
+    
+{% endblock %}
+
+{% block title %}
+    <title>Nowledge | Modify Book</title>
 {% endblock %}

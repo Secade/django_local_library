@@ -25,19 +25,15 @@
             <img src="{% static 'media/bookRow.png' %}" id="icon">
             <p id="rowTitle">Books</p>
         </div>
-        <ul id="bookButtons">
+        {% if user.is_authenticated %}
+        <ul id="bookButtonsUser">
             <li>
                 <a href="{% url 'books' %}" id="booksRE">
                     <img src="{% static 'media/browse.png' %}" id="iconB">
                     Browse Books
                 </a>
             </li>
-            <li>
-                <a href="" id="booksRE">
-                    <img src="{% static 'media/borrow.png' %}" id="iconB">
-                    Borrow a Book
-                </a>
-            </li>
+            
             <li>
                 <a href="" id="booksRE">
                     <img src="{% static 'media/return.png' %}" id="iconB">
@@ -45,6 +41,16 @@
                 </a>
             </li>
         </ul>
+        {% else %}
+        <ul id="bookButtonsGuest">
+            <li>
+                <a href="{% url 'books' %}" id="booksRE">
+                    <img src="{% static 'media/browse.png' %}" id="iconB">
+                    Browse Books
+                </a>
+            </li>
+        </ul>
+        {% endif %}
     </li>
     <li id="row">
         <div id="rowHeader">
