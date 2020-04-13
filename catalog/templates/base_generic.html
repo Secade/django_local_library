@@ -13,8 +13,9 @@
     {% load static %}
     <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/errorStyles.css' %}"> 
     <link rel="shortcut icon" type="image/png" href="{% static 'media/book.png' %}"/>
-    <script src="{% static 'js/function.js' %}"></script>
+    <script src="{% static 'js/functions.js' %}"></script>
     
     {% include 'session_security/all.html' %}
 </head>
@@ -22,7 +23,7 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-2">
+            <div id="sideBarMain">
                 {% block sidebar %}
                 <br>
                 <img src="{% static 'media/bookIcon.png' %}" id="icon">
@@ -48,13 +49,17 @@
                     <br>
                     {% if perms.catalog.can_mark_returned %}
                         <li id="titleStaff">Staff:</li>
-                        <li id="tabsBorrowed"><a onmouseover="changeColorsBorrowed()" onmouseout="resetColorsBorrowed()" href="{% url 'all-borrowed' %}" id="sideBarButtonBorrowed">All Borrowed</a></li>
-                        <li id="tabsModify"><a onmouseover="changeColorsModify()" onmouseout="resetColorsModify()" href="{% url 'book_modify' %}" id="sideBarButtonModify">Modify Books</a></li>
+                        <li id="tabsBorrowed"><a onmouseover="changeColorsBorrowed()" onmouseout="resetColorsBorrowed()" href="{% url 'all-borrowed' %}" id="sideBarButtonBorrowed">All Borrowed Books</a></li>
+                        <li id="tabsModifyBooks"><a onmouseover="changeColorsModifyBooks()" onmouseout="resetColorsModifyBooks()" href="{% url 'book_modify' %}" id="sideBarButtonModifyBooks">Modify Books</a></li>
+                        <li id="tabsModifyBooksIns"><a onmouseover="changeColorsModifyBooksIns()" onmouseout="resetColorsModifyBooksIns()" href="{% url 'bookinstance_modify' %}" id="sideBarButtonModifyBooksIns">Modify Book Instances</a></li>
+                        <li id="tabsModifyAuthors"><a onmouseover="changeColorsModifyAuthors()" onmouseout="resetColorsModifyAuthors()" href="{% url 'author_modify' %}" id="sideBarButtonModifyAuthors">Modify Authors</a></li>
+                        <li id="tabsModifyGenres"><a onmouseover="changeColorsModifyGenres()" onmouseout="resetColorsModifyGenres()" href="{% url 'genre_modify' %}" id="sideBarButtonModifyGenres">Modify Genres</a></li>
+                        <li id="tabsModifyLangs"><a onmouseover="changeColorsModifyLangs()" onmouseout="resetColorsModifyLangs()" href="{% url 'language_modify' %}" id="sideBarButtonModifyLangs">Modify Languages</a></li>
                     {% endif %}
                 </ul>
                 {% endblock %}
             </div>
-            <div class="col-sm-10">
+            <div id="mainStage">
 
                 {% block content %}{% endblock %}
 

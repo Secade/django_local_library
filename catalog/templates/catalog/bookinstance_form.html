@@ -1,11 +1,45 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+<div id="centerSignUp">
+    <h1 id="signUpTitle">Modify Book Instance</h1>
     <form action="" method="POST">
         {% csrf_token %}
-        <table>
-        {{ form.as_table }}
-        </table>
-        <input type="submit" value="Submit">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div>
+                        <div id="signUpLabels">{{ form.book.label_tag }}</div>
+                        {{ form.book }}
+                        {{ form.book.errors }}
+                    </div>
+                    <div>
+                        <div id="signUpLabels">{{ form.borrower.label_tag }}</div>
+                        {{ form.borrower }}
+                        {{ form.borrower.errors }}
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div>
+                        <div id="signUpLabels">{{ form.due_back.label_tag }}</div>
+                        {{ form.due_back }}
+                        {{ form.due_back.errors }}
+                    </div>
+                    <div>
+                        <div id="signUpLabels">{{ form.date_added.label_tag }}</div>
+                        {{ form.date_added }}
+                        {{ form.date_added.errors }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input onmouseover="changeLoginButton()" onmouseout="resetLoginButton()" type="submit" value="Submit" id="loginSubmit">
+        <a onmouseover="changeSignUpBackButton()" onmouseout="resetSignUpBackButton()" href="{% url 'bookinstance_modify' %}" id="signUpBack">Cancel</a>
     </form>
+</div>
+    
+{% endblock %}
+
+{% block title %}
+    <title>Nowledge | Modify Book Instance</title>
 {% endblock %}

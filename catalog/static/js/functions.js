@@ -88,22 +88,84 @@ function resetColorsBorrowed(){
     $("#sideBarButtonBorrowed").css("font-weight","normal")
 }
 
-function changeColorsModify(){
-    $("#tabsModify").css("border-color","#407EAA")
-    $("#tabsModify").css("border-width","0px 10px 0px 0px")
-    $("#tabsModify").css("padding-right","10px")
+function changeColorsModifyBooks(){
+    $("#tabsModifyBooks").css("border-color","#407EAA")
+    $("#tabsModifyBooks").css("border-width","0px 10px 0px 0px")
+    $("#tabsModifyBooks").css("padding-right","10px")
 
-    $("#sideBarButtonModify").css("color","#407EAA")
-    $("#sideBarButtonModify").css("font-weight","bold")
-
-    console.log("Success!!!")
+    $("#sideBarButtonModifyBooks").css("color","#407EAA")
+    $("#sideBarButtonModifyBooks").css("font-weight","bold")
 }
 
-function resetColorsModify(){
-    $("#tabsModify").css("border-width","0px 0px 0px 0px")
+function resetColorsModifyBooks(){
+    $("#tabsModifyBooks").css("border-width","0px 0px 0px 0px")
 
-    $("#sideBarButtonModify").css("color","#363636")
-    $("#sideBarButtonModify").css("font-weight","normal")
+    $("#sideBarButtonModifyBooks").css("color","#363636")
+    $("#sideBarButtonModifyBooks").css("font-weight","normal")
+}
+
+function changeColorsModifyBooksIns(){
+    $("#tabsModifyBooksIns").css("border-color","#407EAA")
+    $("#tabsModifyBooksIns").css("border-width","0px 10px 0px 0px")
+    $("#tabsModifyBooksIns").css("padding-right","10px")
+
+    $("#sideBarButtonModifyBooksIns").css("color","#407EAA")
+    $("#sideBarButtonModifyBooksIns").css("font-weight","bold")
+}
+
+function resetColorsModifyBooksIns(){
+    $("#tabsModifyBooksIns").css("border-width","0px 0px 0px 0px")
+
+    $("#sideBarButtonModifyBooksIns").css("color","#363636")
+    $("#sideBarButtonModifyBooksIns").css("font-weight","normal")
+}
+
+function changeColorsModifyAuthors(){
+    $("#tabsModifyAuthors").css("border-color","#407EAA")
+    $("#tabsModifyAuthors").css("border-width","0px 10px 0px 0px")
+    $("#tabsModifyAuthors").css("padding-right","10px")
+
+    $("#sideBarButtonModifyAuthors").css("color","#407EAA")
+    $("#sideBarButtonModifyAuthors").css("font-weight","bold")
+}
+
+function resetColorsModifyAuthors(){
+    $("#tabsModifyAuthors").css("border-width","0px 0px 0px 0px")
+
+    $("#sideBarButtonModifyAuthors").css("color","#363636")
+    $("#sideBarButtonModifyAuthors").css("font-weight","normal")
+}
+
+function changeColorsModifyGenres(){
+    $("#tabsModifyGenres").css("border-color","#407EAA")
+    $("#tabsModifyGenres").css("border-width","0px 10px 0px 0px")
+    $("#tabsModifyGenres").css("padding-right","10px")
+
+    $("#sideBarButtonModifyGenres").css("color","#407EAA")
+    $("#sideBarButtonModifyGenres").css("font-weight","bold")
+}
+
+function resetColorsModifyGenres(){
+    $("#tabsModifyGenres").css("border-width","0px 0px 0px 0px")
+
+    $("#sideBarButtonModifyGenres").css("color","#363636")
+    $("#sideBarButtonModifyGenres").css("font-weight","normal")
+}
+
+function changeColorsModifyLangs(){
+    $("#tabsModifyLangs").css("border-color","#407EAA")
+    $("#tabsModifyLangs").css("border-width","0px 10px 0px 0px")
+    $("#tabsModifyLangs").css("padding-right","10px")
+
+    $("#sideBarButtonModifyLangs").css("color","#407EAA")
+    $("#sideBarButtonModifyLangs").css("font-weight","bold")
+}
+
+function resetColorsModifyLangs(){
+    $("#tabsModifyLangs").css("border-width","0px 0px 0px 0px")
+
+    $("#sideBarButtonModifyLangs").css("color","#363636")
+    $("#sideBarButtonModifyLangs").css("font-weight","normal")
 }
 
 function setColor(){
@@ -165,4 +227,15 @@ function changeResetSubmitButton(){
 function resetResetSubmitButton(){
     $("#resetSubmit").css("background-color","#407eaa")
     $("#resetSubmit").css("color","#f5f5f5")
+}
+
+function changeModifyAddButton(){
+    $("#modifyAddButton").css("background-color","#C4C4C4")
+    $("#modifyAddButton").css("color","#363636")
+    $("#modifyAddButton").css("cursor","pointer")
+}
+
+function resetModifyAddButton(){
+    $("#modifyAddButton").css("background-color","#407eaa")
+    $("#modifyAddButton").css("color","#f5f5f5")
 }

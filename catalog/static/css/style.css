@@ -31,7 +31,27 @@
     margin-bottom: 5vh;
 }
 
-#tabsHome, #tabsBooks, #tabsAcc, #tabsLogin, #tabsBorrowed, #tabsModify{
+#sideBarMain{
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 18vw; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #c4c4c4; /* Black */
+  overflow-y: auto;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 20px;
+}
+
+#mainStage{
+    width: 82vw;
+    margin-left: 18vw;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#tabsHome, #tabsBooks, #tabsAcc, #tabsLogin, #tabsBorrowed, #tabsModifyBooks, #tabsModifyBooksIns, #tabsModifyAuthors, #tabsModifyGenres, #tabsModifyLangs{
     padding-left: 20%;
     padding-top: 2%;
     padding-bottom: 2%;
@@ -40,7 +60,7 @@
     border-width: 0px 0px 0px 0px;
 }
 
-#sideBarButtonHome, #sideBarButtonBooks, #sideBarButtonAcc, #sideBarButtonLogin, #sideBarButtonBorrowed, #sideBarButtonModify{
+#sideBarButtonHome, #sideBarButtonBooks, #sideBarButtonAcc, #sideBarButtonLogin, #sideBarButtonBorrowed, #sideBarButtonModifyBooks, #sideBarButtonModifyBooksIns, #sideBarButtonModifyAuthors, #sideBarButtonModifyGenres, #sideBarButtonModifyLangs{
     color: #363636;
     width: 200px;
     text-decoration: none;
@@ -137,12 +157,27 @@
     
 }
 
-#bookButtons{
+#bookButtonsUser{
     padding: 15px 15px 15px 15px;
     color: whitesmoke;
-    -webkit-column-count: 3;
-    -moz-column-count: 3;
-    column-count: 3;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+    list-style-type: none;
+    width: 90%;
+    text-align: center;
+    height: fit-content;
+    padding-top: 4%;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+#bookButtonsGuest{
+    padding: 15px 15px 15px 15px;
+    color: whitesmoke;
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
     list-style-type: none;
     width: 90%;
     text-align: center;
@@ -176,7 +211,10 @@
 
 }
 
-#id_username, #id_password, #id_password1, #id_password2, #id_new_password1, #id_new_password2, #id_email, #id_idno, #id_first_name, #id_last_name, #id_question, #id_answer{
+#id_username, #id_password, #id_password1, #id_password2, #id_new_password1, #id_new_password2, #id_email, #id_idno, #id_first_name, 
+#id_last_name, #id_question, #id_answer, #id_given_name, #id_date_of_birth, #id_date_of_death, #id_title, #id_author, #id_genre, 
+#id_summary, #id_language, #id_publisher, #id_isbn, #id_date_added_to_library, #id_book, #id_borrower, #id_due_back, #id_date_added,
+#id_name{
     width: 15vw;
     margin-bottom: 2vh;
     height: 35px;
@@ -184,6 +222,14 @@
     padding-left: 10px;
     background-color: rgb(214, 214, 214);
     border-color: #C4C4C4;
+}
+
+#id_genre{
+    height: 100px;
+}
+
+#id_summary{
+    height: 200px;
 }
 
 #labels{
@@ -202,7 +248,7 @@
     font-family: "Ubuntu";
     color: whitesmoke;
     border-radius: 5px;
-
+    cursor: pointer;
 }
 
 #profileTitle{
@@ -228,7 +274,7 @@
     height: fit-content;
 }
 
-#profileButtonsPass, #profileButtonsLogout{
+#profileButtonsPass, #profileButtonsLogout, #modifyAddButton{
     background-color: #407EAA;
     padding: 15px 15px 15px 15px;
     height: 40px;
@@ -316,4 +362,59 @@
     font-family: "Ubuntu";
     color: whitesmoke;
     border-radius: 5px;
+}
+
+#modifyAddButton{
+margin: 20px 20px 20px 20px;
+}
+
+#modifyTable{
+    margin-top: 30px;
+    font-family: "Ubuntu-N";
+    font-size: 18px;
+}
+
+#modifyTitle{
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-family: "Ubuntu";
+}
+
+#modifyCol1, #modifyCol2{
+    padding-right: 80px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#modifyUpdate, #modifyDelete{
+    background-color: #407EAA;
+    padding: 10px 10px 10px 10px;
+    height: 40px;
+    width: 5vw;
+    color: whitesmoke;
+    text-decoration: none;
+    /* margin: 20px 15px 20px 15px; */
+    margin-right: 10px;
+    font-family: "Ubuntu";
+    border-radius: 5px;
+}
+
+#detailCopies{
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+#detailSummary{
+    margin-left: 15px;
+}
+
+#detailBorrow{
+    width: 8vw;
+    height: 40px;
+    background-color: #407EAA;
+    border-style: none;
+    font-family: "Ubuntu";
+    color: whitesmoke;
+    border-radius: 5px;
+    cursor: pointer;
 }
