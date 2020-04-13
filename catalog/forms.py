@@ -20,7 +20,7 @@ class RenewBookForm(forms.Form):
         #Remember to always return the cleaned data
         return data
 
-from catalog.models import Profile
+from catalog.models import Profile, Review
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
@@ -81,5 +81,12 @@ class PasswordForm(SetPasswordForm):
 
 class borrowForm (forms.Form):
     comm_borrow = forms.CharField()
+
+class commentForm (forms.ModelForm):
+    rating = forms.IntegerField(label =_("Rating"))
+    review = forms.CharField(max_length=300, label=_("Review"), widget=forms.TextInput(attrs={'autocomplete':'off'}))
+    class Meta():
+        model = Review
+        fields = ('review','rating')
 
     

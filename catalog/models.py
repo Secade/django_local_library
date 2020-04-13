@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
+import datetime
 from django.urls import reverse # Used to generate URLs be reversing the URL patterns
 import uuid # Required for unique book instances
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -21,7 +22,7 @@ class Book(models.Model):
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
     publisher = models.CharField(max_length=50, null=True)
     date_added_to_library = models.DateField(null=True, blank=True)
-    year = models.IntegerField(max_length=4, null=True)
+    year = models.IntegerField(validators=[MaxValueValidator(datetime.date.today().year), MinValueValidator(1900)], null=True)
 
     def __str__(self):
         """String for representing the Model object."""
@@ -100,8 +101,8 @@ class Language(models.Model):
 class Review(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
     book =  models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
-    user =  models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True)
-    review =  models.CharField(max_length=500)
+    user =  models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    review =  models.CharField(max_length=300)
     rating =  models.IntegerField(validators=[MaxValueValidator(100), MinValueValidator(1)])
 
 

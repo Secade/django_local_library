@@ -26,14 +26,6 @@
 
 <div id="detailCopies">
     <hr>
-    <h3>Reviews</h3>
-    {% for review_set in book.review_set.all %}
-    <hr>
-    <p><strong>User: </strong>{{review_set.user}}</p>
-    <p><strong>Rating: </strong>{{review_set.rating}}</p>
-    <p><strong>Review: </strong>{{review_set.review}}</p>
-    {% endfor %}
-    <hr>
     {% if user.is_authenticated %}
     <h3>Copies</h3>
     <br>
@@ -52,12 +44,36 @@
     <br>
     {% endif %}
     
-
     <p><strong>Imprint: </strong>{{ copy.book.publisher }}</p>
     <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
     <hr>
     {% endfor %}
     {% endif %}
+    <hr>
+    <h3>Reviews</h3>
+    <form method = "post">
+        {% csrf_token %}
+        <div>
+            <div id="signUpLabels">{{ form.rating.label_tag }}</div>
+            {{ form.rating }}
+            {{ form.rating.errors }}
+        </div>
+        <div>
+            <div id="signUpLabels">{{ form.review.label_tag }}</div>
+            {{ form.review }}
+            {{ form.review.errors }}
+        </div>
+        <button type="submit" formaction="{% url 'reviewBook' book.pk %}" id="loginSubmit">Add Comment</button>
+
+    </form>
+
+    {% for review_set in book.review_set.all %}
+    <hr>
+    <p><strong>User: </strong>{{review_set.user}}</p>
+    <p><strong>Rating: </strong>{{review_set.rating}}</p>
+    <p><strong>Review: </strong>{{review_set.review}}</p>
+    {% endfor %}
+
 </div>
 {% endblock %}
 

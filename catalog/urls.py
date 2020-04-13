@@ -16,6 +16,7 @@ urlpatterns += [
 
 urlpatterns += [
     path( 'borrowed/<uuid:pk>/', views.borrowBook_view, name='borrowBook'),
+    path( 'comment/<int:pk>/', views.reviewBook_view, name='reviewBook'),
 ]
 
 urlpatterns += [

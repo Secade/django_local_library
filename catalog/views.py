@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import Group
-from .forms import borrowForm
+from .forms import borrowForm,commentForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
@@ -66,10 +66,28 @@ class BookDetailView(generic.DetailView):
         return render(request, 'catalog/book_detail.html', context)
         
 
-    def borrowBook (request):
+  
 
-
-        return HttpResponseRedirect(".")
+    def reviewBook (self,request, pk):
+        book = get_object_or_404(Book, pk=pk)
+        if request.method=='POST':
+            form = commentForm(request.POST)
+            if form.is_valid():
+                review = form.save()
+                review.refresh_from_db()
+                review.user = request.user
+                review.book = book
+                review.review = form.cleaned_data.get('review')
+                review.rating = form.cleaned_data.get('rating')
+                review.save()
+                return HttpResponseRedirect(reverse('"my-borrowed') )
+            else:
+                form = commentForm()
+        """context = {
+            'form': form,
+            'review': review,
+        }"""
+        return render(request, 'catalog/book_detail.html', {'form':form})
 
     #     def passwordReset_view(request):
     # form = QuestionForm(request.POST)
@@ -470,3 +488,25 @@ def borrowBook_view(request, pk):
     else:
         return redirect('/catalog/')
     return render(request, 'book_detail.html')
+
+def reviewBook_view (request, pk):
+   book = get_object_or_404(Book, pk=pk)
+   if request.method=='POST':
+        form = commentForm(request.POST)
+        if form.is_valid():
+            review = form.save()
+            review.refresh_from_db()
+            review.user = request.user
+            review.book = book
+            review.review = form.cleaned_data.get('review')
+            review.rating = form.cleaned_data.get('rating')
+            review.save()
+            return HttpResponseRedirect(reverse('"my-borrowed') )
+        else:
+            form = commentForm()
+        """context = {
+            'form': form,
+            'review': review,
+        }"""
+        return render(request, 'catalog/book_detail.html', {'form':form})
+    
