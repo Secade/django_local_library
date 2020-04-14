@@ -16,7 +16,7 @@ urlpatterns += [
 
 urlpatterns += [
     path( 'borrowed/<uuid:pk>/', views.borrowBook_view, name='borrowBook'),
-    path ('review/create/', views.reviewCreate_view, name='commentReview')
+    path ('review/<int:pk>', views.reviewCreate_view, name='commentReview')
 ]
 
 urlpatterns += [
