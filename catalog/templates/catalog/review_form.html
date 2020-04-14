@@ -1,11 +1,21 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <form action="" method="post">
+<h1><strong>{{book.title}}</strong></h1>
+<form method = "post">
     {% csrf_token %}
-    <table>
-    {{ form.as_table }}
-    </table>
-    <input type="submit" value="Submit">
-  </form>
+    <input type="hidden" name="next" value="{{ request.path }}">
+    <div>
+        <div id="signUpLabels">{{ form.rating.label_tag }} Scale: 1-100</div>
+        {{ form.rating }}
+        {{ form.rating.errors }}
+    </div>
+    <div>
+        <div id="signUpLabels">{{ form.review.label_tag }}</div>
+        {{ form.review }}
+        {{ form.review.errors }}
+    </div>
+    <button type="submit" formaction="{% url 'review_create' book.pk %}" id="loginSubmit">Add Comment</button>
+
+</form>
 {% endblock %}

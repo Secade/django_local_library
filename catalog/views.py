@@ -50,11 +50,12 @@ class BookListView(generic.ListView):
 class BookDetailView(generic.DetailView):
     model = Book
     print("BOOK DETAIL VIEW class")
+
     def addCommentTemp (self,request,pk):
+        print("Add Comment Temp")
         book = get_object_or_404(Book, pk=pk)
-        self.request.session['book_selected'] = book.pk
         print("PK "+pk)
-        return HttpResponseRedirect('catalog/review_form.html')
+        return HttpResponseRedirect('catalog/review_form.html',{'book': book, 'pk': pk})
 
     def borrowBook (self,request, pk):
         book_instance = get_object_or_404(BookInstance, pk=pk)
@@ -72,29 +73,6 @@ class BookDetailView(generic.DetailView):
         }
         return render(request, 'catalog/book_detail.html', context)
         
-
-  
-
-    def reviewBook (self,request, pk):
-        book = get_object_or_404(Book, pk=pk)
-        if request.method=='POST':
-            form = commentForm(request.POST)
-            if form.is_valid():
-                review = form.save()
-                review.refresh_from_db()
-                review.user = request.user
-                review.book = book
-                review.review = form.cleaned_data.get('review')
-                review.rating = form.cleaned_data.get('rating')
-                review.save()
-                return HttpResponseRedirect(reverse('"my-borrowed') )
-            else:
-                form = commentForm()
-        context = {
-            'form': form,
-            'review': review,
-        }
-        return render(request, 'catalog/book_detail.html', context)
 
     #     def passwordReset_view(request):
     # form = QuestionForm(request.POST)
@@ -122,6 +100,12 @@ class AuthorDetailView(generic.DetailView):
 
 
 from django.shortcuts import get_object_or_404
+
+def addCommentTemp (request,pk):
+        form = commentForm(request.POST)
+        print("Add Comment Temp")
+        book = get_object_or_404(Book, pk=pk)
+        return render(request,'catalog/review_form.html', context={'book': book, 'form':form})
 
 def book_detail_view(request, primary_key):
     print("BOOK DETAIL VIEW")
@@ -361,19 +345,24 @@ class LanguageModify(PermissionRequiredMixin,generic.ListView):
     paginate_by=10
     permission_required = 'catalog.can_mark_returned'
 
-class ReviewCreate(CreateView):
-    model = Review
-    form_class = commentForm
-    success_url = '/entries/%(id)s'
-    def form_valid(self, form):
-        print(self.request.session.get('book_selected'))
-        obj = form.save(commit=False)
-        obj.user = self.request.user
-        obj.book = get_object_or_404(Book, pk=self.request.session.get('book_selected'))
-        obj.save()
-        return HttpResponseRedirect(obj.get_absolute_url())
 
 from django.shortcuts import render
+
+def ReviewCreate_view (request, pk):
+        book = get_object_or_404(Book, pk=pk)
+        form = commentForm(request.POST)
+        if request.method=='POST':
+            if form.is_valid():
+                review = form.save(commit=False)
+                review.user = request.user
+                review.book = book
+                review.review = form.cleaned_data.get('review')
+                review.rating = form.cleaned_data.get('rating')
+                review.save()
+                return redirect ('/catalog/book/'+str(pk))
+            else:
+                form = commentForm()
+        return render(request, 'catalog/book_detail.html', {'form': form})
 
 def error_404(request, exception):
         data = {}
@@ -510,24 +499,5 @@ def borrowBook_view(request, pk):
         return redirect('/catalog/')
     return render(request, 'book_detail.html')
 
-def reviewBook_view (request, pk):
-   book = get_object_or_404(Book, pk=pk)
-   if request.method=='POST':
-        form = commentForm(request.POST)
-        if form.is_valid():
-            review = form.save()
-            review.refresh_from_db()
-            review.user = request.user
-            review.book = book
-            review.review = form.cleaned_data.get('review')
-            review.rating = form.cleaned_data.get('rating')
-            review.save()
-            return HttpResponseRedirect(reverse('"my-borrowed') )
-        else:
-            form = commentForm()
-        context = {
-            'form': form,
-            'review': review,
-        }
-        return render(request, 'catalog/book_detail.html', context)
+
     

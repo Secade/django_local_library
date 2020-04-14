@@ -6,7 +6,7 @@ urlpatterns = [
     path('books/', views.BookListView.as_view(), name='books'),
     path('book/<int:pk>', views.BookDetailView.as_view(), name='book-detail'),
     path('authors/', views.AuthorListView.as_view(), name='authors'),
-    path('author/<int:pk>', views.AuthorDetailView.as_view(), name='author-detail'),
+    path('author/<int:pk>/', views.AuthorDetailView.as_view(), name='author-detail'),
 ]
 
 urlpatterns += [
@@ -16,8 +16,8 @@ urlpatterns += [
 
 urlpatterns += [
     path( 'borrowed/<uuid:pk>/', views.borrowBook_view, name='borrowBook'),
-    path( 'comment/<int:pk>/', views.reviewBook_view, name='reviewBook'),
-    path ('review/create/', views.ReviewCreate.as_view(), name='comment_review')
+    path( 'comment/<int:pk>/', views.addCommentTemp, name='write_review'),
+    path ('review/<int:pk>/', views.ReviewCreate_view, name='review_create')
 ]
 
 urlpatterns += [
