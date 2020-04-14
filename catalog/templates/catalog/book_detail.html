@@ -22,6 +22,7 @@
         <br>
     </li>
 </ul>
+<h5 id="detailSummary"><strong>Year:</strong> {{ book.year }}</h5>
 <h5 id="detailSummary"><strong>Summary:</strong> {{ book.summary }}</h5>
 
 <div id="detailCopies">
@@ -53,20 +54,10 @@
     <h3>Reviews</h3>
     <form method = "post">
         {% csrf_token %}
-        <div>
-            <div id="signUpLabels">{{ form.rating.label_tag }}</div>
-            {{ form.rating }}
-            {{ form.rating.errors }}
-        </div>
-        <div>
-            <div id="signUpLabels">{{ form.review.label_tag }}</div>
-            {{ form.review }}
-            {{ form.review.errors }}
-        </div>
-        <button type="submit" formaction="{% url 'reviewBook' book.pk %}" id="loginSubmit">Add Comment</button>
+        <button type="submit" formaction="{% url 'commentReview' book.pk %}" id="loginSubmit">Add Comment</button>
 
     </form>
-    <a class="btn btn-primary" href="{% url 'comment_review'%}">Comment Temp Test</a>
+
 
     {% for review_set in book.review_set.all %}
     <hr>

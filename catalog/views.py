@@ -49,70 +49,7 @@ class BookListView(generic.ListView):
 
 class BookDetailView(generic.DetailView):
     model = Book
-    print("BOOK DETAIL VIEW class")
-    def addCommentTemp (self,request,pk):
-        book = get_object_or_404(Book, pk=pk)
-        self.request.session['book_selected'] = book.pk
-        print("PK "+pk)
-        return HttpResponseRedirect('catalog/review_form.html')
-
-    def borrowBook (self,request, pk):
-        book_instance = get_object_or_404(BookInstance, pk=pk)
-        if request.method=='POST':
-            form = borrowForm(request.POST)
-            if form.is_valid():
-                book_instance.status = 'r'
-                book_instance.save()
-                return HttpResponseRedirect(reverse('"my-borrowed') )
-            else:
-                form = borrowForm()
-        context = {
-            'form': form,
-            'book_instance': book_instance,
-        }
-        return render(request, 'catalog/book_detail.html', context)
-        
-
-  
-
-    def reviewBook (self,request, pk):
-        book = get_object_or_404(Book, pk=pk)
-        if request.method=='POST':
-            form = commentForm(request.POST)
-            if form.is_valid():
-                review = form.save()
-                review.refresh_from_db()
-                review.user = request.user
-                review.book = book
-                review.review = form.cleaned_data.get('review')
-                review.rating = form.cleaned_data.get('rating')
-                review.save()
-                return HttpResponseRedirect(reverse('"my-borrowed') )
-            else:
-                form = commentForm()
-        context = {
-            'form': form,
-            'review': review,
-        }
-        return render(request, 'catalog/book_detail.html', context)
-
-    #     def passwordReset_view(request):
-    # form = QuestionForm(request.POST)
-    # uEmail = request.session['user_email']
-    # request.user = uEmail
-    # user = request.user
-    # print(user)
-    # if form.is_valid():
-    #     answer = form.cleaned_data['answer']
-    #     print(user.profile.answer)
-    #     if answer == user.profile.answer:
-    #         return redirect('/passwordchange/')
-    #     else:   
-    #         print(form.errors)
-    # else:
-    #     form = QuestionForm()
-    # return render(request, 'password_question.html', {'form':form})
-
+   
 class AuthorListView(generic.ListView):
     model = Author
     paginate_by = 10
@@ -361,18 +298,6 @@ class LanguageModify(PermissionRequiredMixin,generic.ListView):
     paginate_by=10
     permission_required = 'catalog.can_mark_returned'
 
-class ReviewCreate(CreateView):
-    model = Review
-    form_class = commentForm
-    success_url = '/entries/%(id)s'
-    def form_valid(self, form):
-        print(self.request.session.get('book_selected'))
-        obj = form.save(commit=False)
-        obj.user = self.request.user
-        obj.book = get_object_or_404(Book, pk=self.request.session.get('book_selected'))
-        obj.save()
-        return HttpResponseRedirect(obj.get_absolute_url())
-
 from django.shortcuts import render
 
 def error_404(request, exception):
@@ -510,24 +435,17 @@ def borrowBook_view(request, pk):
         return redirect('/catalog/')
     return render(request, 'book_detail.html')
 
-def reviewBook_view (request, pk):
-   book = get_object_or_404(Book, pk=pk)
-   if request.method=='POST':
-        form = commentForm(request.POST)
-        if form.is_valid():
-            review = form.save()
-            review.refresh_from_db()
-            review.user = request.user
-            review.book = book
-            review.review = form.cleaned_data.get('review')
-            review.rating = form.cleaned_data.get('rating')
-            review.save()
-            return HttpResponseRedirect(reverse('"my-borrowed') )
-        else:
-            form = commentForm()
-        context = {
-            'form': form,
-            'review': review,
-        }
-        return render(request, 'catalog/book_detail.html', context)
-    
+def reviewCreate_view (request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    form = commentForm(request.POST)
+    if form.is_valid():
+       review = form.save(commit=False)
+       review.user = request.user
+       review.book = book
+       review.rating = form.cleaned_data.get('rating')
+       review.save()
+       return redirect('/catalog/')
+    else:
+        form = commentForm()
+    return render(request, 'catalog/review_form.html', {'form':form})
+
