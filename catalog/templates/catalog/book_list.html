@@ -1,6 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+{% if not perms.catalog.can_mark_returned %}
 <h1 id="modifyTitle">Library Books</h1>
 {% if book_list %}
 <table id="modifyTable">
@@ -25,6 +26,12 @@
 <br>
 <p>There are no books in the library.</p>
 {% endif %}
+{% else %}
+  <p id="error">Forbidden Access</p>
+  <p id="errorLower">You do not have the permission to access this page.</p>
+  <a id="errorBack" href="{% url 'index' %}">Go Back Home</a>
+{% endif %}
+
 {% endblock %}
 
 {% block title %}

@@ -15,7 +15,7 @@
         <h5><strong>ISBN:</strong> {{ book.isbn }}</h5>
     </li>
     <li>
-        <br>
+        <h5><strong>Year:</strong> {{ book.year }}</h5>
         <br>
     </li>
     <li>
@@ -27,6 +27,14 @@
 <div id="detailCopies">
     <hr>
     <h3>Reviews</h3>
+    {% if user.is_authenticated and not perms.catalog.can_mark_returned%}
+    <form method = "post">
+        {% csrf_token %}
+        <button onmouseover="changeLoginButton()" onmouseout="resetLoginButton()" type="submit" formaction="{% url 'commentReview' book.pk %}" id="loginSubmit">Add Comment</button>
+
+    </form>
+    {% endif %}
+
     {% for review_set in book.review_set.all %}
     <hr>
     <p><strong>User: </strong>{{review_set.user}}</p>
@@ -34,7 +42,7 @@
     <p><strong>Review: </strong>{{review_set.review}}</p>
     {% endfor %}
     <hr>
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and not perms.catalog.can_mark_returned%}
     <h3>Copies</h3>
     <br>
     {% for copy in book.bookinstance_set.all %}
@@ -58,6 +66,11 @@
     <hr>
     {% endfor %}
     {% endif %}
+    <br>
+    <a onmouseover="changeSignUpBackButton()" onmouseout="resetSignUpBackButton()" href="{% url 'books' %}" id="signUpBack">Back</a>
+    <br>
+    <br>
+    <br>
 </div>
 {% endblock %}
 

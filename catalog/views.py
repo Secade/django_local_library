@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import Group    
+from .forms import borrowForm,commentForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 from catalog.models import Book, Author, BookInstance, Genre, Language, Profile, Review
@@ -48,32 +50,6 @@ class BookListView(generic.ListView):
 class BookDetailView(generic.DetailView):
     model = Book
 
-    def borrowBook (request):
-
-
-        return HttpResponseRedirect(".")
-
-    #     def passwordReset_view(request):
-    # form = QuestionForm(request.POST)
-    # uEmail = request.session['user_email']
-    # request.user = uEmail
-    # user = request.user
-    # print(user)
-    # if form.is_valid():
-    #     answer = form.cleaned_data['answer']
-    #     print(user.profile.answer)
-    #     if answer == user.profile.answer:
-    #         return redirect('/passwordchange/')
-    #     else:   
-    #         print(form.errors)
-    # else:
-    #     form = QuestionForm()
-    # return render(request, 'password_question.html', {'form':form})
-
-class AuthorListView(generic.ListView):
-    model = Author
-    paginate_by = 10
-
 class AuthorDetailView(generic.DetailView):
     model = Author
 
@@ -85,16 +61,6 @@ def book_detail_view(request, primary_key):
     return render(request, 'catalog/book_detail.html', context={'book': book})
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
-    """Generic class-based view listing books on loan to current user."""
-    model=BookInstance
-    template_name='catalog/bookinstance_list_borrowed_user.html'
-    paginate_by=10
-
-    def get_queryset(self):
-        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='a').order_by('due_back')
-
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
 class AllLoanedBooksListView(PermissionRequiredMixin,generic.ListView):
@@ -105,7 +71,7 @@ class AllLoanedBooksListView(PermissionRequiredMixin,generic.ListView):
     permission_required = 'catalog.can_mark_returned'
 
     def get_queryset(self):
-        return BookInstance.objects.filter(status__exact='a').order_by('due_back')
+        return BookInstance.objects.all()
 
 import datetime
 
@@ -422,3 +388,20 @@ def borrowBook_view(request, pk):
     else:
         return redirect('/catalog/')
     return render(request, 'book_detail.html')
+
+def reviewCreate_view (request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    form = commentForm(request.POST)
+    if request.method == "POST":
+        if form.is_valid():
+           review = form.save(commit=False)
+           review.user = request.user
+           review.book = book
+           review.rating = form.cleaned_data.get('rating')
+           review.save()
+           return redirect('/catalog/')
+        else:
+            print (form.errors)
+    else:
+        form = commentForm()
+    return render(request, 'catalog/review_form.html', {'form':form})

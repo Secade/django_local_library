@@ -20,7 +20,7 @@ class RenewBookForm(forms.Form):
         #Remember to always return the cleaned data
         return data
 
-from catalog.models import Profile
+from catalog.models import Profile, Review
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
@@ -78,5 +78,13 @@ class PasswordForm(SetPasswordForm):
 
     class Meta():
         fields = ('new_password1', 'new_password2')
+
+class borrowForm (forms.Form):
+    comm_borrow = forms.CharField()
+
+class commentForm (forms.ModelForm):
+    class Meta():
+        model = Review
+        fields = ('rating', 'review')
 
     
