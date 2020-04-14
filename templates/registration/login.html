@@ -1,9 +1,6 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-
-    
-
     <form method="POST" action="{% url 'login' %}">
         {% csrf_token %}
         
@@ -31,22 +28,7 @@
 
             <input onmouseover="changeLoginButton()" onmouseout="resetLoginButton()" type = "submit" value="Continue" id="loginSubmit"/>
         </form>
-    
-        
-    
-        <!-- {% if next %}
-            {% if user.is_authenticated %}
-                <p>Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
-            {% else %}
-                <p>Please login to see this page.</p>
-    
-            {% endif %}
-        {% endif %} -->
-    
-        
-
         </div>
-        
 {% endblock %}
 
 {% block title %}

@@ -134,7 +134,7 @@ class AllLoanedBooksListView(PermissionRequiredMixin,generic.ListView):
     permission_required = 'catalog.can_mark_returned'
 
     def get_queryset(self):
-        return BookInstance.objects.filter(status__exact='a').order_by('due_back')
+        return BookInstance.objects.all()
 
 import datetime
 

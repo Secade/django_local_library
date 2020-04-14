@@ -15,7 +15,7 @@
     align-content: center;
 }
 
-.col-sm-2{
+.col-sm-2 {
     background-color: #C4C4C4;
     height: 100vh;
     width: 5vw;
@@ -23,7 +23,7 @@
     padding-left: 1px;
 }
 
-#title{
+#title {
     text-align: center;
     font-size: 2vw;
     font-weight: bold;
@@ -31,27 +31,43 @@
     margin-bottom: 5vh;
 }
 
-#sideBarMain{
-    height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 18vw; /* Set the width of the sidebar */
-  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-  z-index: 1; /* Stay on top */
-  top: 0; /* Stay at the top */
-  left: 0;
-  background-color: #c4c4c4; /* Black */
-  overflow-y: auto;
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 20px;
+#sideBarMain {
+    height: 100%;
+    /* Full-height: remove this if you want "auto" height */
+    width: 18vw;
+    /* Set the width of the sidebar */
+    position: fixed;
+    /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1;
+    /* Stay on top */
+    top: 0;
+    /* Stay at the top */
+    left: 0;
+    background-color: #c4c4c4;
+    /* Black */
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
+    padding-top: 20px;
 }
 
-#mainStage{
+#mainStage {
     width: 82vw;
     margin-left: 18vw;
     padding-left: 20px;
     padding-right: 20px;
 }
 
-#tabsHome, #tabsBooks, #tabsAcc, #tabsLogin, #tabsBorrowed, #tabsModifyBooks, #tabsModifyBooksIns, #tabsModifyAuthors, #tabsModifyGenres, #tabsModifyLangs{
+#tabsHome,
+#tabsBooks,
+#tabsAcc,
+#tabsLogin,
+#tabsBorrowed,
+#tabsModifyBooks,
+#tabsModifyBooksIns,
+#tabsModifyAuthors,
+#tabsModifyGenres,
+#tabsModifyLangs {
     padding-left: 20%;
     padding-top: 2%;
     padding-bottom: 2%;
@@ -60,13 +76,22 @@
     border-width: 0px 0px 0px 0px;
 }
 
-#sideBarButtonHome, #sideBarButtonBooks, #sideBarButtonAcc, #sideBarButtonLogin, #sideBarButtonBorrowed, #sideBarButtonModifyBooks, #sideBarButtonModifyBooksIns, #sideBarButtonModifyAuthors, #sideBarButtonModifyGenres, #sideBarButtonModifyLangs{
+#sideBarButtonHome,
+#sideBarButtonBooks,
+#sideBarButtonAcc,
+#sideBarButtonLogin,
+#sideBarButtonBorrowed,
+#sideBarButtonModifyBooks,
+#sideBarButtonModifyBooksIns,
+#sideBarButtonModifyAuthors,
+#sideBarButtonModifyGenres,
+#sideBarButtonModifyLangs {
     color: #363636;
     width: 200px;
     text-decoration: none;
 }
 
-#titleStaff{
+#titleStaff {
     font-weight: bold;
     font-family: "Ubuntu";
     font-size: 24px;
@@ -75,7 +100,7 @@
     padding-bottom: 2%;
 }
 
-#center{
+#center {
     display: block;
     margin: auto;
     text-align: center;
@@ -83,43 +108,55 @@
     max-width: 25vw;
 }
 
-#icon{
+#centerReview {
+    display: block;
+    margin: auto;
+    margin-top: 20vh;
+    max-width: 25vw;
+}
+
+#icon {
     display: block;
     margin: auto;
 }
 
-#welcome{
+#welcome {
     text-align: center;
     margin-top: 5vh;
     margin-bottom: 5vh;
 }
 
-#userTitle{
+#welcomeStaff {
+    text-align: center;
+    margin-top: 40vh;
+}
+
+#userTitle {
     display: inline;
     color: #407EAA;
 }
 
-#row{
+#row {
     height: 23vh;
     width: auto;
     background-color: #407eaa;
     list-style-type: none;
-    margin:  3vh 2vw 0vh 2vw;
+    margin: 3vh 2vw 0vh 2vw;
     display: flex;
 }
 
-#cont{
+#cont {
     padding-left: 0px;
 }
 
-#rowHeader{
+#rowHeader {
     width: 10%;
     padding-top: 4%;
     background-color: #c4c4c4;
     height: 100%;
 }
 
-#rowTitle{
+#rowTitle {
     text-align: center;
     font-size: 24px;
     font-weight: bold;
@@ -127,7 +164,7 @@
     color: #363636;
 }
 
-#desc{
+#desc {
     padding: 15px 15px 15px 15px;
     color: whitesmoke;
     font-size: 20px;
@@ -137,7 +174,7 @@
     padding-top: 4%;
 }
 
-#stats{
+#stats {
     padding: 15px 15px 15px 15px;
     color: whitesmoke;
     -webkit-column-count: 4;
@@ -152,12 +189,12 @@
     font-size: 24px;
 }
 
-#numbers{
+#numbers {
     font-size: 36px;
-    
+
 }
 
-#bookButtonsUser{
+#bookButtonsUser {
     padding: 15px 15px 15px 15px;
     color: whitesmoke;
     -webkit-column-count: 2;
@@ -172,7 +209,7 @@
     font-size: 24px;
 }
 
-#bookButtonsGuest{
+#bookButtonsGuest {
     padding: 15px 15px 15px 15px;
     color: whitesmoke;
     -webkit-column-count: 1;
@@ -187,34 +224,58 @@
     font-size: 24px;
 }
 
-#booksRE{
+#booksRE {
     text-decoration: none;
     color: whitesmoke;
 }
 
-#iconB{
+#iconB {
     padding-bottom: 1vh;
     display: block;
     margin: auto;
 }
 
-#loginTitle{
+#loginTitle {
     font-size: 40px;
     font-weight: bold;
     font-family: "Ubuntu";
     color: #407EAA;
 }
 
-#loginDesc{
+#loginDesc {
     font-size: 18px;
     font-weight: normal;
 
 }
 
-#id_username, #id_password, #id_password1, #id_password2, #id_new_password1, #id_new_password2, #id_email, #id_idno, #id_first_name, 
-#id_last_name, #id_question, #id_answer, #id_given_name, #id_date_of_birth, #id_date_of_death, #id_title, #id_author, #id_genre, 
-#id_summary, #id_language, #id_publisher, #id_isbn, #id_date_added_to_library, #id_book, #id_borrower, #id_due_back, #id_date_added,
-#id_name{
+#id_username,
+#id_password,
+#id_password1,
+#id_password2,
+#id_new_password1,
+#id_new_password2,
+#id_email,
+#id_idno,
+#id_first_name,
+#id_last_name,
+#id_question,
+#id_answer,
+#id_given_name,
+#id_date_of_birth,
+#id_date_of_death,
+#id_title,
+#id_author,
+#id_genre,
+#id_summary,
+#id_language,
+#id_publisher,
+#id_isbn,
+#id_date_added_to_library,
+#id_book,
+#id_borrower,
+#id_due_back,
+#id_date_added,
+#id_name {
     width: 15vw;
     margin-bottom: 2vh;
     height: 35px;
@@ -224,22 +285,22 @@
     border-color: #C4C4C4;
 }
 
-#id_genre{
+#id_genre {
     height: 100px;
 }
 
-#id_summary{
+#id_summary {
     height: 200px;
 }
 
-#labels{
+#labels {
     text-align: left;
     padding-left: 5.5vw;
     padding-bottom: 0.5vh;
     font-size: 18px;
 }
 
-#loginSubmit{
+#loginSubmit {
     margin-top: 2vh;
     width: 8vw;
     height: 40px;
@@ -251,19 +312,19 @@
     cursor: pointer;
 }
 
-#profileTitle{
+#profileTitle {
     font-weight: bold;
     font-family: "Ubuntu-N";
     margin-top: 2vh;
     margin-left: 1vw;
 }
 
-#profileTitleName{
+#profileTitleName {
     color: #407EAA;
     display: inline;
 }
 
-#profileInfoList{
+#profileInfoList {
     list-style-type: none;
     padding: 15px 15px 15px 15px;
     -webkit-column-count: 4;
@@ -274,7 +335,9 @@
     height: fit-content;
 }
 
-#profileButtonsPass, #profileButtonsLogout, #modifyAddButton{
+#profileButtonsPass,
+#profileButtonsLogout,
+#modifyAddButton {
     background-color: #407EAA;
     padding: 15px 15px 15px 15px;
     height: 40px;
@@ -286,7 +349,7 @@
     border-radius: 5px;
 }
 
-#profileBooksList{
+#profileBooksList {
     list-style-type: none;
     padding: 15px 15px 15px 15px;
     -webkit-column-count: 2;
@@ -297,7 +360,7 @@
     height: fit-content;
 }
 
-#profileReviews{
+#profileReviews {
     padding: 15px 15px 15px 15px;
     text-align: left;
     width: 90%;
@@ -306,12 +369,14 @@
 
 }
 
-#profileBorrowed, #profileReturned, #profileScroll{
+#profileBorrowed,
+#profileReturned,
+#profileScroll {
     overflow: auto;
     height: 25vh;
 }
 
-#centerSignUp{
+#centerSignUp {
     display: block;
     margin: auto;
     text-align: left;
@@ -319,21 +384,21 @@
     margin-top: 10vh;
 }
 
-.errorlist{
+.errorlist {
     color: red;
 }
 
-#signUpTitle{
+#signUpTitle {
     color: #407EAA;
     font-family: "Ubuntu";
     font-size: 40px;
 }
 
-#signUpLabels{
+#signUpLabels {
     font-size: 18px;
 }
 
-#signUpBack{
+#signUpBack {
     background-color: #407EAA;
     padding: 11px 20px 11px 20px;
     height: 40px;
@@ -346,7 +411,7 @@
 
 }
 
-#centerReset{
+#centerReset {
     display: block;
     margin: auto;
     text-align: left;
@@ -354,7 +419,7 @@
     margin-top: 30vh;
 }
 
-#resetSubmit{
+#resetSubmit {
     width: 6vw;
     height: 40px;
     background-color: #407EAA;
@@ -364,29 +429,31 @@
     border-radius: 5px;
 }
 
-#modifyAddButton{
-margin: 20px 20px 20px 20px;
+#modifyAddButton {
+    margin: 20px 20px 20px 20px;
 }
 
-#modifyTable{
+#modifyTable {
     margin-top: 30px;
     font-family: "Ubuntu-N";
     font-size: 18px;
 }
 
-#modifyTitle{
+#modifyTitle {
     margin-top: 20px;
     margin-bottom: 30px;
     font-family: "Ubuntu";
 }
 
-#modifyCol1, #modifyCol2{
+#modifyCol1,
+#modifyCol2 {
     padding-right: 80px;
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
-#modifyUpdate, #modifyDelete{
+#modifyUpdate,
+#modifyDelete {
     background-color: #407EAA;
     padding: 10px 10px 10px 10px;
     height: 40px;
@@ -399,16 +466,16 @@ margin: 20px 20px 20px 20px;
     border-radius: 5px;
 }
 
-#detailCopies{
+#detailCopies {
     margin-left: 20px;
     margin-top: 20px;
 }
 
-#detailSummary{
+#detailSummary {
     margin-left: 15px;
 }
 
-#detailBorrow{
+#detailBorrow {
     width: 8vw;
     height: 40px;
     background-color: #407EAA;
@@ -417,4 +484,9 @@ margin: 20px 20px 20px 20px;
     color: whitesmoke;
     border-radius: 5px;
     cursor: pointer;
+}
+
+#staffLogout {
+    text-align: center;
+    margin-top: 50px;
 }

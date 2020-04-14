@@ -83,7 +83,6 @@ class borrowForm (forms.Form):
     comm_borrow = forms.CharField()
 
 class commentForm (forms.ModelForm):
-
     class Meta():
         model = Review
         fields = ('rating', 'review')

@@ -1,8 +1,8 @@
-#errorBody{
+#errorBody {
     background-color: #c4c4c4;
 }
 
-#error{
+#error {
     text-align: center;
     font-weight: bold;
     font-family: 'Ubuntu';
@@ -11,7 +11,7 @@
     font-size: 36px;
 }
 
-#errorLower{
+#errorLower {
     text-align: center;
     font-weight: normal;
     font-family: 'Ubuntu';
@@ -19,7 +19,7 @@
     font-size: 20px;
 }
 
-#errorBack{
+#errorBack {
     text-align: center;
     display: block;
     justify-content: center;

@@ -101,9 +101,9 @@ class Language(models.Model):
 class Review(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
     book =  models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
-    user =  models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    review =  models.TextField()
-    rating =  models.IntegerField(validators=[MaxValueValidator(100), MinValueValidator(1)])
+    user =  models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    review =  models.TextField(max_length=1000, help_text='Enter a brief review of the book')
+    rating =  models.IntegerField(validators=[MaxValueValidator(10), MinValueValidator(1)], help_text='1 - Lowest, 10 - Highest')
 
 
     def __str__(self):
