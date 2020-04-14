@@ -494,10 +494,23 @@ def borrowBook_view(request, pk):
         book_instance.borrower = user
         book_instance.due_back = currDate + datetime.timedelta(weeks=1)
         book_instance.save()
-        return redirect('/catalog/profile/')
+        return redirect('/catalog/onloan/')
     else:
         return redirect('/catalog/')
     return render(request, 'book_detail.html')
 
+def returnBook_view(request, pk):
+    book_instance = get_object_or_404(BookInstance,pk=pk)
+
+    if book_instance.status == 'r':
+
+        book_instance.status = 'a'
+        book_instance.borrower = None
+        book_instance.due_back = None
+        book_instance.save()
+        return redirect('/catalog/onloan/')
+    else:
+        return redirect('/catalog/')
+    return render(request, 'book_detail.html')
 
     

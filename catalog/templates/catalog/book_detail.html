@@ -36,11 +36,27 @@
     </p>
     {% if copy.status != 'a' %}
     <p><strong>Due to be returned: </strong> {{ copy.due_back }}</p>
+
+    {% for group in request.user.groups.all %}
+    {% if group.name == 'Book Manager' %}
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" formaction="{% url 'returnBook' copy.pk %}" id="loginSubmit">Return Book</button>
+        </form>
+    {% endif %}
+    {% endfor %}
+    
     {% elif copy.status == 'a' %}
+    {% for group in request.user.groups.all %}
+    {% if group.name == 'Student/Teacher' %}
     <form method="post">
         {% csrf_token %}
         <button type="submit" formaction="{% url 'borrowBook' copy.pk %}" id="loginSubmit">Borrow Book</button>
     </form>
+    {% endif %}
+    {% endfor %}
+
+    
     <br>
     {% endif %}
     
