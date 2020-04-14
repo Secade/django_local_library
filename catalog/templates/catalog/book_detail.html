@@ -69,19 +69,9 @@
     <h3>Reviews</h3>
     <form method = "post">
         {% csrf_token %}
-        <div>
-            <div id="signUpLabels">{{ form.rating.label_tag }}</div>
-            {{ form.rating }}
-            {{ form.rating.errors }}
-        </div>
-        <div>
-            <div id="signUpLabels">{{ form.review.label_tag }}</div>
-            {{ form.review }}
-            {{ form.review.errors }}
-        </div>
+        <a class="btn btn-primary" href="{% url 'review_create' book.pk %}">Give Comment</a>
 
     </form>
-    <a class="btn btn-primary" href="{% url 'write_review' book.pk %}">Comment Temp Test</a>
 
     {% for review_set in book.review_set.all %}
     <hr>

@@ -11,12 +11,13 @@ urlpatterns = [
 
 urlpatterns += [
     path('onloan/', views.AllLoanedBooksListView.as_view(), name="all-borrowed"),
+    path('mybooks/', views.LoanedBooksByUserListView.as_view(), name="my-borrowed"),
 ]
 
 urlpatterns += [
     path( 'borrowed/<uuid:pk>/', views.borrowBook_view, name='borrowBook'),
     path('returned/<uuid:pk>/', views.returnBook_view, name='returnBook'),
-    path( 'comment/<int:pk>/', views.addCommentTemp, name='write_review'),
+   # path( 'comment/<int:pk>/', views.addCommentTemp, name='write_review'),
     path ('review/<int:pk>/', views.ReviewCreate_view, name='review_create')
 ]
 

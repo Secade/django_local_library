@@ -103,7 +103,7 @@ class Review(models.Model):
     book =  models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     user =  models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     review =  models.TextField(max_length=1000, help_text='Enter a brief review of the book')
-    rating =  models.IntegerField(validators=[MaxValueValidator(10), MinValueValidator(1)], help_text='1 - Lowest, 10 - Highest')
+    rating =  models.IntegerField(validators=[MaxValueValidator(100), MinValueValidator(1)], help_text='1 - Lowest, 10 - Highest')
 
 
     def __str__(self):

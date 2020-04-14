@@ -51,11 +51,6 @@ class BookDetailView(generic.DetailView):
     model = Book
     print("BOOK DETAIL VIEW class")
 
-    def addCommentTemp (self,request,pk):
-        print("Add Comment Temp")
-        book = get_object_or_404(Book, pk=pk)
-        print("PK "+pk)
-        return HttpResponseRedirect('catalog/review_form.html',{'book': book, 'pk': pk})
 
     def borrowBook (self,request, pk):
         book_instance = get_object_or_404(BookInstance, pk=pk)
@@ -101,11 +96,11 @@ class AuthorDetailView(generic.DetailView):
 
 from django.shortcuts import get_object_or_404
 
-def addCommentTemp (request,pk):
+"""def addCommentTemp (request,pk):
         form = commentForm(request.POST)
         print("Add Comment Temp")
         book = get_object_or_404(Book, pk=pk)
-        return render(request,'catalog/review_form.html', context={'book': book, 'form':form})
+        return render(request,'catalog/review_form.html', context={'book': book, 'form':form})"""
 
 def book_detail_view(request, primary_key):
     print("BOOK DETAIL VIEW")
@@ -349,20 +344,27 @@ class LanguageModify(PermissionRequiredMixin,generic.ListView):
 from django.shortcuts import render
 
 def ReviewCreate_view (request, pk):
-        book = get_object_or_404(Book, pk=pk)
-        form = commentForm(request.POST)
-        if request.method=='POST':
-            if form.is_valid():
-                review = form.save(commit=False)
-                review.user = request.user
-                review.book = book
-                review.review = form.cleaned_data.get('review')
-                review.rating = form.cleaned_data.get('rating')
-                review.save()
-                return redirect ('/catalog/book/'+str(pk))
-            else:
-                form = commentForm()
-        return render(request, 'catalog/book_detail.html', {'form': form})
+
+    print('REVIEW CREATE VIEW')
+    book = get_object_or_404(Book, pk=pk)
+    form = commentForm(request.POST)
+    if request.method=='POST':
+        print('POST SUCCESS')
+        print (form.errors)
+        if form.is_valid():
+            print('FORM SUCCESS')
+            review = form.save(commit=False)
+            review.user = request.user
+            review.book = book
+            review.review = form.cleaned_data.get('review')
+            review.rating = form.cleaned_data.get('rating')
+            review.save()
+               # return redirect ('/catalog/book/'+str(pk))
+        else:
+            print('ELSE')
+            form = commentForm()
+        #return render(request, 'catalog/book_detail.html', {'form': form})
+    return  render(request,'catalog/review_form.html', context={'book': book, 'form':form})
 
 def error_404(request, exception):
         data = {}
@@ -379,6 +381,7 @@ from django.contrib.auth.forms import UserCreationForm
 from axes.decorators import axes_dispatch
 from .forms import SignUpForm
 from django.contrib import messages
+from django.contrib.auth.models import Group
 
 @axes_dispatch
 def signup_view(request):
@@ -401,6 +404,8 @@ def signup_view(request):
             user = authenticate(username=username, password=password, request=request)
             login(request, user)
             messages.success(request, f'Account created for {username}!')
+            my_group = Group.objects.get(name='Teacher/Student') 
+            my_group.user_set.add(user)
             return redirect('/catalog/')
         else:
             print (form.errors)
