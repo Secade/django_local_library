@@ -4,15 +4,17 @@
 <h1 id="modifyTitle">Library Books</h1>
 <ul id="profileBooksList">
   <li>
-      <h1>Borrowed Books</h1>
+      <h1>Borrowed Book Copies</h1>
       <div id="profileBorrowed">
           
           {% if bookinstance_list %}
           <ul>
               {% for bookinst in bookinstance_list %}
+                {% if not bookinst.is_available %}
                   <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
-                      <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
+                      <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> (Due: {{ bookinst.due_back }})
                   </li>
+                  {% endif %}
               {% endfor %}
           </ul>
       
@@ -23,17 +25,19 @@
       
   </li>
   <li>
-      <h1>Returned Books</h1>
+      <h1>Available Book Copies</h1>
       <div id="profileReturned">
           
 
           {% if bookinstance_list %}
           <ul>
-              {% for bookinst in bookinstance_list %}
-              <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
-                  <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
+            {% for bookinst in bookinstance_list %}
+            {% if bookinst.is_available %}
+              <li>
+                  <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a>
               </li>
-              {% endfor %}
+              {% endif %}
+          {% endfor %}
           </ul>
       
           {% else %}

@@ -31,7 +31,7 @@
                     {% for bookinst in bookinstance_list %}
                         {% if user.get_username == bookinst.borrower.username %}
                         <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
-                            <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
+                            <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> (Due: {{ bookinst.due_back }})
                         </li>
                         {% endif %}
                     {% endfor %}
@@ -41,29 +41,24 @@
                     <p>You haven't borrowed any books.</p>
                 {% endif %}
             </div>
-            
         </li>
         <li>
             <h1>Returned Books</h1>
             <div id="profileReturned">
-                
-
-                {% if bookinstance_list %}
+                {% if returnedBooks_list %}
                 <ul>
-                    {% for bookinst in bookinstance_list %}
-                    {% if user.get_username == bookinst.borrower.username %}
+                    {% for returnedBooks in returnedBooks_list %}
+                    {% if user.get_username == returnedBooks.user.username %}
                         <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
-                            <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
+                            <a href="{% url 'book-detail' returnedBooks.book.pk %}">{{ returnedBooks.book.title }}</a> (Date Returned: {{ returnedBooks.return_date }})
                         </li>
                         {% endif %}
                     {% endfor %}
                 </ul>
-            
                 {% else %}
                     <p>You haven't returned any books.</p>
                 {% endif %}
             </div>
-            
         </li>
     </ul>
     
@@ -91,9 +86,7 @@
         
     </div>
     
-
     <a onmouseover="changeProfilePassButton()" onmouseout="resetProfilePassButton()" href="{% url 'change-password' %}" id="profileButtonsPass">Change Password</a>
-
     <a onmouseover="changeProfileLogoutButton()" onmouseout="resetProfileLogoutButton()" href="{% url 'logout' %}" id="profileButtonsLogout">Logout</a>
 
     {% else %}

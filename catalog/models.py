@@ -2,11 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
 import datetime
-from django.urls import reverse # Used to generate URLs be reversing the URL patterns
-import uuid # Required for unique book instances
+from django.urls import reverse
+import uuid
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-# Create your models here.
 class Genre(models.Model):
     name = models.CharField(max_length=200,help_text='Enter a book genre (e.g. Science Fiction)')
 
@@ -36,6 +35,7 @@ class Book(models.Model):
 class BookInstance(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
+    returnedBooks = models.ForeignKey('ReturnedBooks', on_delete=models.SET_NULL, null=True)
     due_back = models.DateField(null=True, blank=True)
     borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     date_added = models.DateField(null=True, blank=True)
@@ -71,6 +71,12 @@ class BookInstance(models.Model):
             return True
         return False
 
+    @property
+    def is_available(self):
+        if self.due_back == None:
+            return True
+        return False
+
 class Author(models.Model):
     """Model representing an author."""
     given_name = models.CharField(max_length=100)
@@ -96,15 +102,12 @@ class Language(models.Model):
         """String for representing the Model object."""
         return self.language
 
-
-
 class Review(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
     book =  models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     user =  models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     review =  models.TextField(max_length=1000, help_text='Enter a brief review of the book')
     rating =  models.IntegerField(validators=[MaxValueValidator(10), MinValueValidator(1)], help_text='1 - Lowest, 10 - Highest')
-
 
     def __str__(self):
         """String for representing the Model object."""
@@ -113,9 +116,6 @@ class Review(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
         return reverse('review-details', args=[str(self.id)])  
-    
-
-# User Stuff (7/4/20)
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -149,6 +149,14 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
     
+class ReturnedBooks(models.Model):
+    user =  models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    return_date = models.DateField(null=True, blank=True)
+    book =  models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.user.username
     
 
 @receiver(post_save, sender=User)

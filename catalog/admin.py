@@ -1,8 +1,6 @@
 from django.contrib import admin
 from .models import Profile
-
-# Register your models here.
-from .models import Author, Genre, Book, BookInstance, Language, Review
+from .models import Author, Genre, Book, BookInstance, Language, Review, ReturnedBooks
 
 """
 class UserAdmin (admin.ModelAdmin):
@@ -13,7 +11,6 @@ class BookInline(admin.TabularInline):
     fields = [('title','summary'),'language','isbn','genre','publisher','date_added_to_library']
     model = Book
 
-# Define the admin class
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ('last_name', 'given_name', 'date_of_birth', 'date_of_death')
     fields = ['given_name', 'last_name', ('date_of_birth', 'date_of_death')]
@@ -26,7 +23,6 @@ class AuthorAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None):
         return False
 
-#Register the admin class with the associated model
 admin.site.register(Author, AuthorAdmin)
 
 class BookInstanceInline(admin.TabularInline):
@@ -36,7 +32,6 @@ class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author')
     inlines = [BookInstanceInline]
 
-    # removes the add, change, delete button (11/04/2020)
     def has_add_permission(self, request):
         return False
     def has_delete_permission(self, request, obj=None):
@@ -57,21 +52,19 @@ class BookInstanceAdmin(admin.ModelAdmin):
         })
     )
 
-    # removes the add, change, delete button (11/04/2020)
     def has_add_permission(self, request):
         return False
     def has_delete_permission(self, request, obj=None):
-        return True
+        return False
     def has_change_permission(self, request, obj=None):
-        return True
+        return False
 
 admin.site.register(Book, BookAdmin)
 admin.site.register(BookInstance, BookInstanceAdmin)
 
 class GenreAdmin(admin.ModelAdmin):
-    # removes the add, change, delete button (11/04/2020)
     def has_add_permission(self, request):
-        return True
+        return False
     def has_delete_permission(self, request, obj=None):
         return False
     def has_change_permission(self, request, obj=None):
@@ -81,9 +74,8 @@ admin.site.register(Genre, GenreAdmin)
 
 
 class LanguageAdmin(admin.ModelAdmin):
-    # removes the add, change, delete button (11/04/2020)
     def has_add_permission(self, request):
-        return True
+        return False
     def has_delete_permission(self, request, obj=None):
         return False
     def has_change_permission(self, request, obj=None):
@@ -92,15 +84,24 @@ class LanguageAdmin(admin.ModelAdmin):
 admin.site.register(Language, LanguageAdmin)
 
 class ProfileAdmin(admin.ModelAdmin):
-    # removes the add, change, delete button (11/04/2020)
     def has_add_permission(self, request):
         return False
     def has_delete_permission(self, request, obj=None):
         return False
     def has_change_permission(self, request, obj=None):
-        return True
+        return False
 
 admin.site.register(Profile, ProfileAdmin)
+
+class ReturnedBooksAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
+    def has_delete_permission(self, request, obj=None):
+        return False
+    def has_change_permission(self, request, obj=None):
+        return False
+
+admin.site.register(ReturnedBooks, ReturnedBooksAdmin)
 
 class ReviewInLine(admin.TabularInline):
     model = Review

@@ -16,11 +16,7 @@ urlpatterns += [
 urlpatterns += [
     path('borrowed/<uuid:pk>/', views.borrowBook_view, name='borrowBook'),
     path('review/<int:pk>', views.reviewCreate_view, name='commentReview'),
-]
-
-urlpatterns += [
-    path('book/<uuid:pk>/renew/', views.renew_book_librarian, name='renew-book-librarian'),
-
+    path('returned/<uuid:pk>/', views.returnBook_view, name='returnBook'),
 ]
 
 urlpatterns += [
