@@ -38,7 +38,6 @@ from django.conf.urls.static import static
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-#Add Django site authentication urls (for login, logout, password management)
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
 ]
@@ -50,7 +49,6 @@ urlpatterns += [
     path('session_security/', include('session_security.urls')),
 ]
 
-# Registration (7/4/20)
 from catalog.views import signup_view, lockout_view
 from catalog.views import passwordReset_view
 from catalog.views import emailRequest_view

@@ -240,6 +240,38 @@ function resetModifyAddButton() {
     $("#modifyAddButton").css("color", "#f5f5f5")
 }
 
+function changeColorsStaffAdd() {
+    $("#tabsStaffAdd").css("border-color", "#407EAA")
+    $("#tabsStaffAdd").css("border-width", "0px 10px 0px 0px")
+    $("#tabsStaffAdd").css("padding-right", "10px")
+
+    $("#sideBarButtonStaffAdd").css("color", "#407EAA")
+    $("#sideBarButtonStaffAdd").css("font-weight", "bold")
+}
+
+function resetColorsStaffAdd() {
+    $("#tabsStaffAdd").css("border-width", "0px 0px 0px 0px")
+
+    $("#sideBarButtonStaffAdd").css("color", "#363636")
+    $("#sideBarButtonStaffAdd").css("font-weight", "normal")
+}
+
+function changeColorsSystemLogs() {
+    $("#tabsSystemLogs").css("border-color", "#407EAA")
+    $("#tabsSystemLogs").css("border-width", "0px 10px 0px 0px")
+    $("#tabsSystemLogs").css("padding-right", "10px")
+
+    $("#sideBarButtonSystemLogs").css("color", "#407EAA")
+    $("#sideBarButtonSystemLogs").css("font-weight", "bold")
+}
+
+function resetColorsSystemLogs() {
+    $("#tabsSystemLogs").css("border-width", "0px 0px 0px 0px")
+
+    $("#sideBarButtonSystemLogs").css("color", "#363636")
+    $("#sideBarButtonSystemLogs").css("font-weight", "normal")
+}
+
 function changeStaffLogout() {
     $("#profileButtonsLogout").css("background-color", "#363636")
     $("#profileButtonsLogout").css("color", "#c4c4c4")

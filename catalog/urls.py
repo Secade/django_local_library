@@ -1,3 +1,4 @@
+
 from django.urls import path
 from . import views
 
@@ -5,25 +6,22 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('books/', views.BookListView.as_view(), name='books'),
     path('book/<int:pk>', views.BookDetailView.as_view(), name='book-detail'),
-    path('authors/', views.AuthorListView.as_view(), name='authors'),
-    path('author/<int:pk>/', views.AuthorDetailView.as_view(), name='author-detail'),
+    path('author/<int:pk>', views.AuthorDetailView.as_view(), name='author-detail'),
 ]
 
 urlpatterns += [
     path('onloan/', views.AllLoanedBooksListView.as_view(), name="all-borrowed"),
-    path('mybooks/', views.LoanedBooksByUserListView.as_view(), name="my-borrowed"),
 ]
 
 urlpatterns += [
-    path( 'borrowed/<uuid:pk>/', views.borrowBook_view, name='borrowBook'),
+    path('addstaff/', views.staff_add_view, name="addStaff"),
+    path('logs/', views.SystemLogs.as_view(), name="systemLogs"),
+]
+
+urlpatterns += [
+    path('borrowed/<uuid:pk>/', views.borrowBook_view, name='borrowBook'),
+    path('review/<int:pk>', views.reviewCreate_view, name='commentReview'),
     path('returned/<uuid:pk>/', views.returnBook_view, name='returnBook'),
-   # path( 'comment/<int:pk>/', views.addCommentTemp, name='write_review'),
-    path ('review/<int:pk>/', views.ReviewCreate_view, name='review_create')
-]
-
-urlpatterns += [
-    path('book/<uuid:pk>/renew/', views.renew_book_librarian, name='renew-book-librarian'),
-
 ]
 
 urlpatterns += [
@@ -56,18 +54,6 @@ urlpatterns+=[
 
 urlpatterns+=[
     path('genre/modifybooks/', views.GenreModify.as_view(), name='genre_modify'), 
-    path('genre/create/', views.GenreCreate.as_view(), name ='genre_create'),
-    path('genre/<int:pk>/update/', views.GenreUpdate.as_view(), name ='genre_update'),
-    path('genre/<int:pk>/delete/', views.GenreDelete.as_view(), name ='genre_delete'),
-]
-
-urlpatterns+=[
-    path('language/create/', views.LanguageCreate.as_view(), name ='language_create'),
-    path('language/<int:pk>/update/', views.LanguageUpdate.as_view(), name ='language_update'),
-    path('language/<int:pk>/delete/', views.LanguageDelete.as_view(), name ='language_delete'),
-]
-
-urlpatterns+=[
     path('genre/create/', views.GenreCreate.as_view(), name ='genre_create'),
     path('genre/<int:pk>/update/', views.GenreUpdate.as_view(), name ='genre_update'),
     path('genre/<int:pk>/delete/', views.GenreDelete.as_view(), name ='genre_delete'),

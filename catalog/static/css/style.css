@@ -67,6 +67,8 @@
 #tabsModifyBooksIns,
 #tabsModifyAuthors,
 #tabsModifyGenres,
+#tabsStaffAdd,
+#tabsSystemLogs,
 #tabsModifyLangs {
     padding-left: 20%;
     padding-top: 2%;
@@ -85,6 +87,8 @@
 #sideBarButtonModifyBooksIns,
 #sideBarButtonModifyAuthors,
 #sideBarButtonModifyGenres,
+#sideBarButtonStaffAdd,
+#sideBarButtonSystemLogs,
 #sideBarButtonModifyLangs {
     color: #363636;
     width: 200px;

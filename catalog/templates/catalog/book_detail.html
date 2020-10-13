@@ -26,6 +26,22 @@
 
 <div id="detailCopies">
     <hr>
+    <h3>Reviews</h3>
+    {% if user.is_authenticated and not perms.catalog.can_mark_returned%}
+    <form method = "post">
+        {% csrf_token %}
+        <button onmouseover="changeLoginButton()" onmouseout="resetLoginButton()" type="submit" formaction="{% url 'commentReview' book.pk %}" id="loginSubmit">Add Comment</button>
+
+    </form>
+    {% endif %}
+
+    {% for review_set in book.review_set.all %}
+    <hr>
+    <p><strong>User: </strong>{{review_set.user}}</p>
+    <p><strong>Rating: </strong>{{review_set.rating}}</p>
+    <p><strong>Review: </strong>{{review_set.review}}</p>
+    {% endfor %}
+    <hr>
     {% if user.is_authenticated %}
     <h3>Copies</h3>
     <br>
@@ -36,50 +52,33 @@
     </p>
     {% if copy.status != 'a' %}
     <p><strong>Due to be returned: </strong> {{ copy.due_back }}</p>
-
-    {% for group in request.user.groups.all %}
-    {% if group.name == 'Book Manager' %}
+    {% if perms.catalog.can_mark_returned %}
+    <p><strong>Borrower: </strong> {{ copy.borrower.username }}</p>
         <form method="post">
             {% csrf_token %}
             <button type="submit" formaction="{% url 'returnBook' copy.pk %}" id="loginSubmit">Return Book</button>
         </form>
+        <br>
     {% endif %}
-    {% endfor %}
-    
-    {% elif copy.status == 'a' %}
-    {% for group in request.user.groups.all %}
-    {% if group.name == 'Student/Teacher' %}
+    {% elif copy.status == 'a' and not perms.catalog.can_mark_returned %}
     <form method="post">
         {% csrf_token %}
         <button type="submit" formaction="{% url 'borrowBook' copy.pk %}" id="loginSubmit">Borrow Book</button>
     </form>
-    {% endif %}
-    {% endfor %}
-
-    
     <br>
     {% endif %}
     
+
     <p><strong>Imprint: </strong>{{ copy.book.publisher }}</p>
     <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
     <hr>
     {% endfor %}
     {% endif %}
-    <hr>
-    <h3>Reviews</h3>
-    <form method = "post">
-        {% csrf_token %}
-        <a class="btn btn-primary" href="{% url 'review_create' book.pk %}">Give Comment</a>
-
-    </form>
-
-    {% for review_set in book.review_set.all %}
-    <hr>
-    <p><strong>User: </strong>{{review_set.user}}</p>
-    <p><strong>Rating: </strong>{{review_set.rating}}</p>
-    <p><strong>Review: </strong>{{review_set.review}}</p>
-    {% endfor %}
-
+    <br>
+    <a onmouseover="changeSignUpBackButton()" onmouseout="resetSignUpBackButton()" href="{% url 'books' %}" id="signUpBack">Back</a>
+    <br>
+    <br>
+    <br>
 </div>
 {% endblock %}
 

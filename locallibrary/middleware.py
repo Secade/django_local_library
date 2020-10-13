@@ -6,7 +6,6 @@ from django.contrib import auth
 class AutoLogout:
   def process_request(self, request):
     if not request.user.is_authenticated() :
-      #Can't log out if not logged in
       return
 
     try:

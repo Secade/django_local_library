@@ -1,30 +1,19 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group    
 from .forms import borrowForm,commentForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-# Create your views here.
-from catalog.models import Book, Author, BookInstance, Genre, Language, Profile, Review
+from catalog.models import Book, Author, BookInstance, Genre, Language, Profile, Review, ReturnedBooks
 
 def index(request):
     """View function for home page of site"""
 
-    # Generate counts of some of the main objects
     num_books = Book.objects.all().count()
     num_instances = BookInstance.objects.all().count()
-
-    # Available books (status = 'a')
     num_instances_available = BookInstance.objects.filter(status__exact='a').count()
-
-    # The 'all()' is implied by default
     num_authors = Author.objects.count()
-
     num_genres = Genre.objects.all().count()
-
     num_books_specific = Book.objects.filter(title__contains='of').count()
-
-    # Number of visits to this view, as counted in the session variable.
     num_visits = request.session.get('num_visits',0)
     request.session['num_visits'] = num_visits+1
 
@@ -38,7 +27,6 @@ def index(request):
         'num_visits': num_visits
     }
 
-    # Render the HTML tempate index.html with the data in the context variable
     return render(request, 'index.html',context=context)
 
 from django.views import generic
@@ -49,46 +37,6 @@ class BookListView(generic.ListView):
 
 class BookDetailView(generic.DetailView):
     model = Book
-    print("BOOK DETAIL VIEW class")
-
-
-    def borrowBook (self,request, pk):
-        book_instance = get_object_or_404(BookInstance, pk=pk)
-        if request.method=='POST':
-            form = borrowForm(request.POST)
-            if form.is_valid():
-                book_instance.status = 'r'
-                book_instance.save()
-                return HttpResponseRedirect(reverse('"my-borrowed') )
-            else:
-                form = borrowForm()
-        context = {
-            'form': form,
-            'book_instance': book_instance,
-        }
-        return render(request, 'catalog/book_detail.html', context)
-        
-
-    #     def passwordReset_view(request):
-    # form = QuestionForm(request.POST)
-    # uEmail = request.session['user_email']
-    # request.user = uEmail
-    # user = request.user
-    # print(user)
-    # if form.is_valid():
-    #     answer = form.cleaned_data['answer']
-    #     print(user.profile.answer)
-    #     if answer == user.profile.answer:
-    #         return redirect('/passwordchange/')
-    #     else:   
-    #         print(form.errors)
-    # else:
-    #     form = QuestionForm()
-    # return render(request, 'password_question.html', {'form':form})
-
-class AuthorListView(generic.ListView):
-    model = Author
-    paginate_by = 10
 
 class AuthorDetailView(generic.DetailView):
     model = Author
@@ -96,29 +44,11 @@ class AuthorDetailView(generic.DetailView):
 
 from django.shortcuts import get_object_or_404
 
-"""def addCommentTemp (request,pk):
-        form = commentForm(request.POST)
-        print("Add Comment Temp")
-        book = get_object_or_404(Book, pk=pk)
-        return render(request,'catalog/review_form.html', context={'book': book, 'form':form})"""
-
 def book_detail_view(request, primary_key):
-    print("BOOK DETAIL VIEW")
     book = get_object_or_404(Book, pk=primary_key)
-    request.session['book_selected'] = book.pk
     return render(request, 'catalog/book_detail.html', context={'book': book})
 
-
-
-class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
-    """Generic class-based view listing books on loan to current user."""
-    model=BookInstance
-    template_name='catalog/bookinstance_list_borrowed_user.html'
-    paginate_by=10
-
-    def get_queryset(self):
-        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='a').order_by('due_back')
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
 class AllLoanedBooksListView(PermissionRequiredMixin,generic.ListView):
@@ -137,41 +67,6 @@ from django.contrib.auth.decorators import permission_required
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
-from catalog.forms import RenewBookForm
-
-@permission_required('catalog.can_mark_returned')
-def renew_book_librarian(request,pk):
-    """View function for renewing a specific BookInstance by librarian."""
-    book_instance = get_object_or_404(BookInstance,pk=pk)
-
-    #If this is a POST request then process the Form data
-    if request.method == 'POST':
-
-        # Create a form instance and populate it with data from the request(binding):
-        form = RenewBookForm(request.POST)
-
-        # Check if the form is valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
-            book_instance.due_back = form.cleaned_data['renewal_date']
-            book_instance.save()
-
-            # redirect to a new URL:
-            return HttpResponseRedirect(reverse('all-borrowed'))
-
-        # If this is a GET (or any other method) create the default form.
-    else:
-        proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
-        form = RenewBookForm(initial={'renewal_date': proposed_renewal_date})
-
-        context = {
-            'form': form,
-            'book_instance': book_instance,
-        }
-
-        return render(request, 'catalog/book_renew_librarian.html', context)
-
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.urls import reverse
@@ -203,7 +98,6 @@ class BookCreate(PermissionRequiredMixin,CreateView):
     fields = [ 'title', 
     'author',
     'language',
-    'year',
     'summary',
     'isbn',
     'genre',
@@ -217,7 +111,6 @@ class BookUpdate(PermissionRequiredMixin,UpdateView):
     fields = [ 'title', 
     'author',
     'language',
-    'year',
     'summary',
     'isbn',
     'genre',
@@ -282,34 +175,6 @@ class GenreDelete(PermissionRequiredMixin,DeleteView):
     success_url = reverse_lazy('genre_modify')
     permission_required = 'catalog.can_mark_returned'
 
-class LanguageCreate (CreateView):
-    model = Language
-    fields = '__all__'
-    success_url = reverse_lazy('languages')
-
-class LanguageUpdate(UpdateView):
-    model = Language
-    fields = '__all__'
-    success_url = reverse_lazy('languages')
-    
-class LanguageDelete(DeleteView):
-    model = Language
-    success_url = reverse_lazy('languages')
-
-class GenreCreate (CreateView):
-    model = Genre
-    fields = '__all__'
-    success_url = reverse_lazy('genres')
-
-class GenreUpdate(UpdateView):
-    model = Genre
-    fields = '__all__'
-    success_url = reverse_lazy('genres')
-    
-class GenreDelete(DeleteView):
-    model = Genre
-    success_url = reverse_lazy('genres')
-
 class BooksModify(PermissionRequiredMixin,generic.ListView):
     model=Book
     template_name='catalog/book_modify.html'
@@ -340,31 +205,13 @@ class LanguageModify(PermissionRequiredMixin,generic.ListView):
     paginate_by=10
     permission_required = 'catalog.can_mark_returned'
 
+class SystemLogs(PermissionRequiredMixin,generic.ListView):
+    model=Language
+    template_name='catalog/system_logs.html'
+    paginate_by=10
+    permission_required = 'catalog.can_add_staff'
 
 from django.shortcuts import render
-
-def ReviewCreate_view (request, pk):
-
-    print('REVIEW CREATE VIEW')
-    book = get_object_or_404(Book, pk=pk)
-    form = commentForm(request.POST)
-    if request.method=='POST':
-        print('POST SUCCESS')
-        print (form.errors)
-        if form.is_valid():
-            print('FORM SUCCESS')
-            review = form.save(commit=False)
-            review.user = request.user
-            review.book = book
-            review.review = form.cleaned_data.get('review')
-            review.rating = form.cleaned_data.get('rating')
-            review.save()
-               # return redirect ('/catalog/book/'+str(pk))
-        else:
-            print('ELSE')
-            form = commentForm()
-        #return render(request, 'catalog/book_detail.html', {'form': form})
-    return  render(request,'catalog/review_form.html', context={'book': book, 'form':form})
 
 def error_404(request, exception):
         data = {}
@@ -374,14 +221,12 @@ def error_403(request, exception):
         data = {}
         return render(request,'catalog/403.html', data)
 
-#Registration stuff (7/4/20)
 from django.shortcuts import render, redirect 
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from axes.decorators import axes_dispatch
 from .forms import SignUpForm
 from django.contrib import messages
-from django.contrib.auth.models import Group
 
 @axes_dispatch
 def signup_view(request):
@@ -399,13 +244,9 @@ def signup_view(request):
             user.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
-            #group = Group.objects.get(name='Teacher/Student')
-            #user.groups.add(group)
             user = authenticate(username=username, password=password, request=request)
             login(request, user)
             messages.success(request, f'Account created for {username}!')
-            my_group = Group.objects.get(name='Teacher/Student') 
-            my_group.user_set.add(user)
             return redirect('/catalog/')
         else:
             print (form.errors)
@@ -413,6 +254,33 @@ def signup_view(request):
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form':form})    
+
+@axes_dispatch
+def staff_add_view(request):
+    form = SignUpForm(request.POST)
+    if request.method == "POST":
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()
+            user.profile.first_name = form.cleaned_data.get('first_name')
+            user.profile.last_name = form.cleaned_data.get('last_name')
+            user.profile.idno = form.cleaned_data.get('idno')
+            user.profile.email = form.cleaned_data.get('email')
+            user.profile.question = form.cleaned_data.get('question')
+            user.profile.answer = form.cleaned_data.get('answer')
+            user.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password, request=request)
+            login(request, user)
+            messages.success(request, f'Account created for {username}!')
+            return redirect('/catalog/')
+        else:
+            print (form.errors)
+            messages.error(request,"Can't SignUp")
+    else:
+        form = SignUpForm()
+    return render(request, 'staff_form.html', {'form':form})    
 
 class UserProfile(LoginRequiredMixin, generic.ListView):
     template_name='catalog/profile.html'
@@ -423,15 +291,14 @@ class UserProfile(LoginRequiredMixin, generic.ListView):
         context['profile'] = Profile.objects.all()
         context['bookinstance_list'] = BookInstance.objects.all()
         context['reviews_list'] = Review.objects.all()
+        context['returnedBooks_list'] = ReturnedBooks.objects.all()
         return context
 
 def lockout_view(request):
 
     return render(request, 'lockout.html') 
 
-#Password Reset (11/04/2020)
-
-from .forms import QuestionForm, EmailForm,borrowForm
+from .forms import QuestionForm, EmailForm
 from catalog.models import Profile
 from django.contrib.auth.models import User
 
@@ -469,7 +336,6 @@ def emailRequest_view(request):
 
 from .forms import PasswordForm
 
-
 def changePassword_view(request):
     if 'user_email' in request.session:
         uEmail = request.session['user_email']
@@ -499,23 +365,40 @@ def borrowBook_view(request, pk):
         book_instance.borrower = user
         book_instance.due_back = currDate + datetime.timedelta(weeks=1)
         book_instance.save()
-        return redirect('/catalog/onloan/')
+        return redirect('/catalog/profile/')
     else:
         return redirect('/catalog/')
     return render(request, 'book_detail.html')
+
+def reviewCreate_view (request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    form = commentForm(request.POST)
+    if request.method == "POST":
+        if form.is_valid():
+           review = form.save(commit=False)
+           review.user = request.user
+           review.book = book
+           review.rating = form.cleaned_data.get('rating')
+           review.save()
+           return redirect('/catalog/')
+        else:
+            print (form.errors)
+    else:
+        form = commentForm()
+    return render(request, 'catalog/review_form.html', {'form':form})
 
 def returnBook_view(request, pk):
     book_instance = get_object_or_404(BookInstance,pk=pk)
 
     if book_instance.status == 'r':
-
+        book_instance.returnedBooks = ReturnedBooks(user=book_instance.borrower,return_date=datetime.date.today(),book=book_instance.book)
+        book_instance.returnedBooks.save()
         book_instance.status = 'a'
         book_instance.borrower = None
         book_instance.due_back = None
+        
         book_instance.save()
         return redirect('/catalog/onloan/')
     else:
         return redirect('/catalog/')
     return render(request, 'book_detail.html')
-
-    
