@@ -205,6 +205,12 @@ class LanguageModify(PermissionRequiredMixin,generic.ListView):
     paginate_by=10
     permission_required = 'catalog.can_mark_returned'
 
+class SystemLogs(PermissionRequiredMixin,generic.ListView):
+    model=Language
+    template_name='catalog/system_logs.html'
+    paginate_by=10
+    permission_required = 'catalog.can_add_staff'
+
 from django.shortcuts import render
 
 def error_404(request, exception):
@@ -248,6 +254,33 @@ def signup_view(request):
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form':form})    
+
+@axes_dispatch
+def staff_add_view(request):
+    form = SignUpForm(request.POST)
+    if request.method == "POST":
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()
+            user.profile.first_name = form.cleaned_data.get('first_name')
+            user.profile.last_name = form.cleaned_data.get('last_name')
+            user.profile.idno = form.cleaned_data.get('idno')
+            user.profile.email = form.cleaned_data.get('email')
+            user.profile.question = form.cleaned_data.get('question')
+            user.profile.answer = form.cleaned_data.get('answer')
+            user.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password, request=request)
+            login(request, user)
+            messages.success(request, f'Account created for {username}!')
+            return redirect('/catalog/')
+        else:
+            print (form.errors)
+            messages.error(request,"Can't SignUp")
+    else:
+        form = SignUpForm()
+    return render(request, 'staff_form.html', {'form':form})    
 
 class UserProfile(LoginRequiredMixin, generic.ListView):
     template_name='catalog/profile.html'

@@ -1,0 +1,73 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div id="centerSignUp">
+    <h1 id="signUpTitle">Add Staff</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div>
+                        <div id="signUpLabels">{{ form.username.label_tag }}</div>
+                        {{ form.username }}
+                        {{ form.username.errors }}
+                    </div>
+                    <div>
+                        <div id="signUpLabels">{{ form.first_name.label_tag }}</div>
+                        {{ form.first_name }}
+                        {{ form.first_name.errors }}
+                    </div>
+                    <div>
+                        <div id="signUpLabels">{{ form.password1.label_tag }}</div>
+                        <small>{{ form.password1.help_text }}</small>
+                        {{ form.password1 }}
+                        {{ form.password1.errors }}
+                    </div>
+                    <div>
+                        <div id="signUpLabels">{{ form.password2.label_tag }}</div>
+                        <small>{{ form.password2.help_text }}</small>
+                        <br>
+                        {{ form.password2 }}
+                        {{ form.password2.errors }}
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div>
+                        <div id="signUpLabels">{{ form.email.label_tag }}</div>
+                        {{ form.email }}
+                        {{ form.email.errors }}
+                    </div>
+                    <div>
+                        <div id="signUpLabels">{{ form.last_name.label_tag }}</div>
+                        {{ form.last_name }}
+                        {{ form.last_name.errors }}
+                    </div>
+                    <div>
+                        <div id="signUpLabels">{{ form.idno.label_tag }}</div>
+                        {{ form.idno }}
+                        {{ form.idno.errors }}
+                    </div>
+                    <div>
+                        <div id="signUpLabels">{{ form.question.label_tag }}</div>
+                        {{ form.question }}
+                        {{ form.question.errors }}
+                    </div>
+                    <div>
+                        <div id="signUpLabels">{{ form.answer.label_tag }}</div>
+                        {{ form.answer }}
+                        {{ form.answer.errors }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input onmouseover="changeLoginButton()" onmouseout="resetLoginButton()" type="submit" value="Submit" id="loginSubmit">
+        <a onmouseover="changeSignUpBackButton()" onmouseout="resetSignUpBackButton()" href="{% url 'index' %}" id="signUpBack">Cancel</a>
+    </form>
+</div>
+    
+{% endblock %}
+
+{% block title %}
+    <title>Nowledge | Add Staff</title>
+{% endblock %}

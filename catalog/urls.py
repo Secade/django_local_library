@@ -14,6 +14,11 @@ urlpatterns += [
 ]
 
 urlpatterns += [
+    path('addstaff/', views.staff_add_view, name="addStaff"),
+    path('logs/', views.SystemLogs.as_view(), name="systemLogs"),
+]
+
+urlpatterns += [
     path('borrowed/<uuid:pk>/', views.borrowBook_view, name='borrowBook'),
     path('review/<int:pk>', views.reviewCreate_view, name='commentReview'),
     path('returned/<uuid:pk>/', views.returnBook_view, name='returnBook'),

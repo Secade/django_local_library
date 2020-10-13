@@ -89,7 +89,7 @@ class Author(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.last_name}, {self.given_name}'    
+        return f'{self.last_name}, {self.given_name}'     
 
 class Language(models.Model):
     """Model representing a language"""
@@ -145,6 +145,9 @@ class Profile(models.Model):
     )
 
     answer =  models.CharField(max_length=30, blank=True)
+
+    class Meta:
+        permissions = (("can_add_staff", "Add Staff Profile"),)
 
     def __str__(self):
         return self.user.username
