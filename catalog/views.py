@@ -255,7 +255,9 @@ def signup_view(request):
         form = SignUpForm()
     return render(request, 'signup.html', {'form':form})    
 
+from django.contrib.auth.models import Permission
 @axes_dispatch
+
 def staff_add_view(request):
     form = SignUpForm(request.POST)
     if request.method == "POST":
@@ -268,9 +270,13 @@ def staff_add_view(request):
             user.profile.email = form.cleaned_data.get('email')
             user.profile.question = form.cleaned_data.get('question')
             user.profile.answer = form.cleaned_data.get('answer')
+            permission = Permission.objects.get(codename='can_mark_returned')
+            user.user_permissions.add(permission)
             user.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
+            
+
             user = authenticate(username=username, password=password, request=request)
             login(request, user)
             messages.success(request, f'Account created for {username}!')
