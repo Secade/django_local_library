@@ -227,6 +227,7 @@ from django.contrib.auth.forms import UserCreationForm
 from axes.decorators import axes_dispatch
 from .forms import SignUpForm
 from django.contrib import messages
+from django.contrib.auth.models import Group
 
 @axes_dispatch
 def signup_view(request):
@@ -242,6 +243,8 @@ def signup_view(request):
             user.profile.question = form.cleaned_data.get('question')
             user.profile.answer = form.cleaned_data.get('answer')
             user.save()
+            my_group = Group.objects.get(name='Teacher/Student') 
+            my_group.user_set.add(user)
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password, request=request)
@@ -273,6 +276,8 @@ def staff_add_view(request):
             permission = Permission.objects.get(codename='can_mark_returned')
             user.user_permissions.add(permission)
             user.save()
+            my_group = Group.objects.get(name='Staff') 
+            my_group.user_set.add(your_user)
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             
