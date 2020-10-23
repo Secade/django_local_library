@@ -17,11 +17,11 @@ class AuthorAdmin(admin.ModelAdmin):
     inlines = [BookInline]
 
     def has_add_permission(self, request):
-        return False
+        return True
     def has_delete_permission(self, request, obj=None):
-        return False
+        return True
     def has_change_permission(self, request, obj=None):
-        return False
+        return True
 
 admin.site.register(Author, AuthorAdmin)
 
@@ -33,11 +33,11 @@ class BookAdmin(admin.ModelAdmin):
     inlines = [BookInstanceInline]
 
     def has_add_permission(self, request):
-        return False
+        return True
     def has_delete_permission(self, request, obj=None):
-        return False
+        return True
     def has_change_permission(self, request, obj=None):
-        return False
+        return True
 
 class BookInstanceAdmin(admin.ModelAdmin):
     list_display = ('book', 'status', 'borrower', 'due_back')
@@ -53,53 +53,53 @@ class BookInstanceAdmin(admin.ModelAdmin):
     )
 
     def has_add_permission(self, request):
-        return False
+        return True
     def has_delete_permission(self, request, obj=None):
-        return False
+        return True
     def has_change_permission(self, request, obj=None):
-        return False
+        return True
 
 admin.site.register(Book, BookAdmin)
 admin.site.register(BookInstance, BookInstanceAdmin)
 
 class GenreAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
-        return False
+        return True
     def has_delete_permission(self, request, obj=None):
-        return False
+        return True
     def has_change_permission(self, request, obj=None):
-        return False
+        return True
 
 admin.site.register(Genre, GenreAdmin)
 
 
 class LanguageAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
-        return False
+        return True
     def has_delete_permission(self, request, obj=None):
-        return False
+        return True
     def has_change_permission(self, request, obj=None):
-        return False
+        return True
 
 admin.site.register(Language, LanguageAdmin)
 
 class ProfileAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
-        return False
+        return True
     def has_delete_permission(self, request, obj=None):
-        return False
+        return True
     def has_change_permission(self, request, obj=None):
-        return False
+        return True
 
 admin.site.register(Profile, ProfileAdmin)
 
 class ReturnedBooksAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
-        return False
+        return True
     def has_delete_permission(self, request, obj=None):
-        return False
+        return True
     def has_change_permission(self, request, obj=None):
-        return False
+        return True
 
 admin.site.register(ReturnedBooks, ReturnedBooksAdmin)
 
