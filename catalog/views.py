@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import Group    
 from .forms import borrowForm,commentForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from catalog.models import Book, Author, BookInstance, Genre, Language, Profile, Review, ReturnedBooks
+from catalog.models import Book, Author, BookInstance, Genre, Language, Profile, Review, ReturnedBooks, Log
 
 def index(request):
     """View function for home page of site"""
@@ -34,6 +34,10 @@ from django.views import generic
 class BookListView(generic.ListView):
     model = Book
     paginate_by = 10
+
+
+class LogListView (generic.ListView):
+    model = Log
 
 class BookDetailView(generic.DetailView):
     model = Book
@@ -80,16 +84,47 @@ class AuthorCreate(PermissionRequiredMixin,CreateView):
     success_url = reverse_lazy('author_modify')
     permission_required = 'catalog.can_mark_returned'
 
+    def form_valid(self, form):
+        self.object = form.save()
+        actionString = self.request.user.first_name +" "+self.request.user.last_name + " added author '" + self.object.given_name+" "+self.object.last_name+"'."
+        log = Log(user = self.request.user, action = actionString, item = self.object, timestamp = datetime.datetime.now())
+        log.save()
+        return super(AuthorCreate, self).form_valid(form)
+
 class AuthorUpdate(PermissionRequiredMixin,UpdateView):
     model = Author
     fields = ['given_name', 'last_name', 'date_of_birth', 'date_of_death']
     success_url = reverse_lazy('author_modify')
     permission_required = 'catalog.can_mark_returned'
 
+    def form_valid(self, form):
+        self.object = form.save()
+        actionString = self.request.user.first_name +" "+self.request.user.last_name + " edited author '" + self.object.given_name+" "+self.object.last_name+"'."
+        log = Log(user = self.request.user, action = actionString, item = self.object, timestamp = datetime.datetime.now())
+        log.save()
+        return super(BookUpdate, self).form_valid(form)
+
+
+
 class AuthorDelete(PermissionRequiredMixin,DeleteView):
     model = Author
     success_url = reverse_lazy('author_modify')
     permission_required = 'catalog.can_mark_returned'
+
+
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        Book.objects.filter(author=self.object.pk).delete()
+        BookInstance.objects.filter(book__isnull=True).delete()
+        actionString = self.request.user.first_name +" "+self.request.user.last_name + ' deleted a book.'
+        self.object.delete()
+        log = Log(user = self.request.user, action = actionString, item = "book", timestamp = datetime.datetime.now())
+        log.save()
+        print("REACH BOOK DELETE")
+        return HttpResponseRedirect(reverse_lazy('author_modify'))
+        
+
 
 from catalog.models import Book
 
@@ -106,6 +141,17 @@ class BookCreate(PermissionRequiredMixin,CreateView):
     success_url = reverse_lazy('book_modify')
     permission_required = 'catalog.can_mark_returned'
 
+
+
+    def form_valid(self, form):
+        self.object = form.save()
+        actionString = self.request.user.first_name +" "+self.request.user.last_name + " added book '" + self.object.title+"'."
+        log = Log(user = self.request.user, action = actionString, item = self.object, timestamp = datetime.datetime.now())
+        log.save()
+        print("REACH BOOK CREATE IF VALID")
+        return super(BookCreate, self).form_valid(form)
+        
+
 class BookUpdate(PermissionRequiredMixin,UpdateView):
     model = Book
     fields = [ 'title', 
@@ -119,10 +165,28 @@ class BookUpdate(PermissionRequiredMixin,UpdateView):
     permission_required = 'catalog.can_mark_returned'
     success_url = reverse_lazy('book_modify')
 
+    def form_valid(self, form):
+        self.object = form.save()
+        actionString = self.request.user.first_name +" "+self.request.user.last_name + " edited book " + self.object.title + "'."
+        log = Log(user = self.request.user, action = actionString, item = self.object, timestamp = datetime.datetime.now())
+        log.save()
+        #print("REACH BOOK UPDATE IF VALID")
+        return super(BookUpdate, self).form_valid(form)
+
 class BookDelete(PermissionRequiredMixin,DeleteView):
     model = Book
     success_url = reverse_lazy('book_modify')
     permission_required = 'catalog.can_mark_returned'
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        BookInstance.objects.filter(book=self.object.pk).delete()
+        actionString = self.request.user.first_name +" "+self.request.user.last_name + ' deleted a book.'
+        self.object.delete()
+        log = Log(user = self.request.user, action = actionString, item = "book", timestamp = datetime.datetime.now())
+        log.save()
+        #print("REACH BOOK DELETE")
+        return HttpResponseRedirect(reverse_lazy('book_modify'))
 
 class BookInstanceCreate (PermissionRequiredMixin,CreateView):
     model = BookInstance
@@ -130,16 +194,40 @@ class BookInstanceCreate (PermissionRequiredMixin,CreateView):
     success_url = reverse_lazy('bookinstance_modify')
     permission_required = 'catalog.can_mark_returned'
 
+    def form_valid(self, form):
+        self.object = form.save()
+        actionString = self.request.user.first_name +" "+self.request.user.last_name + " added a book instance for '" + self.object.book.title+"'."
+        log = Log(user = self.request.user, action = actionString, item = self.object, timestamp = datetime.datetime.now())
+        log.save()
+        #print("REACH BOOK INSTANCE CREATE IF VALID")
+        return super(BookInstanceCreate, self).form_valid(form)
+
 class BookInstanceUpdate(PermissionRequiredMixin,UpdateView):
     model = BookInstance
     fields = ['book', 'due_back','due_back','borrower','date_added']
     success_url = reverse_lazy('bookinstance_modify')
     permission_required = 'catalog.can_mark_returned'
+
+    def form_valid(self, form):
+        self.object = form.save()
+        actionString = self.request.user.first_name +" "+self.request.user.last_name + " edited a book instance " + self.object.title + "'."
+        log = Log(user = self.request.user, action = actionString, item = self.object, timestamp = datetime.datetime.now())
+        log.save()
+        #print("REACH BOOK UPDATE IF VALID")
+        return super(BookInstanceUpdate, self).form_valid(form)
     
 class BookInstanceDelete(PermissionRequiredMixin,DeleteView):
     model = BookInstance
     success_url = reverse_lazy('bookinstance_modify')
     permission_required = 'catalog.can_mark_returned'
+
+    def delete(self, request, *args, **kwargs):
+        actionString = self.request.user.first_name +" "+self.request.user.last_name + ' deleted a book instance.'
+        self.object.delete()
+        log = Log(user = self.request.user, action = actionString, item = "book", timestamp = datetime.datetime.now())
+        log.save()
+        #print("REACH BOOK DELETE")
+        return HttpResponseRedirect(reverse_lazy('bookinstance_modify'))
 
 class LanguageCreate (PermissionRequiredMixin,CreateView):
     model = Language
@@ -147,16 +235,42 @@ class LanguageCreate (PermissionRequiredMixin,CreateView):
     success_url = reverse_lazy('language_modify')
     permission_required = 'catalog.can_mark_returned'
 
+    def form_valid(self, form):
+        self.object = form.save()
+        actionString = self.request.user.first_name +" "+self.request.user.last_name + " added language '" + self.object.language+"'."
+        log = Log(user = self.request.user, action = actionString, item = self.object, timestamp = datetime.datetime.now())
+        log.save()
+        #print("REACH BOOK INSTANCE CREATE IF VALID")
+        return super(LanguageCreate, self).form_valid(form)
+
 class LanguageUpdate(PermissionRequiredMixin,UpdateView):
     model = Language
     fields = '__all__'
     success_url = reverse_lazy('language_modify')
     permission_required = 'catalog.can_mark_returned'
+
+    def form_valid(self, form):
+        self.object = form.save()
+        actionString = self.request.user.first_name +" "+self.request.user.last_name + " modified language '" + self.object.language+"'."
+        log = Log(user = self.request.user, action = actionString, item = self.object, timestamp = datetime.datetime.now())
+        log.save()
+        #print("REACH BOOK INSTANCE CREATE IF VALID")
+        return super(LanguageUpdate, self).form_valid(form)
+
     
 class LanguageDelete(PermissionRequiredMixin,DeleteView):
     model = Language
     success_url = reverse_lazy('language_modify')
     permission_required = 'catalog.can_mark_returned'
+
+    def delete(self, request, *args, **kwargs):
+        actionString = self.request.user.first_name +" "+self.request.user.last_name + ' deleted a book instance.'
+        Book.objects.filter(language=self.object.pk).delete()
+        self.object.delete()
+        log = Log(user = self.request.user, action = actionString, item = "book", timestamp = datetime.datetime.now())
+        log.save()
+        #print("REACH BOOK DELETE")
+        return HttpResponseRedirect(reverse_lazy('bookinstance_modify'))
 
 class GenreCreate (PermissionRequiredMixin,CreateView):
     model = Genre
@@ -164,16 +278,41 @@ class GenreCreate (PermissionRequiredMixin,CreateView):
     success_url = reverse_lazy('genre_modify')
     permission_required = 'catalog.can_mark_returned'
 
+    def form_valid(self, form):
+        self.object = form.save()
+        actionString = self.request.user.first_name +" "+self.request.user.last_name + " added genre '" + self.object.name+"'."
+        log = Log(user = self.request.user, action = actionString, item = self.object, timestamp = datetime.datetime.now())
+        log.save()
+        #print("REACH BOOK INSTANCE CREATE IF VALID")
+        return super(GenreCreate, self).form_valid(form)
+
 class GenreUpdate(PermissionRequiredMixin,UpdateView):
     model = Genre
     fields = '__all__'
     success_url = reverse_lazy('genre_modify')
     permission_required = 'catalog.can_mark_returned'
+
+    def form_valid(self, form):
+        self.object = form.save()
+        actionString = self.request.user.first_name +" "+self.request.user.last_name + " modified genre '" + self.object.name+"'."
+        log = Log(user = self.request.user, action = actionString, item = self.object, timestamp = datetime.datetime.now())
+        log.save()
+        #print("REACH BOOK INSTANCE CREATE IF VALID")
+        return super(GenreUpdate, self).form_valid(form)
     
 class GenreDelete(PermissionRequiredMixin,DeleteView):
     model = Genre
     success_url = reverse_lazy('genre_modify')
     permission_required = 'catalog.can_mark_returned'
+
+    def delete(self, request, *args, **kwargs):
+        actionString = self.request.user.first_name +" "+self.request.user.last_name + ' deleted a genre.'
+        Book.objects.filter(name=self.object.pk).delete()
+        self.object.delete()
+        log = Log(user = self.request.user, action = actionString, item = "book", timestamp = datetime.datetime.now())
+        log.save()
+        #print("REACH BOOK DELETE")
+        return HttpResponseRedirect(reverse_lazy('bookinstance_modify'))
 
 class BooksModify(PermissionRequiredMixin,generic.ListView):
     model=Book
@@ -244,9 +383,18 @@ def signup_view(request):
             user.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
+
+
             user = authenticate(username=username, password=password, request=request)
             login(request, user)
+
+            actionString = user.profile.first_name + " "+ user.profile.last_name  + ' created an account.'
+            log = Log(user = request.user, action = actionString, item = "User", timestamp = datetime.datetime.now())
+            log.save()
+
             messages.success(request, f'Account created for {username}!')
+
+
             return redirect('/catalog/')
         else:
             print (form.errors)
@@ -274,6 +422,11 @@ def staff_add_view(request):
             user = authenticate(username=username, password=password, request=request)
             login(request, user)
             messages.success(request, f'Account created for {username}!')
+
+
+            actionString = user.profile.first_name + " "+ user.profile.last_name  + ' created an account.'
+            log = Log(user = request.user, action = actionString, item = "User", timestamp = datetime.datetime.now())
+            log.save()
             return redirect('/catalog/')
         else:
             print (form.errors)
@@ -312,6 +465,9 @@ def passwordReset_view(request):
         answer = form.cleaned_data['answer']
         print(user.profile.answer)
         if answer == user.profile.answer:
+            actionString = user.profile.first_name + " "+ user.profile.last_name  + ' reseted password.'
+            log = Log(user = request.user, action = actionString, item = "User", timestamp = datetime.datetime.now())
+            log.save()
             return redirect('/passwordchange/')
         else:   
             print(form.errors)
@@ -380,7 +536,11 @@ def reviewCreate_view (request, pk):
            review.book = book
            review.rating = form.cleaned_data.get('rating')
            review.save()
-           return redirect('/catalog/')
+
+           actionString = request.user.first_name + ' commented on ' + review.book.title
+           log = Log(user = request.user, action = actionString, item = book, timestamp = datetime.datetime.now())
+           log.save()
+           return redirect('/catalog/book/'+str(book.pk))
         else:
             print (form.errors)
     else:
@@ -396,8 +556,12 @@ def returnBook_view(request, pk):
         book_instance.status = 'a'
         book_instance.borrower = None
         book_instance.due_back = None
-        
         book_instance.save()
+        
+        actionString = request.user.first_name + ' returned book  "' + book_instance.book.title+'".'
+        log = Log(user = request.user, action = actionString, item = "book instance", timestamp = datetime.datetime.now())
+        log.save()
+
         return redirect('/catalog/onloan/')
     else:
         return redirect('/catalog/')

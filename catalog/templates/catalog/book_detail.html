@@ -1,87 +1,90 @@
-{% extends "base_generic.html" %}
+    {% extends "base_generic.html" %}
 
-{% block content %}
-<br>
-<h1 id="signUpTitle">{{ book.title }}</h1>
-<hr>
-
-<ul id="profileInfoList">
-    <li>
-        <h5><strong>Author:</strong> <a href="{% url 'author-detail' book.author.pk %}">{{ book.author }}</a></h5>
-        <h5><strong>Genre:</strong> {{ book.genre.all|join:", " }}</h5>
-    </li>
-    <li>
-        <h5><strong>Language:</strong> {{ book.language }}</h5>
-        <h5><strong>ISBN:</strong> {{ book.isbn }}</h5>
-    </li>
-    <li>
-        <h5><strong>Year:</strong> {{ book.year }}</h5>
-        <br>
-    </li>
-    <li>
-        <br>
-    </li>
-</ul>
-<h5 id="detailSummary"><strong>Summary:</strong> {{ book.summary }}</h5>
-
-<div id="detailCopies">
-    <hr>
-    <h3>Reviews</h3>
-    {% if user.is_authenticated and not perms.catalog.can_mark_returned%}
-    <form method = "post">
-        {% csrf_token %}
-        <button onmouseover="changeLoginButton()" onmouseout="resetLoginButton()" type="submit" formaction="{% url 'commentReview' book.pk %}" id="loginSubmit">Add Comment</button>
-
-    </form>
-    {% endif %}
-
-    {% for review_set in book.review_set.all %}
-    <hr>
-    <p><strong>User: </strong>{{review_set.user}}</p>
-    <p><strong>Rating: </strong>{{review_set.rating}}</p>
-    <p><strong>Review: </strong>{{review_set.review}}</p>
-    {% endfor %}
-    <hr>
-    {% if user.is_authenticated %}
-    <h3>Copies</h3>
+    {% block content %}
     <br>
-    {% for copy in book.bookinstance_set.all %}
+    <h1 style="margin: 0; display: inline-block"id="signUpTitle">{{ book.title }}</h1>
+    <a onmouseover="changeSignUpBackButton()" onmouseout="resetSignUpBackButton()" href="{% url 'books' %}" id="signUpBack">Back</a>
 
-    <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'r' %}text-danger{% else %}text-warning{% endif %}">
-        <strong>Status:</strong> {{ copy.get_status_display }}
-    </p>
-    {% if copy.status != 'a' %}
-    <p><strong>Due to be returned: </strong> {{ copy.due_back }}</p>
-    {% if perms.catalog.can_mark_returned %}
-    <p><strong>Borrower: </strong> {{ copy.borrower.username }}</p>
+    <hr>
+
+    <ul id="profileInfoList">
+        <li>
+            <h5><strong>Author:</strong> <a href="{% url 'author-detail' book.author.pk %}">{{ book.author }}</a></h5>
+            <h5><strong>Genre:</strong> {{ book.genre.all|join:", " }}</h5>
+        </li>
+        <li>
+            <h5><strong>Language:</strong> {{ book.language }}</h5>
+            <h5><strong>ISBN:</strong> {{ book.isbn }}</h5>
+        </li>
+        <li>
+            <h5><strong>Year:</strong> {{ book.year }}</h5>
+            <h5><strong>Imprint: </strong>{{book.publisher}}</h5>
+            <br>
+        </li>
+        <li>
+            <br>
+        </li>
+    </ul>
+    <h5 id="detailSummary"><strong>Summary:</strong> {{ book.summary }}</h5>
+
+    <div id="detailCopies">
+
+        <hr>
+        {% if user.is_authenticated %}
+        <h3>Copies</h3>
+        <br>
+        {% for copy in book.bookinstance_set.all %}
+        <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
+        <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'r' %}text-danger{% else %}text-warning{% endif %}">
+            <strong>Status:</strong> {{ copy.get_status_display }}
+        </p>
+        {% if copy.status != 'a' %}
+        <p><strong>Due to be returned: </strong> {{ copy.due_back }}</p>
+        {% if perms.catalog.can_mark_returned %}
+        <p><strong>Borrower: </strong> {{ copy.borrower.username }}</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" formaction="{% url 'returnBook' copy.pk %}" id="loginSubmit">Return Book</button>
+            </form>
+            <br>
+        {% endif %}
+        {% elif copy.status == 'a' and not perms.catalog.can_mark_returned %}
         <form method="post">
             {% csrf_token %}
-            <button type="submit" formaction="{% url 'returnBook' copy.pk %}" id="loginSubmit">Return Book</button>
+            <button type="submit" formaction="{% url 'borrowBook' copy.pk %}" id="loginSubmit">Borrow Book</button>
         </form>
         <br>
-    {% endif %}
-    {% elif copy.status == 'a' and not perms.catalog.can_mark_returned %}
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" formaction="{% url 'borrowBook' copy.pk %}" id="loginSubmit">Borrow Book</button>
-    </form>
-    <br>
-    {% endif %}
-    
+        {% endif %}
+        
+        
+        <hr>
+        {% endfor %}
+        {% endif %}
 
-    <p><strong>Imprint: </strong>{{ copy.book.publisher }}</p>
-    <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
-    <hr>
-    {% endfor %}
-    {% endif %}
-    <br>
-    <a onmouseover="changeSignUpBackButton()" onmouseout="resetSignUpBackButton()" href="{% url 'books' %}" id="signUpBack">Back</a>
-    <br>
-    <br>
-    <br>
-</div>
-{% endblock %}
 
-{% block title %}
-<title>Nowledge | Book Details</title>
-{% endblock %}
+
+        
+        <h3>Reviews</h3>
+        {% if user.is_authenticated and not perms.catalog.can_mark_returned%}
+        <form method = "post">
+            {% csrf_token %}
+            <button onmouseover="changeLoginButton()" onmouseout="resetLoginButton()" type="submit" formaction="{% url 'commentReview' book.pk %}" id="loginSubmit">Add Review</button>
+
+        </form>
+        {% endif %}
+
+        {% for review_set in book.review_set.all %}
+        <hr>
+        <p><strong>User: </strong>{{review_set.user}}</p>
+        <p><strong>Rating: </strong>{{review_set.rating}}</p>
+        <p><strong>Review: </strong>{{review_set.review}}</p>
+        {% endfor %}
+        <hr>
+        
+       
+    </div>
+    {% endblock %}
+
+    {% block title %}
+    <title>Nowledge | Book Details</title>
+    {% endblock %}

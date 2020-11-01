@@ -171,3 +171,15 @@ def update_profile_signal(sender, instance, created, **kwargs):
         Profile.objects.get_or_create(user=user)
 
     instance.profile.save()
+
+class Log (models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
+    user =  models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    action = models.TextField(max_length=1000, help_text='Action')
+    item = models.CharField(max_length = 300)
+    timestamp = models.DateTimeField()
+
+    def __str__(self):
+        return self.action
+
+
