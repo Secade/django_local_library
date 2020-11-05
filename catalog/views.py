@@ -39,7 +39,7 @@ class BookListView(generic.ListView):
 class LogListView (generic.ListView):
     model = Log
     queryset = Log.objects.order_by('-timestamp')
-    paginate_by = 10
+    paginate_by = 15
 
 class BookDetailView(generic.DetailView):
     model = Book
@@ -345,12 +345,6 @@ class LanguageModify(PermissionRequiredMixin,generic.ListView):
     template_name='catalog/language_modify.html'
     paginate_by=10
     permission_required = 'catalog.can_mark_returned'
-
-class SystemLogs(PermissionRequiredMixin,generic.ListView):
-    model=Language
-    template_name='catalog/system_logs.html'
-    paginate_by=10
-    permission_required = 'catalog.can_add_staff'
 
 from django.shortcuts import render
 
