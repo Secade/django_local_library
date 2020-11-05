@@ -494,3 +494,35 @@
     text-align: center;
     margin-top: 50px;
 }
+
+#logsData,
+#logsCol {
+    border: 1px solid rgb(190, 190, 190);
+    padding: 10px;
+}
+
+#logsData {
+    text-align: left;
+}
+
+#logsRow:nth-child(even) {
+    background-color: #eee;
+}
+
+#logsCol[scope="col"] {
+    background-color: #696969;
+    color: #fff;
+}
+
+#logsCol[scope="row"] {
+    background-color: #d7d9f2;
+}
+
+#logsTable {
+    align-content: center;
+    border-collapse: collapse;
+    border: 2px solid rgb(200, 200, 200);
+    letter-spacing: 1px;
+    font-family: sans-serif;
+    font-size: .8rem;
+}

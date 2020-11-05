@@ -9,7 +9,7 @@
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     {% load static %}
     <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/errorStyles.css' %}"> 
     <link rel="shortcut icon" type="image/png" href="{% static 'media/book.png' %}"/>
     <script src="{% static 'js/function.js' %}"></script>
@@ -55,7 +55,7 @@
                     {% if perms.catalog.can_add_staff and not perms.catalog.can_mark_returned%}
                         <li id="titleStaff">Super Admin:</li>
                         <li id="tabsStaffAdd"><a onmouseover="changeColorsStaffAdd()" onmouseout="resetColorsStaffAdd()" href="{% url 'addStaff' %}" id="sideBarButtonStaffAdd">Add Staff</a></li>
-                        <li id="tabsSystemLogs"><a onmouseover="changeColorsSystemLogs()" onmouseout="resetColorsSystemLogs()" href="{% url 'systemLogs' %}" id="sideBarButtonSystemLogs">System Logs</a></li>
+                        <li id="tabsSystemLogs"><a onmouseover="changeColorsSystemLogs()" onmouseout="resetColorsSystemLogs()" href="{% url 'logs' %}" id="sideBarButtonSystemLogs">System Logs</a></li>
                         <li id="staffLogout"><a onmouseover="changeStaffLogout()" onmouseout="resetStaffLogout()" href="{% url 'logout' %}" id="profileButtonsLogout">Logout</a></li>
                     {% endif %}
                 </ul>

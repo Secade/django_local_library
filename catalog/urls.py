@@ -15,7 +15,7 @@ urlpatterns += [
 
 urlpatterns += [
     path('addstaff/', views.staff_add_view, name="addStaff"),
-    path('systemlogs/', views.SystemLogs.as_view(), name="systemLogs"),
+    path('logs/', views.LogListView.as_view(), name='logs')
 ]
 
 urlpatterns += [
@@ -68,9 +68,4 @@ urlpatterns += [
     path('lockout/', views.lockout_view, name="lockout"),
     path('passwordreset/', views.passwordReset_view, name="reset"),
     path('emailreset/', views.emailRequest_view, name="email-reset"),
-]
-
-urlpatterns +=[
-    path('logs/', views.LogListView.as_view(), name='logs')
-    
 ]

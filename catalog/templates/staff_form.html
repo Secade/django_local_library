@@ -1,6 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+{% if perms.catalog.can_add_staff and not perms.catalog.can_mark_returned %}
 <div id="centerSignUp">
     <h1 id="signUpTitle">Add Staff</h1>
     <form action="" method="POST">
@@ -65,7 +66,11 @@
         <a onmouseover="changeSignUpBackButton()" onmouseout="resetSignUpBackButton()" href="{% url 'index' %}" id="signUpBack">Cancel</a>
     </form>
 </div>
-    
+{% else %}
+<p id="error">Forbidden Access</p>
+<p id="errorLower">You do not have the permission to access this page.</p>
+<a id="errorBack" href="{% url 'index' %}">Go Back Home</a>
+{% endif %}
 {% endblock %}
 
 {% block title %}
