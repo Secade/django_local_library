@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Profile
-from .models import Author, Genre, Book, BookInstance, Language, Review, ReturnedBooks
+from .models import Author, Genre, Book, BookInstance, Language, Review, ReturnedBooks, Log
 
 """
 class UserAdmin (admin.ModelAdmin):
@@ -53,9 +53,9 @@ class BookInstanceAdmin(admin.ModelAdmin):
     )
 
     def has_add_permission(self, request):
-        return True
-    def has_delete_permission(self, request, obj=None):
-        return True
+        return False
+    #def has_delete_permission(self, request, obj=None):
+     #   return False
     def has_change_permission(self, request, obj=None):
         return True
 
@@ -107,3 +107,17 @@ class ReviewInLine(admin.TabularInline):
     model = Review
 
 admin.site.register(Review)
+
+class LogsInLine (admin.TabularInline):
+    list_display = ('timestamp','id', 'user','item', 'action')
+
+class LogsAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
+   # def has_delete_permission(self, request, obj=None):
+     #   return False
+    def has_change_permission(self, request, obj=None):
+        return False
+
+
+admin.site.register(Log, LogsAdmin)

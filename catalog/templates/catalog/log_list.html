@@ -1,0 +1,39 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% if not perms.catalog.can_mark_returned %}
+<h1 style="margin: 0; display: inline-block"id="signUpTitle">{{ book.title }}</h1>
+{% if log_list %}
+
+<table>
+    <tr>
+        <th>Time Stamp</th>
+        <th>User</th>
+        <th>Action</th>
+    </tr>
+    {% for log in log_list %}
+    <tr>
+       <th>{{log.timestamp}}</th>
+       <th>{{log.user}}</th>
+        <th>{{log.action}}</th>
+    </tr>
+    {% endfor %}
+
+</table>
+{% else %}
+<br>
+<br>
+<p>There are no logs found.</p>
+{% endif %}
+{% else %}
+  <p id="error">Forbidden Access</p>
+  <p id="errorLower">You do not have the permission to access this page.</p>
+  <a id="errorBack" href="{% url 'index' %}">Go Back Home</a>
+{% endif %}
+
+
+
+
+{% endblock %}
+{% block title %}
+<title>Nowledge | Library Books</title>
+{% endblock %}

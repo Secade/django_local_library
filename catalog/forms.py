@@ -64,6 +64,9 @@ class PasswordForm(SetPasswordForm):
 class borrowForm (forms.Form):
     comm_borrow = forms.CharField()
 
+class returnForm (forms.Form):
+    comm_return = forms.CharField()
+
 class commentForm (forms.ModelForm):
     class Meta():
         model = Review

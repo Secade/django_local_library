@@ -19,7 +19,7 @@ class Book(models.Model):
     summary = models.TextField(max_length=1000, help_text='Enter a brief description of the book')
     isbn = models.CharField('ISBN', max_length=13, help_text='13 Character ISBN number')
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
-    publisher = models.CharField(max_length=300, null=True)
+    publisher = models.CharField(max_length=50, null=True)
     date_added_to_library = models.DateField(null=True, blank=True)
     year = models.IntegerField(validators=[MaxValueValidator(datetime.date.today().year), MinValueValidator(1900)], null=True)
 
@@ -107,7 +107,7 @@ class Review(models.Model):
     book =  models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     user =  models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     review =  models.TextField(max_length=1000, help_text='Enter a brief review of the book')
-    rating =  models.IntegerField(validators=[MaxValueValidator(10), MinValueValidator(1)], help_text='1 - Lowest, 10 - Highest')
+    rating =  models.IntegerField(validators=[MaxValueValidator(100), MinValueValidator(1)], help_text='1 - Lowest, 10 - Highest')
 
     def __str__(self):
         """String for representing the Model object."""
@@ -171,3 +171,15 @@ def update_profile_signal(sender, instance, created, **kwargs):
         Profile.objects.get_or_create(user=user)
 
     instance.profile.save()
+
+class Log (models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID')
+    user =  models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    action = models.TextField(max_length=1000, help_text='Action')
+    item = models.CharField(max_length = 300)
+    timestamp = models.DateTimeField()
+
+    def __str__(self):
+        return self.action
+
+

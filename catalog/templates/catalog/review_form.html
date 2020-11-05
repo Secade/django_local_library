@@ -1,40 +1,21 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-{% if user.is_authenticated and not perms.catalog.can_mark_returned%}
-<div id="centerReview">
-    <h1 id="signUpTitle">Book Review</h1>
-    <form action="" method="POST">
-        {% csrf_token %}
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div>
-                        <div id="signUpLabels">{{ form.rating.label_tag }}</div>
-                         <p class="text-muted">{{ form.rating.help_text }}</p>
-                        {{ form.rating }}
-                        {{ form.rating.errors }}
-                    </div>
-                    <div>
-                        <div id="signUpLabels">{{ form.review.label_tag }}</div>
-                        {{ form.review }}
-                        {{ form.review.errors }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <input onmouseover="changeLoginButton()" onmouseout="resetLoginButton()" type="submit" value="Submit" id="loginSubmit">
-        <a onmouseover="changeSignUpBackButton()" onmouseout="resetSignUpBackButton()" href="{% url 'books' %}" id="signUpBack">Cancel</a>
-    </form>
-</div>
-{% else %}
-  <p id="error">Forbidden Access</p>
-  <p id="errorLower">You do not have the permission to access this page.</p>
-  <a id="errorBack" href="{% url 'index' %}">Go Back Home</a>
-{% endif %}
-    
-{% endblock %}
+<h1><strong>{{book.title}}</strong></h1>
+<form method = "post">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.path }}">
+    <div>
+        <div id="signUpLabels">{{ form.rating.label_tag }} Scale: 1-100</div>
+        {{ form.rating }}
+        {{ form.rating.errors }}
+    </div>
+    <div>
+        <div id="signUpLabels">{{ form.review.label_tag }}</div>
+        {{ form.review }}
+        {{ form.review.errors }}
+    </div>
+    <button type="submit" id="loginSubmit">Add Comment</button>
 
-{% block title %}
-    <title>Nowledge | Modify Book Instance</title>
+</form>
 {% endblock %}
