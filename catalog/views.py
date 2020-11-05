@@ -38,6 +38,8 @@ class BookListView(generic.ListView):
 
 class LogListView (generic.ListView):
     model = Log
+    queryset = Log.objects.order_by('-timestamp')
+    paginate_by = 10
 
 class BookDetailView(generic.DetailView):
     model = Book
