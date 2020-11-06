@@ -224,6 +224,7 @@ class BookInstanceDelete(PermissionRequiredMixin,DeleteView):
     permission_required = 'catalog.can_mark_returned'
 
     def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
         actionString = self.request.user.first_name +" "+self.request.user.last_name + ' deleted a book instance.'
         self.object.delete()
         log = Log(user = self.request.user, action = actionString, item = "book", timestamp = datetime.datetime.now())
