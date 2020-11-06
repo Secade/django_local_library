@@ -212,7 +212,7 @@ class BookInstanceUpdate(PermissionRequiredMixin,UpdateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        actionString = self.request.user.first_name +" "+self.request.user.last_name + " edited a book instance " + self.object.title + "'."
+        actionString = self.request.user.first_name +" "+self.request.user.last_name + " edited a book instance " + self.object.book.title + "'."
         log = Log(user = self.request.user, action = actionString, item = self.object, timestamp = datetime.datetime.now())
         log.save()
         #print("REACH BOOK UPDATE IF VALID")
@@ -224,6 +224,7 @@ class BookInstanceDelete(PermissionRequiredMixin,DeleteView):
     permission_required = 'catalog.can_mark_returned'
 
     def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
         actionString = self.request.user.first_name +" "+self.request.user.last_name + ' deleted a book instance.'
         self.object.delete()
         log = Log(user = self.request.user, action = actionString, item = "book", timestamp = datetime.datetime.now())
@@ -421,7 +422,7 @@ def staff_add_view(request):
             user.user_permissions.add(permission)
             user.save()
             my_group = Group.objects.get(name='Staff') 
-            my_group.user_set.add(your_user)
+            my_group.user_set.add(user)
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             

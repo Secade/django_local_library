@@ -3,7 +3,11 @@
     {% block content %}
     <br>
     <h1 style="margin: 0; display: inline-block"id="signUpTitle">{{ book.title }}</h1>
+    {% if perms.catalog.can_mark_returned %}
+    <a onmouseover="changeSignUpBackButton()" onmouseout="resetSignUpBackButton()" href="{% url 'book_modify' %}" id="signUpBack">Back</a>
+    {% else %}
     <a onmouseover="changeSignUpBackButton()" onmouseout="resetSignUpBackButton()" href="{% url 'books' %}" id="signUpBack">Back</a>
+    {% endif %}
 
     <hr>
 
